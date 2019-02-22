@@ -1,0 +1,8 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="ic_homepage" type="drawable">@drawable/homepage</item>
+    <item name="ic_isemri" type="drawable">@drawable/isemri</item>
+    <item name="ic_gelen_isemri" type="drawable">@drawable/gelenisemri</item>
+    <item name="ic_notification" type="drawable">@drawable/notification</item>
+    <item name="ic_ayarlar" type="drawable">@drawable/ayarlart</item>
+    <item name="ic_iletisim" type="drawable">@drawable/iletisim</item>
+</resources>

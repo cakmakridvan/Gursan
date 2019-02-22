@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_ana_sayfa"
+            android:icon="@drawable/homepage"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_is_emri_oluştur"
+            android:icon="@drawable/isemri"
+            android:title="@string/nav_is_emri_olustur" />
+        <item
+            android:id="@+id/nav_gelen_is_emirleri"
+            android:icon="@drawable/gelenisemri"
+            android:title="@string/nav_gelen_is_emri" />
+        <item
+            android:id="@+id/nav_bildirimler"
+            android:icon="@drawable/notification"
+            android:title="@string/nav_notifications" />
+    </group>
+
+    <item android:title="@string/nav_diger_ayarlar">
+        <menu>
+            <item
+                android:id="@+id/nav_iletisim"
+                android:icon="@drawable/ayarlart"
+                android:title="@string/nav_settings" />
+            <item
+                android:id="@+id/nav_ayarlar"
+                android:icon="@drawable/iletisim"
+                android:title="@string/nav_iletisim" />
+        </menu>
+    </item>
+
+</menu>
