@@ -2,6 +2,7 @@ package com.rotamobile.gursan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -33,8 +34,15 @@ import com.rotamobile.gursan.fragment.PhotosFragment;
 import com.rotamobile.gursan.fragment.SettingsFragment;
 import com.rotamobile.gursan.utility.CircleTransform;
 import com.rotamobile.gursan.utility.CountDrawable;
+import com.rotamobile.gursan.utility.LocaleHelper;
+
+import io.paperdb.Paper;
 
 public class Main extends AppCompatActivity {
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase,"tr"));
+    }
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -116,13 +124,30 @@ public class Main extends AppCompatActivity {
             loadHomeFragment();
         }
 
+       //Get Saved selected Language
+        existingLanguage();
     }
 
-    /***
-     * Load navigation menu header information
-     * like background image, profile image
-     * name, website, notifications action view (dot)
-     */
+    private void existingLanguage() {
+        //Init Paper first (Paper is a fast NoSQL-like storage for Java)
+        Paper.init(this);
+
+        //Default Language is Turkish
+        String get_language = Paper.book().read("language");
+        if(get_language == null)
+            Paper.book().write("language","tr");
+
+        updateLanguage((String)Paper.book().read("language"));
+    }
+
+    private void updateLanguage(String lang) {
+
+        Context context = LocaleHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        //txtName.setText(resources.getString(R.string.nav_home));
+    }
+
+
     private void loadNavHeader() {
         // name, website
         txtName.setText("Rıdvan Çakmak");
@@ -146,10 +171,7 @@ public class Main extends AppCompatActivity {
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
     }
 
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
+
     private void loadHomeFragment() {
         // selecting appropriate nav menu item
         selectNavMenu();
@@ -377,19 +399,41 @@ public class Main extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
+       //Notification icon in ToolBar
         if (id == R.id.action_notification) {
             Toast.makeText(getApplicationContext(), "Bildirim comes!", Toast.LENGTH_LONG).show();
             setCount(this, x++);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+       //Turkish item selected in ToolBar
+        if(id == R.id.action_tr){
+            Paper.book().write("language","tr");
+            updateLanguage2((String)Paper.book().read("language"));
+        }
+
+        //English item selected in ToolBar
+        if(id == R.id.action_en){
+            Paper.book().write("language","en");
+            updateLanguage2((String)Paper.book().read("language"));
+
+        }
+
+        return true;
+    }
+
+    private void updateLanguage2(String language) {
+        Context context = LocaleHelper.setLocale(this,language);
+        Resources resources = context.getResources();
+        //txtName.setText(resources.getString(R.string.nav_home));
+
+        //Refreshing Activity
+        finish();
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+
     }
 
     // show or hide the fab

@@ -10,20 +10,20 @@
         android:title="" />
 
  <item
-     android:id="@+id/action_logout"
+     android:id="@+id/action_tr"
      android:orderInCategory="100"
-     android:title="Çıkış"
+     android:title="@string/turkce"
      app:showAsAction="never"
      />
-<!--
+
 
     <item
-        android:id="@+id/action_other_settings"
+        android:id="@+id/action_en"
         android:orderInCategory="100"
-        android:title="Bilgi"
+        android:title="@string/ingilizce"
         app:showAsAction="never"
         />
 
--->
+
 
 </menu>
