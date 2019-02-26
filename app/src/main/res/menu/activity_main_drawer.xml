@@ -25,11 +25,11 @@
     <item android:title="@string/nav_diger_ayarlar">
         <menu>
             <item
-                android:id="@+id/nav_iletisim"
+                android:id="@+id/nav_ayarlar"
                 android:icon="@drawable/ayarlart"
                 android:title="@string/nav_settings" />
             <item
-                android:id="@+id/nav_ayarlar"
+                android:id="@+id/nav_iletisim"
                 android:icon="@drawable/iletisim"
                 android:title="@string/nav_iletisim" />
         </menu>

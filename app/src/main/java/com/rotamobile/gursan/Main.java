@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,7 @@ import com.rotamobile.gursan.utility.CircleTransform;
 import com.rotamobile.gursan.utility.CountDrawable;
 import com.rotamobile.gursan.utility.LocaleHelper;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.paperdb.Paper;
 
 public class Main extends AppCompatActivity {
@@ -132,7 +134,7 @@ public class Main extends AppCompatActivity {
         //Init Paper first (Paper is a fast NoSQL-like storage for Java)
         Paper.init(this);
 
-        //Default Language is Turkish
+        //Get Selected Language,Default Language is Turkish
         String get_language = Paper.book().read("language");
         if(get_language == null)
             Paper.book().write("language","tr");
@@ -401,6 +403,7 @@ public class Main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        String get_saved_language = Paper.book().read("language");
        //Notification icon in ToolBar
         if (id == R.id.action_notification) {
             Toast.makeText(getApplicationContext(), "Bildirim comes!", Toast.LENGTH_LONG).show();
@@ -410,14 +413,70 @@ public class Main extends AppCompatActivity {
 
        //Turkish item selected in ToolBar
         if(id == R.id.action_tr){
-            Paper.book().write("language","tr");
-            updateLanguage2((String)Paper.book().read("language"));
+
+            if(!get_saved_language.equals("tr")) {
+
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText(getString(R.string.dil_secenegi))
+                        .setContentText(getString(R.string.dil_msj_title) + " " + getString(R.string.turkce) + " " + getString(R.string.dil_msj_title1))
+                        .setCancelText(getString(R.string.sweet_cevap2))
+                        .setConfirmText(getString(R.string.sweet_cevap1))
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                Paper.book().write("language", "tr");
+                                updateLanguage2((String) Paper.book().read("language"));
+                            }
+                        })
+                        .show();
+            }
+            else{
+
+                new SweetAlertDialog(this)
+                        .setTitleText(getString(R.string.secilmis_dil))
+                        .show();
+            }
         }
 
         //English item selected in ToolBar
         if(id == R.id.action_en){
-            Paper.book().write("language","en");
-            updateLanguage2((String)Paper.book().read("language"));
+
+            if(!get_saved_language.equals("en")) {
+
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText(getString(R.string.dil_secenegi))
+                        .setContentText(getString(R.string.dil_msj_title) + " " + getString(R.string.ingilizce) +  " " + getString(R.string.dil_msj_title1))
+                        .setCancelText(getString(R.string.sweet_cevap2))
+                        .setConfirmText(getString(R.string.sweet_cevap1))
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                Paper.book().write("language", "en");
+                                updateLanguage2((String) Paper.book().read("language"));
+                            }
+                        })
+                        .show();
+            }
+            else{
+
+                new SweetAlertDialog(this)
+                        .setTitleText(getString(R.string.secilmis_dil))
+                        .show();
+            }
 
         }
 

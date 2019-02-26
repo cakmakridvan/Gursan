@@ -41,4 +41,12 @@
     <string name="turkce">Türkçe</string>
     <string name="ingilizce">İngilizce</string>
 
+  <!--Sweet Alert Dil Seçeneği Text'leri -->
+    <string name="dil_secenegi">Dil Seçeneği</string>
+    <string name="dil_msj_title">Uygulamanızın dilini </string>
+    <string name="dil_msj_title1">olarak değiştirmek ister misiniz?</string>
+    <string name="sweet_cevap1">Evet</string>
+    <string name="sweet_cevap2">Hayır</string>
+    <string name="secilmis_dil">Uygulama dili zaten Türkçe</string>
+
 </resources>
