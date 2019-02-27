@@ -25,14 +25,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.rotamobile.gursan.fragment.HomeFragment;
-import com.rotamobile.gursan.fragment.JobOrder;
-import com.rotamobile.gursan.fragment.NotificationsFragment;
-import com.rotamobile.gursan.fragment.PhotosFragment;
-import com.rotamobile.gursan.fragment.SettingsFragment;
-import com.rotamobile.gursan.utility.CircleTransform;
-import com.rotamobile.gursan.utility.CountDrawable;
-import com.rotamobile.gursan.utility.LocaleHelper;
+import com.rotamobile.gursan.ui.fragment.Home;
+import com.rotamobile.gursan.ui.fragment.IncomingJobOrder;
+import com.rotamobile.gursan.ui.fragment.JobOrder;
+import com.rotamobile.gursan.ui.fragment.Notifications;
+import com.rotamobile.gursan.ui.fragment.Settings;
+import com.rotamobile.gursan.utils.CircleTransform;
+import com.rotamobile.gursan.utils.CountDrawable;
+import com.rotamobile.gursan.data.prefs.LocaleHelper;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.paperdb.Paper;
@@ -224,27 +224,29 @@ public class Main extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // ana sayfa
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                Home home = new Home();
+                return home;
             case 1:
                 // iş emri oluştur
-                PhotosFragment photosFragment = new PhotosFragment();
-                return photosFragment;
-            case 2:
-                // gelen iş emirleri
                 JobOrder jobOrder = new JobOrder();
                 return jobOrder;
+
+            case 2:
+                // gelen iş emirleri
+                IncomingJobOrder incomingJobOrder = new IncomingJobOrder();
+                return incomingJobOrder;
+
             case 3:
                 // bildirimler
-                NotificationsFragment notificationsFragment = new NotificationsFragment();
-                return notificationsFragment;
+                Notifications notifications = new Notifications();
+                return notifications;
 
             case 4:
                 // paylas
-                SettingsFragment settingsFragment = new SettingsFragment();
-                return settingsFragment;
+                Settings settings = new Settings();
+                return settings;
             default:
-                return new HomeFragment();
+                return new Home();
         }
     }
 

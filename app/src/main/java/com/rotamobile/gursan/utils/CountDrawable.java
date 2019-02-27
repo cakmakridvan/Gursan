@@ -1,4 +1,4 @@
-package com.rotamobile.gursan.utility;
+package com.rotamobile.gursan.utils;
 
 import android.content.Context;
 import android.graphics.Canvas;
