@@ -1,18 +1,15 @@
 package com.rotamobile.gursan;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.rotamobile.gursan.fragment.HomeFragment;
-import com.rotamobile.gursan.fragment.MoviesFragment;
+import com.rotamobile.gursan.fragment.JobOrder;
 import com.rotamobile.gursan.fragment.NotificationsFragment;
 import com.rotamobile.gursan.fragment.PhotosFragment;
 import com.rotamobile.gursan.fragment.SettingsFragment;
@@ -235,8 +232,8 @@ public class Main extends AppCompatActivity {
                 return photosFragment;
             case 2:
                 // gelen iş emirleri
-                MoviesFragment moviesFragment = new MoviesFragment();
-                return moviesFragment;
+                JobOrder jobOrder = new JobOrder();
+                return jobOrder;
             case 3:
                 // bildirimler
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
