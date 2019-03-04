@@ -18,7 +18,10 @@
             android:configChanges="orientation|keyboardHidden"
             android:name=".ui.splash.Splash"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +37,16 @@
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
+
+        <activity android:name=".ui.login.Login"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_login_ekrani"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
+        </activity>
+
     </application>
 
 </manifest>

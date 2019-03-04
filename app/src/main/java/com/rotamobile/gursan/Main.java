@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.rotamobile.gursan.ui.fragment.Exit;
 import com.rotamobile.gursan.ui.fragment.Home;
 import com.rotamobile.gursan.ui.fragment.IncomingJobOrder;
 import com.rotamobile.gursan.ui.fragment.JobOrder;
@@ -65,6 +66,7 @@ public class Main extends AppCompatActivity {
     private static final String TAG_MOVIES = "gelen iş emirleri";
     private static final String TAG_NOTIFICATIONS = "bildirimler";
     private static final String TAG_SETTINGS = "ayarlar";
+    private static final String TAG_CIKIS = "çıkış";
     public static String CURRENT_TAG = TAG_HOME;
 
     // toolbar titles respected to selected nav menu item
@@ -242,9 +244,14 @@ public class Main extends AppCompatActivity {
                 return notifications;
 
             case 4:
-                // paylas
+                // setting
                 Settings settings = new Settings();
                 return settings;
+
+            case 5:
+                Exit exit = new Exit();
+                return exit;
+
             default:
                 return new Home();
         }
@@ -288,6 +295,11 @@ public class Main extends AppCompatActivity {
                     case R.id.nav_ayarlar:
                         navItemIndex = 4;
                         CURRENT_TAG = TAG_SETTINGS;
+                        break;
+                    case R.id.nav_cikis:
+                        new SweetAlertDialog(Main.this)
+                                .setTitleText(getString(R.string.secilmis_dil))
+                                .show();
                         break;
 /*                    case R.id.nav_about_us:
                         // launch new intent instead of loading fragment

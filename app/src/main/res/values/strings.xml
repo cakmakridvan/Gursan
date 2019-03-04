@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gursan</string>
+    <string name="app_name">Gürsan</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -17,6 +17,7 @@
     <string name="nav_settings">Ayarlar</string>
     <string name="nav_about_us">Hakkında</string>
     <string name="nav_iletisim">İletişim</string>
+    <string name="nav_cikis">Çıkış</string>
     <string name="nav_diger_ayarlar">Diğer Seçenekler</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
@@ -41,7 +42,15 @@
     <string name="turkce">Türkçe</string>
     <string name="ingilizce">İngilizce</string>
 
-  <!--Sweet Alert Dil Seçeneği Text'leri -->
+    <!-- Giriş Ekranı -->
+    <string name="app_login_ekrani">Giriş</string>
+    <string name="kullanici">Kullanıcı Adı</string>
+    <string name="parola">Şifre</string>
+    <string name="giris">Giriş Yap</string>
+    <string name="kullanici_hatirla">Beni Hatırla</string>
+    <string name="bilgiler_eksik">Bilgilerinizi Kontrol Ediniz</string>
+
+    <!--Sweet Alert Dil Seçeneği Text'leri -->
     <string name="dil_secenegi">Dil Seçeneği</string>
     <string name="dil_msj_title">Uygulamanızın dilini </string>
     <string name="dil_msj_title1">olarak değiştirmek ister misiniz?</string>
