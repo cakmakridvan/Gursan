@@ -49,6 +49,11 @@
     <string name="giris">Giriş Yap</string>
     <string name="kullanici_hatirla">Beni Hatırla</string>
     <string name="bilgiler_eksik">Bilgilerinizi Kontrol Ediniz</string>
+    <string name="uygulama_cikis">Uygulama Çıkışı</string>
+    <string name="hesap_degistir">Çıkış Yaparak Kullanıcı Hesabınızı Değiştirebilirsiniz</string>
+    <string name="iptal">İptal</string>
+    <string name="hesap_cikis">Çıkış Yap</string>
+
 
     <!--Sweet Alert Dil Seçeneği Text'leri -->
     <string name="dil_secenegi">Dil Seçeneği</string>

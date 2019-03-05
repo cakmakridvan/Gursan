@@ -43,6 +43,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_login_ekrani"
             android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
             >
 
         </activity>

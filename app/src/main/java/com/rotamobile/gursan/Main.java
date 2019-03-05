@@ -1,6 +1,7 @@
 package com.rotamobile.gursan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -31,6 +32,7 @@ import com.rotamobile.gursan.ui.fragment.IncomingJobOrder;
 import com.rotamobile.gursan.ui.fragment.JobOrder;
 import com.rotamobile.gursan.ui.fragment.Notifications;
 import com.rotamobile.gursan.ui.fragment.Settings;
+import com.rotamobile.gursan.ui.login.Login;
 import com.rotamobile.gursan.utils.CircleTransform;
 import com.rotamobile.gursan.utils.CountDrawable;
 import com.rotamobile.gursan.data.prefs.LocaleHelper;
@@ -297,9 +299,33 @@ public class Main extends AppCompatActivity {
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
                     case R.id.nav_cikis:
-                        new SweetAlertDialog(Main.this)
-                                .setTitleText(getString(R.string.secilmis_dil))
+
+                        new SweetAlertDialog(Main.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText(getString(R.string.uygulama_cikis))
+                                .setContentText(getString(R.string.hesap_degistir))
+                                .setCancelText(getString(R.string.iptal))
+                                .setConfirmText(getString(R.string.hesap_cikis))
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.cancel();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                        Intent go_login = new Intent(Main.this,Login.class);
+                                        go_login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        go_login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(go_login);
+                                        finish();
+
+                                    }
+                                })
                                 .show();
+
                         break;
 /*                    case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
