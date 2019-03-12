@@ -3,12 +3,262 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.JobOrder">
+    tools:context=".ui.fragment.JobOrder"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Başlangıç"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="...."
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal"
+                >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="İş Emri No:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="1234"
+                />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="@dimen/edt_pad_leftright"
+        android:paddingRight="@dimen/edt_pad_leftright"
+        android:gravity="left"
+        >
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_proje"
+            android:padding="@dimen/edt_pad_size"
+            android:background="@drawable/spinner_border"
+            android:spinnerMode="dialog"
+            />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_bolge"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_bina"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_alan"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_cihaz"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_isemritipi"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_isemritalebi"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_kisiler"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            >
+
+            <EditText
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:padding="4dp"
+            android:textSize="17dp"
+            android:hint="Açıklama"
+            android:textColor="@color/black"
+            />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>
