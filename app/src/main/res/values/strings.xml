@@ -48,12 +48,14 @@
     <string name="parola">Şifre</string>
     <string name="giris">Giriş Yap</string>
     <string name="kullanici_hatirla">Beni Hatırla</string>
-    <string name="bilgiler_eksik">Bilgilerinizi Kontrol Ediniz</string>
+    <string name="bilgiler_eksik">Bilgileriniz Eksik!!</string>
     <string name="uygulama_cikis">Uygulama Çıkışı</string>
     <string name="hesap_degistir">Çıkış Yaparak Kullanıcı Hesabınızı Değiştirebilirsiniz</string>
     <string name="iptal">İptal</string>
     <string name="hesap_cikis">Çıkış Yap</string>
-
+    <string name="connection">İnternet Bağlantınızı Kontrol Ediniz!!</string>
+    <string name="user_info_error">Kullanıcı Bilgisi Hatası!!</string>
+    <string name="user_autorization">Kullanıcı Yetki Hatası!!</string>
 
     <!--Sweet Alert Dil Seçeneği Text'leri -->
     <string name="dil_secenegi">Dil Seçeneği</string>
@@ -62,6 +64,10 @@
     <string name="sweet_cevap1">Evet</string>
     <string name="sweet_cevap2">Hayır</string>
     <string name="secilmis_dil">Uygulama dili zaten Türkçe</string>
+
+    <!-- İş Emri -->
+    <string name="action_isemri">Gönder</string>
+
 
 
 

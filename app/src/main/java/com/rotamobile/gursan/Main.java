@@ -80,6 +80,9 @@ public class Main extends AppCompatActivity {
     private Menu defaultMenu;
     private int x = 1;
 
+    private String get_name;
+    private String get_surname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +90,14 @@ public class Main extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //getting User information from Login
+        Bundle get_datas = new Bundle();
+        get_datas = getIntent().getExtras();
+        if(get_datas != null){
 
+            get_name = get_datas.getString("name");
+            get_surname = get_datas.getString("last_name");
+        }
 
         mHandler = new Handler();
 
@@ -153,8 +163,8 @@ public class Main extends AppCompatActivity {
 
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Rıdvan Çakmak");
-        txtWebsite.setText("rcakmak@rota.net.tr");
+        txtName.setText(get_name + " " + get_surname);
+        txtWebsite.setText(get_name + "@gursan.com");
 
         // loading header background image
 /*        Glide.with(this).load(urlNavHeaderBg)
