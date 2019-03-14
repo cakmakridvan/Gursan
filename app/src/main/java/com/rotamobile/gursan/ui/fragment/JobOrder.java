@@ -17,24 +17,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.rotamobile.gursan.R;
-import com.rotamobile.gursan.model.DataBuilding;
-import com.rotamobile.gursan.model.DataProject;
-import com.rotamobile.gursan.model.DataTerritory;
-import com.rotamobile.gursan.model.ModelBuilding;
-import com.rotamobile.gursan.model.ModelProject;
-import com.rotamobile.gursan.model.ModelTerritory;
-import com.rotamobile.gursan.ui.login.Login;
+import com.rotamobile.gursan.model.areaSpinner.DataArea;
+import com.rotamobile.gursan.model.areaSpinner.ModelArea;
+import com.rotamobile.gursan.model.buildingSpinner.DataBuilding;
+import com.rotamobile.gursan.model.deviceSpinner.DataDevice;
+import com.rotamobile.gursan.model.deviceSpinner.ModelDevice;
+import com.rotamobile.gursan.model.projectSpinner.DataProject;
+import com.rotamobile.gursan.model.territorySpinner.DataTerritory;
+import com.rotamobile.gursan.model.buildingSpinner.ModelBuilding;
+import com.rotamobile.gursan.model.projectSpinner.ModelProject;
+import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.paperdb.Paper;
 
+import static com.rotamobile.gursan.data.Server.GetArea;
 import static com.rotamobile.gursan.data.Server.GetBuilding;
+import static com.rotamobile.gursan.data.Server.GetDevice;
 import static com.rotamobile.gursan.data.Server.GetProjects;
 import static com.rotamobile.gursan.data.Server.GetTerritory;
 
@@ -45,13 +47,19 @@ public class JobOrder extends Fragment {
     private Spinner spin_proje, spin_bolge, spin_alan, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi, spin_kisiler;
     private String get_userID;
     View view;
+
     private ProjectsTask projectsTask = null;
     private TerritoryTask territoryTask = null;
     private BuildingTask buildingTask = null;
+    private AreaTask areaTask = null;
+    private DeviceTask deviceTask = null;
+
     private ProgressDialog progressDialog;
     private List<String> list_proje;
     private List<String> list_bolge;
     private List<String> list_bina;
+    private List<String> list_alan;
+    private List<String> list_cihaz;
     private Integer projectID = 0;
 
     //Territory
@@ -65,6 +73,18 @@ public class JobOrder extends Fragment {
     private ArrayList<ModelBuilding> buildingList;
     private String get_mesaj_building = "";
     private Integer buildingID = 0;
+
+    //Area
+    private DataArea response_area;
+    private ArrayList<ModelArea> areaList;
+    private String get_mesaj_area = "";
+    private Integer areaID = 0;
+
+    //Device
+    private DataDevice response_device;
+    private ArrayList<ModelDevice> deviceList;
+    private String get_mesaj_device = "";
+    private Integer deviceID = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,119 +135,18 @@ public class JobOrder extends Fragment {
 
         //Alan
         spin_alan = view.findViewById(R.id.spinner_alan);
-        List<String> list_alan = new ArrayList<String>();
+        list_alan = new ArrayList<String>();
         list_alan.add("Alan Seçiniz");
-        list_alan.add("Giriş Katı");
-        list_alan.add("Teras Katı");
-        ArrayAdapter<String> dataAdapter_alan = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_alan) {
+        areaSpinnerAction();
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
-                }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-
-        };
-        dataAdapter_alan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_alan.setAdapter(dataAdapter_alan);
-        spin_alan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
-                    // Notify the selected item text
-                    Toast.makeText
-                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         //Cihaz
         spin_cihaz = view.findViewById(R.id.spinner_cihaz);
-        List<String> list_cihaz = new ArrayList<String>();
+        list_cihaz = new ArrayList<String>();
         list_cihaz.add("Cihaz Seçiniz");
-        list_cihaz.add("Klima");
-        list_cihaz.add("Musluk");
-        ArrayAdapter<String> dataAdapter_cihaz = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_cihaz) {
+        deviceSpinnerAction();
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-
-
-        };
-        dataAdapter_cihaz.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_cihaz.setAdapter(dataAdapter_cihaz);
-        spin_cihaz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
-                    // Notify the selected item text
-                    Toast.makeText
-                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         //İş Emri Tipi
         spin_isemriTipi = view.findViewById(R.id.spinner_isemritipi);
@@ -410,6 +329,9 @@ public class JobOrder extends Fragment {
 
 
     }
+
+
+
 
     public class ProjectsTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -602,6 +524,14 @@ public class JobOrder extends Fragment {
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
                 buildingSpinnerAction();
+              //Clear List Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                areaSpinnerAction();
+              //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
 
                 if (territoryList.size() > 0) {
                     for (int i = 0; i < territoryList.size(); i++) {
@@ -623,6 +553,14 @@ public class JobOrder extends Fragment {
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
                 buildingSpinnerAction();
+                //Clear List Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                areaSpinnerAction();
+                //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
             }
         }
 
@@ -717,6 +655,7 @@ public class JobOrder extends Fragment {
                     response_building = new Gson().fromJson(building_result, DataBuilding.class);
                     buildingList = response_building.getData_list();
                     Log.i("Tag:buildingList",""+buildingList);
+                    get_mesaj_building = "true";
 
 
                 }else{
@@ -734,8 +673,18 @@ public class JobOrder extends Fragment {
             super.onPostExecute(aBoolean);
 
             if(!get_mesaj_building.equals("false")){
+              //Clear Bina
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
+              //Clear Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                areaSpinnerAction();
+                //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
+
                 if (buildingList.size() > 0) {
                     for (int i = 0; i < buildingList.size(); i++) {
 
@@ -748,8 +697,18 @@ public class JobOrder extends Fragment {
                 }
                 buildingSpinnerAction();
             }else{
+              //Clear Bina
+                list_bina.clear();
                 list_bina.add("Bina Seçiniz");
                 buildingSpinnerAction();
+              //Clear Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                areaSpinnerAction();
+                //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
             }
         }
 
@@ -793,6 +752,274 @@ public class JobOrder extends Fragment {
         spin_bina.setAdapter(dataAdapter_bina);
 
         spin_bina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+
+                    //Getting BuildingID to get data from Area
+                    buildingID = buildingList.get(position-1).getBuildingId();
+                    Log.i("Tag:ProjectID:",""+buildingID);
+
+                    //Area Service Running
+                    areaTask = new AreaTask(buildingID);
+                    areaTask.execute((Void) null);
+
+                    // Notify the selected item text
+                    Toast.makeText
+                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    public class AreaTask extends AsyncTask<Void, Void, Boolean>{
+
+        private Integer building_id;
+
+        AreaTask(Integer building_id){
+
+            this.building_id = building_id;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String area_result = GetArea(building_id);
+                if(!area_result.trim().equalsIgnoreCase("false")){
+
+                    response_area = new Gson().fromJson(area_result, DataArea.class);
+                    areaList = response_area.getData_list();
+                    Log.i("Tag:buildingList",""+areaList);
+                    get_mesaj_area = "true";
+
+
+                }else{
+                    get_mesaj_area = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_area.equals("false")){
+              //Clear List Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
+                if (areaList.size() > 0) {
+                    for (int i = 0; i < areaList.size(); i++) {
+
+                        //Getting Project Name
+
+                        list_alan.add(areaList.get(i).getName());
+
+
+                    }
+                }
+                areaSpinnerAction();
+            }else{
+              //Clear List Alan
+                list_alan.clear();
+                list_alan.add("Alan Seçiniz");
+                areaSpinnerAction();
+              //Clear List Cihaz
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
+            }
+        }
+
+
+    }
+
+    private void areaSpinnerAction() {
+
+        ArrayAdapter<String> dataAdapter_alan = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, list_alan) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+        };
+        dataAdapter_alan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_alan.setAdapter(dataAdapter_alan);
+        spin_alan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+
+                    //Getting AreaID to get data from Device
+                    areaID = areaList.get(position-1).getAreaId();
+                    Log.i("Tag:AreaID:",""+areaID);
+
+                    //Area Service Running
+                    deviceTask = new DeviceTask(areaID);
+                    deviceTask.execute((Void) null);
+
+                    // Notify the selected item text
+                    Toast.makeText
+                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public class DeviceTask extends AsyncTask<Void, Void, Boolean>{
+
+        private Integer area_id;
+
+        DeviceTask(Integer area_id){
+
+            this.area_id = area_id;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String device_result = GetDevice(area_id);
+                if(!device_result.trim().equalsIgnoreCase("false")){
+
+                    response_device = new Gson().fromJson(device_result, DataDevice.class);
+                    deviceList = response_device.getData_list();
+                    Log.i("Tag:deviceList",""+deviceList);
+                    get_mesaj_device = "true";
+
+
+                }else{
+                    get_mesaj_device = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_device.equals("false")){
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                if (deviceList.size() > 0) {
+                    for (int i = 0; i < deviceList.size(); i++) {
+
+                        //Getting Device Name
+
+                        list_cihaz.add(deviceList.get(i).getName());
+
+                    }
+                }
+                deviceSpinnerAction();
+            }else{
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSpinnerAction();
+            }
+        }
+
+
+    }
+
+    private void deviceSpinnerAction() {
+
+        ArrayAdapter<String> dataAdapter_cihaz = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, list_cihaz) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+
+        };
+        dataAdapter_cihaz.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_cihaz.setAdapter(dataAdapter_cihaz);
+        spin_cihaz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItemText = (String) parent.getItemAtPosition(position);
