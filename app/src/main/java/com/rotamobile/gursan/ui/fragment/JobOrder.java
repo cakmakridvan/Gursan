@@ -28,6 +28,8 @@ import com.rotamobile.gursan.model.territorySpinner.DataTerritory;
 import com.rotamobile.gursan.model.buildingSpinner.ModelBuilding;
 import com.rotamobile.gursan.model.projectSpinner.ModelProject;
 import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
+import com.rotamobile.gursan.model.userSpinner.DataUser;
+import com.rotamobile.gursan.model.userSpinner.ModelUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ import static com.rotamobile.gursan.data.Server.GetBuilding;
 import static com.rotamobile.gursan.data.Server.GetDevice;
 import static com.rotamobile.gursan.data.Server.GetProjects;
 import static com.rotamobile.gursan.data.Server.GetTerritory;
+import static com.rotamobile.gursan.data.Server.GetUserList;
 
 
 public class JobOrder extends Fragment {
@@ -53,6 +56,7 @@ public class JobOrder extends Fragment {
     private BuildingTask buildingTask = null;
     private AreaTask areaTask = null;
     private DeviceTask deviceTask = null;
+    private UserListTask userListTask = null;
 
     private ProgressDialog progressDialog;
     private List<String> list_proje;
@@ -60,6 +64,7 @@ public class JobOrder extends Fragment {
     private List<String> list_bina;
     private List<String> list_alan;
     private List<String> list_cihaz;
+    private List<String> list_kisiler;
     private Integer projectID = 0;
 
     //Territory
@@ -85,6 +90,12 @@ public class JobOrder extends Fragment {
     private ArrayList<ModelDevice> deviceList;
     private String get_mesaj_device = "";
     private Integer deviceID = 0;
+
+    //UserList
+    private DataUser response_userList;
+    private ArrayList<ModelUser> userList;
+    private String get_mesaj_userList = "";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -270,63 +281,9 @@ public class JobOrder extends Fragment {
 
         //Kişiler
         spin_kisiler = view.findViewById(R.id.spinner_kisiler);
-        List<String> list_kisiler = new ArrayList<String>();
+        list_kisiler = new ArrayList<String>();
         list_kisiler.add("Kişi Seçiniz");
-        list_kisiler.add("Yavuz");
-        list_kisiler.add("Emre");
-        ArrayAdapter<String> dataAdapter_kisiler = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_kisiler) {
-
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-
-
-        };
-        dataAdapter_kisiler.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_kisiler.setAdapter(dataAdapter_kisiler);
-        spin_kisiler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
-                    // Notify the selected item text
-                    Toast.makeText
-                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        userListSpinnerAction();
 
     }
 
@@ -389,6 +346,10 @@ public class JobOrder extends Fragment {
 
                 progressDialog.dismiss();
                 list_proje.add("Proje Seçiniz");
+
+              //UserList Service Running
+                userListTask = new UserListTask();
+                userListTask.execute((Void) null);
 
                 if (projectList.size() > 0) {
                     for (int i = 0; i < projectList.size(); i++) {
@@ -1020,6 +981,120 @@ public class JobOrder extends Fragment {
         dataAdapter_cihaz.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_cihaz.setAdapter(dataAdapter_cihaz);
         spin_cihaz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+                    // Notify the selected item text
+                    Toast.makeText
+                            (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    public class UserListTask extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String userList_result = GetUserList();
+                if(!userList_result.trim().equalsIgnoreCase("false")){
+
+                    response_userList = new Gson().fromJson(userList_result, DataUser.class);
+                    userList = response_userList.getData_list();
+                    Log.i("Tag:userList",""+userList);
+                    get_mesaj_userList = "true";
+
+
+                }else{
+                    get_mesaj_userList = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_userList.equals("false")){
+                list_kisiler.clear();
+                list_kisiler.add("Kişileri Seçiniz");
+                if (userList.size() > 0) {
+                    for (int i = 0; i < userList.size(); i++) {
+
+                        //Getting Users' Name
+
+                        list_kisiler.add(userList.get(i).getName());
+
+                    }
+                }
+                userListSpinnerAction();
+            }else{
+                list_kisiler.clear();
+                list_kisiler.add("Kişileri Seçiniz");
+                userListSpinnerAction();
+            }
+        }
+
+
+    }
+
+    private void userListSpinnerAction() {
+
+        ArrayAdapter<String> dataAdapter_kisiler = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, list_kisiler) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+
+        };
+        dataAdapter_kisiler.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_kisiler.setAdapter(dataAdapter_kisiler);
+        spin_kisiler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItemText = (String) parent.getItemAtPosition(position);
