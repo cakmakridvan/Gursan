@@ -100,7 +100,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         Paper.book().delete("checked");
                     }
 
-                    userLogin = new UserLogin(name.getText().toString(),password.getText().toString());
+                    userLogin = new UserLogin(name.getText().toString().trim(),password.getText().toString().trim());
                     userLogin.execute((Void) null);
 
                 }else{
@@ -156,7 +156,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     JSONObject jobject_data = new JSONObject(data);
                     get_name = jobject_data.getString("Name");
                     get_surname = jobject_data.getString("LastName");
-                    get_userID = jobject_data.getString("UserId");
+                    get_userID = jobject_data.getString("ID");
                     Log.i("name",get_name);
                     Log.i("Surname",get_surname);
 

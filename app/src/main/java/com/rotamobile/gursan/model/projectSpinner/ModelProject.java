@@ -6,20 +6,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelProject {
 
-
-    @SerializedName("ProjectId")
+    @SerializedName("ID")
     @Expose
-    private Integer ProjectId;
+    private Integer ID;
     @SerializedName("Name")
     @Expose
     private String Name;
 
-    public Integer getProjectId() {
-        return ProjectId;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setProjectId(Integer projectId) {
-        ProjectId = projectId;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getName() {

@@ -146,7 +146,7 @@ public class Server {
         String method_Projects = "TerritoryService/TerritoryOfProject";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(Main_URL + method_Projects + "?" + "ProjectId=" + projectID);
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "ProjectId=" + projectID);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 

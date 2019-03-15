@@ -5,20 +5,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelTerritory {
 
-    @SerializedName("TerritoryId")
+    @SerializedName("ID")
     @Expose
-    private Integer TerritoryId;
+    private Integer ID;
     @SerializedName("Name")
     @Expose
     private String Name;
 
 
-    public Integer getTerritoryId() {
-        return TerritoryId;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setTerritoryId(Integer territoryId) {
-        TerritoryId = territoryId;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getName() {

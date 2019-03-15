@@ -5,20 +5,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelArea {
 
-    @SerializedName("AreaId")
+    @SerializedName("ID")
     @Expose
-    private Integer AreaId;
+    private Integer ID;
     @SerializedName("Name")
     @Expose
     private String Name;
 
-    public Integer getAreaId() {
-        return AreaId;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setAreaId(Integer areaId) {
-        AreaId = areaId;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
+
 
     public String getName() {
         return Name;

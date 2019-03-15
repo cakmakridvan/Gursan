@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelDevice {
 
-    @SerializedName("DeviceId")
+    @SerializedName("ID")
     @Expose
-    private Integer DeviceId;
+    private Integer ID;
     @SerializedName("Name")
     @Expose
     private String Name;
 
-    public Integer getDeviceId() {
-        return DeviceId;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setDeviceId(Integer deviceId) {
-        DeviceId = deviceId;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getName() {

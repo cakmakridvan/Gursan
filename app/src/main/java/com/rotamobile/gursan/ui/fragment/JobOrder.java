@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ import static com.rotamobile.gursan.data.Server.GetTerritory;
 import static com.rotamobile.gursan.data.Server.GetUserList;
 
 
-public class JobOrder extends Fragment {
+public class JobOrder extends Fragment implements View.OnClickListener {
 
 
     private Spinner spin_proje, spin_bolge, spin_alan, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi, spin_kisiler;
@@ -96,6 +97,9 @@ public class JobOrder extends Fragment {
     private ArrayList<ModelUser> userList;
     private String get_mesaj_userList = "";
 
+    //Button of Sending Job Order
+    private Button send_jobOrder;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,12 +138,14 @@ public class JobOrder extends Fragment {
         spin_bolge = view.findViewById(R.id.spinner_bolge);
         list_bolge = new ArrayList<String>();
         list_bolge.add("Bölge Seçiniz");
+        spin_bolge.setEnabled(false);
         territorySpinnerAction();
 
         //Bina
         spin_bina = view.findViewById(R.id.spinner_bina);
         list_bina = new ArrayList<String>();
         list_bina.add("Bina Seçiniz");
+        spin_bina.setEnabled(false);
         buildingSpinnerAction();
 
 
@@ -148,6 +154,7 @@ public class JobOrder extends Fragment {
         spin_alan = view.findViewById(R.id.spinner_alan);
         list_alan = new ArrayList<String>();
         list_alan.add("Alan Seçiniz");
+        spin_alan.setEnabled(false);
         areaSpinnerAction();
 
 
@@ -156,6 +163,7 @@ public class JobOrder extends Fragment {
         spin_cihaz = view.findViewById(R.id.spinner_cihaz);
         list_cihaz = new ArrayList<String>();
         list_cihaz.add("Cihaz Seçiniz");
+        spin_cihaz.setEnabled(false);
         deviceSpinnerAction();
 
 
@@ -285,9 +293,34 @@ public class JobOrder extends Fragment {
         list_kisiler.add("Kişi Seçiniz");
         userListSpinnerAction();
 
+        //Button
+        send_jobOrder = view.findViewById(R.id.btn_jobOrder);
+        send_jobOrder.setOnClickListener(this);
+
     }
 
+    @Override
+    public void onClick(View v) {
 
+        switch (v.getId()){
+
+            case R.id.btn_jobOrder:
+
+               String get_Project = spin_proje.getSelectedItem().toString();
+               String get_Bolge = spin_bolge.getSelectedItem().toString();
+               String get_Bina = spin_bina.getSelectedItem().toString();
+               String get_Alan = spin_alan.getSelectedItem().toString();
+               String get_Cihaz = spin_cihaz.getSelectedItem().toString();
+               String get_isEmriTipi = spin_isemriTipi.getSelectedItem().toString();
+               String get_isModeli = spin_isemriTalebi.getSelectedItem().toString();
+               String get_kisiler = spin_kisiler.getSelectedItem().toString();
+
+
+
+
+               break;
+        }
+    }
 
 
     public class ProjectsTask extends AsyncTask<Void, Void, Boolean> {
@@ -411,7 +444,7 @@ public class JobOrder extends Fragment {
                     if (position > 0) {
 
                         //Getting Project ID
-                        projectID = projectList.get(position-1).getProjectId();
+                        projectID = projectList.get(position-1).getID();
                         Log.i("Tag:ProjectID:",""+projectID);
 
                       //Territory Service Running
@@ -431,8 +464,6 @@ public class JobOrder extends Fragment {
                 }
             });
         }
-
-
     }
 
     public class TerritoryTask extends AsyncTask<Void, Void, Boolean>{
@@ -481,17 +512,21 @@ public class JobOrder extends Fragment {
               //Clear list_Bölge
                 list_bolge.clear();
                 list_bolge.add("Bölge Seçiniz");
+                spin_bolge.setEnabled(false);
               //Clear list Bina
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
+                spin_bina.setEnabled(false);
                 buildingSpinnerAction();
               //Clear List Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 areaSpinnerAction();
               //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
 
                 if (territoryList.size() > 0) {
@@ -499,6 +534,7 @@ public class JobOrder extends Fragment {
 
                         //Getting Project Name
 
+                        spin_bolge.setEnabled(true);
                         list_bolge.add(territoryList.get(i).getName());
 
 
@@ -509,18 +545,22 @@ public class JobOrder extends Fragment {
                 //Clear list_Bölge
                 list_bolge.clear();
                 list_bolge.add("Bölge Seçiniz");
+                spin_bolge.setEnabled(false);
                 territorySpinnerAction();
                 //Clear list Bina
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
+                spin_bina.setEnabled(false);
                 buildingSpinnerAction();
                 //Clear List Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
             }
         }
@@ -551,8 +591,10 @@ public class JobOrder extends Fragment {
                 if (position == 0) {
                     // Set the hint text color gray
                     tv.setTextColor(Color.GRAY);
+
                 } else {
                     tv.setTextColor(Color.BLACK);
+
                 }
                 return view;
             }
@@ -570,7 +612,7 @@ public class JobOrder extends Fragment {
                 if (position > 0) {
 
                     //Getting TerritoryID
-                    territoryID = territoryList.get(position-1).getTerritoryId();
+                    territoryID = territoryList.get(position-1).getID();
                     Log.i("Tag:ProjectID:",""+projectID);
 
                     //Building Service Running
@@ -637,20 +679,23 @@ public class JobOrder extends Fragment {
               //Clear Bina
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
+                spin_bina.setEnabled(false);
               //Clear Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
 
                 if (buildingList.size() > 0) {
                     for (int i = 0; i < buildingList.size(); i++) {
 
                         //Getting Project Name
-
+                        spin_bina.setEnabled(true);
                         list_bina.add(buildingList.get(i).getName());
 
 
@@ -661,14 +706,17 @@ public class JobOrder extends Fragment {
               //Clear Bina
                 list_bina.clear();
                 list_bina.add("Bina Seçiniz");
+                spin_bina.setEnabled(false);
                 buildingSpinnerAction();
               //Clear Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
             }
         }
@@ -721,7 +769,7 @@ public class JobOrder extends Fragment {
                 if (position > 0) {
 
                     //Getting BuildingID to get data from Area
-                    buildingID = buildingList.get(position-1).getBuildingId();
+                    buildingID = buildingList.get(position-1).getID();
                     Log.i("Tag:ProjectID:",""+buildingID);
 
                     //Area Service Running
@@ -788,15 +836,17 @@ public class JobOrder extends Fragment {
               //Clear List Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
                 if (areaList.size() > 0) {
                     for (int i = 0; i < areaList.size(); i++) {
 
                         //Getting Project Name
-
+                        spin_alan.setEnabled(true);
                         list_alan.add(areaList.get(i).getName());
 
 
@@ -807,10 +857,12 @@ public class JobOrder extends Fragment {
               //Clear List Alan
                 list_alan.clear();
                 list_alan.add("Alan Seçiniz");
+                spin_alan.setEnabled(false);
                 areaSpinnerAction();
               //Clear List Cihaz
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
             }
         }
@@ -860,7 +912,7 @@ public class JobOrder extends Fragment {
                 if (position > 0) {
 
                     //Getting AreaID to get data from Device
-                    areaID = areaList.get(position-1).getAreaId();
+                    areaID = areaList.get(position-1).getID();
                     Log.i("Tag:AreaID:",""+areaID);
 
                     //Area Service Running
@@ -925,11 +977,13 @@ public class JobOrder extends Fragment {
             if(!get_mesaj_device.equals("false")){
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
+                deviceSpinnerAction();
                 if (deviceList.size() > 0) {
                     for (int i = 0; i < deviceList.size(); i++) {
 
                         //Getting Device Name
-
+                        spin_cihaz.setEnabled(true);
                         list_cihaz.add(deviceList.get(i).getName());
 
                     }
@@ -938,6 +992,7 @@ public class JobOrder extends Fragment {
             }else{
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");
+                spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
             }
         }
@@ -988,6 +1043,11 @@ public class JobOrder extends Fragment {
                 // First item is disable and it is used for hint
                 if (position > 0) {
                     // Notify the selected item text
+
+                    //Getting DeviceID to get data from Device
+                    deviceID = deviceList.get(position-1).getID();
+                    Log.i("Tag:DeviceID:",""+deviceID);
+
                     Toast.makeText
                             (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
                             .show();
