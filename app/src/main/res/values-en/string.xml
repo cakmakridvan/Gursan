@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gursan</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_home">Home Page</string>
+    <string name="nav_is_emri_olustur">Create Work Order</string>
+    <string name="nav_gelen_is_emri">Incoming Business Orders</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about_us">About</string>
+    <string name="nav_iletisim">Contact</string>
+    <string name="nav_cikis">Exit</string>
+    <string name="nav_diger_ayarlar">Other Settings</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Home Page</item>
+        <item>Create Work Order</item>
+        <item>Incoming Business Orders</item>
+        <item>Notifications</item>
+        <item>Settings</item>
+    </string-array>
+
+    <string name="activity_title_about_us">About</string>
+    <string name="activity_title_privacy_policy">Privacy</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_mark_all_read">Mark All as Read</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="translation">Language:</string>
+    <string name="turkce">Turkish</string>
+    <string name="ingilizce">English</string>
+
+    <!-- Giriş Ekranı -->
+    <string name="app_login_ekrani">Login</string>
+    <string name="kullanici">Username</string>
+    <string name="parola">Password</string>
+    <string name="giris">Login</string>
+    <string name="kullanici_hatirla">Remember me</string>
+    <string name="bilgiler_eksik">Missing Information</string>
+    <string name="uygulama_cikis">Exit Application</string>
+    <string name="hesap_degistir">Change Your User Account By Logging Out</string>
+    <string name="iptal">Cancel</string>
+    <string name="hesap_cikis">Logout</string>
+    <string name="connection">Check Your Internet Connection!!</string>
+    <string name="user_info_error">User Information Error!!</string>
+    <string name="user_autorization">User Authorization Error!!</string>
+
+  <!--Sweet Alert Dil Seçeneği Text'leri -->
+    <string name="dil_secenegi">Language Option</string>
+    <string name="dil_msj_title">Changing language in</string>
+    <string name="dil_msj_title1">of your application</string>
+    <string name="sweet_cevap1">Yes</string>
+    <string name="sweet_cevap2">No</string>
+    <string name="secilmis_dil">Language already in English</string>
+
+    <!-- İş Emri -->
+    <string name="action_isemri">Send</string>
+
+
+
+</resources>

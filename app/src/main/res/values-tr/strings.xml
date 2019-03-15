@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Gürsan</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_is_emri_olustur">İş Emri Oluştur</string>
+    <string name="nav_gelen_is_emri">Gelen İş Emirleri</string>
+    <string name="nav_notifications">Bildirimler</string>
+    <string name="nav_settings">Ayarlar</string>
+    <string name="nav_about_us">Hakkında</string>
+    <string name="nav_iletisim">İletişim</string>
+    <string name="nav_cikis">Çıkış</string>
+    <string name="nav_diger_ayarlar">Diğer Seçenekler</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Ana Sayfa</item>
+        <item>İş Emri Oluştur</item>
+        <item>Gelen İş Emirleri</item>
+        <item>Bildirimler</item>
+        <item>Ayarlar</item>
+    </string-array>
+
+    <string name="activity_title_about_us">Hakkında</string>
+    <string name="activity_title_privacy_policy">Gizlilik</string>
+    <string name="action_clear_all">Temizle</string>
+    <string name="action_logout">Çıkış</string>
+    <string name="action_mark_all_read">Okundu</string>
+    <string name="privacy_policy">Gizlilik</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Merhaba....</string>
+    <string name="translation">Dil:</string>
+    <string name="turkce">Türkçe</string>
+    <string name="ingilizce">İngilizce</string>
+
+    <!-- Giriş Ekranı -->
+    <string name="app_login_ekrani">Giriş</string>
+    <string name="kullanici">Kullanıcı Adı</string>
+    <string name="parola">Şifre</string>
+    <string name="giris">Giriş Yap</string>
+    <string name="kullanici_hatirla">Beni Hatırla</string>
+    <string name="bilgiler_eksik">Bilgileriniz Eksik!!</string>
+    <string name="uygulama_cikis">Uygulama Çıkışı</string>
+    <string name="hesap_degistir">Çıkış Yaparak Kullanıcı Hesabınızı Değiştirebilirsiniz</string>
+    <string name="iptal">İptal</string>
+    <string name="hesap_cikis">Çıkış Yap</string>
+    <string name="connection">İnternet Bağlantınızı Kontrol Ediniz!!</string>
+    <string name="user_info_error">Kullanıcı Bilgisi Hatası!!</string>
+    <string name="user_autorization">Kullanıcı Yetki Hatası!!</string>
+
+    <!--Sweet Alert Dil Seçeneği Text'leri -->
+    <string name="dil_secenegi">Dil Seçeneği</string>
+    <string name="dil_msj_title">Uygulamanızın dilini </string>
+    <string name="dil_msj_title1"> olarak değiştirmek ister misiniz?</string>
+    <string name="sweet_cevap1">Evet</string>
+    <string name="sweet_cevap2">Hayır</string>
+    <string name="secilmis_dil">Uygulama dili zaten Türkçe</string>
+
+    <!-- İş Emri -->
+    <string name="action_isemri">Gönder</string>
+
+
+</resources>
