@@ -11,6 +11,23 @@ public class ModelUser {
     @SerializedName("Password")
     @Expose
     private String Password;
+    @SerializedName("ID")
+    @Expose
+    private Integer ID;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+
+
+
+
+
 
     public String getName() {
         return Name;

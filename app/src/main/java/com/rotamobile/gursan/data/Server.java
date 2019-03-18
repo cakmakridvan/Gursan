@@ -346,6 +346,78 @@ public class Server {
         return result;
     }
 
+    public static String TodoAdd(Integer ID,Integer project_ID,Integer territory_ID,Integer building_ID,Integer area_ID,
+                                 Integer device_ID,Integer workOrderType_ID,Integer workOrderCategory_ID,
+                                 Integer user_ID,String description){
+
+        String method_Login = "Todo/TodoAdd";
+
+        try {
+
+            URL url = new URL(Main_URL  + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID",ID);
+            jsonObject.put("ProjectID", project_ID);
+            jsonObject.put("TerritoryID", territory_ID);
+            jsonObject.put("BuildingID", building_ID);
+            jsonObject.put("AreaID", area_ID);
+            jsonObject.put("DeviceID", device_ID);
+            jsonObject.put("WorkOrderTypeID", workOrderType_ID);
+            jsonObject.put("WorkOrderCategoryID", workOrderCategory_ID);
+            jsonObject.put("UserID", user_ID);
+            jsonObject.put("Description", description);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in=new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line="";
+
+                while((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            }
+            else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ",""+responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ",e.getMessage());
+            return "false";
+        }
+
+    }
+
     public static String getPostDataString(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();

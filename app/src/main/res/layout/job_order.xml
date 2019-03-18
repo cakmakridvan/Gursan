@@ -252,6 +252,7 @@
             android:textSize="17dp"
             android:hint="Açıklama"
             android:textColor="@color/black"
+            android:id="@+id/edt_aciklama"
             />
 
         </LinearLayout>
