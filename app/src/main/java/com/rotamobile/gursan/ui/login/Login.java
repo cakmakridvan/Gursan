@@ -195,8 +195,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 Intent go_main = new Intent(getApplicationContext(), Main.class);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                go_main.putExtra("name",get_name);
-                go_main.putExtra("last_name",get_surname);
+/*                go_main.putExtra("name",get_name);
+                go_main.putExtra("last_name",get_surname);*/
+                //Saving name and surname
+                Paper.book().write("name",get_name);
+                Paper.book().write("last_name",get_surname);
 
                 //Saving UserID to Paper
                 Paper.book().write("user_id",get_userID);

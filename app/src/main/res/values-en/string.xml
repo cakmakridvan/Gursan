@@ -31,6 +31,13 @@
         <item>Settings</item>
     </string-array>
 
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="bottom_nav_item">
+        <item> </item>
+        <item> </item>
+        <item> </item>
+    </string-array>
+
     <string name="activity_title_about_us">About</string>
     <string name="activity_title_privacy_policy">Privacy</string>
     <string name="action_clear_all">Clear All</string>
@@ -69,6 +76,13 @@
 
     <!-- İş Emri -->
     <string name="action_isemri">Send</string>
+
+    <!--Navigation View Item in HomePage-->
+    <string name="app_name_navi">Bottom Navigation</string>
+    <string name="title_tumu">Tümü</string>
+    <string name="title_acil">Acil</string>
+    <string name="title_yildizli">İşaretli</string>
+    <string name="title_zamanli">Zamanlı</string>
 
 
 

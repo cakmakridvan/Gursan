@@ -37,6 +37,7 @@ import com.rotamobile.gursan.model.projectSpinner.ModelProject;
 import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 import com.rotamobile.gursan.model.userSpinner.DataUser;
 import com.rotamobile.gursan.model.userSpinner.ModelUser;
+import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1324,6 +1325,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.dismissWithAnimation();
+
+                                Intent go_home = new Intent(getActivity(),MainBottomNavigation.class);
+                                startActivity(go_home);
                             }
                         })
                         .show();

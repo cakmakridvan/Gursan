@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.fragment.Exit;
 import com.rotamobile.gursan.ui.fragment.Home;
 import com.rotamobile.gursan.ui.fragment.IncomingJobOrder;
@@ -91,13 +92,16 @@ public class Main extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //getting User information from Login
-        Bundle get_datas = new Bundle();
+/*        Bundle get_datas = new Bundle();
         get_datas = getIntent().getExtras();
         if(get_datas != null){
 
             get_name = get_datas.getString("name");
             get_surname = get_datas.getString("last_name");
-        }
+        }*/
+//getting User information from Login
+        get_name = Paper.book().read("name");
+        get_surname = Paper.book().read("last_name");
 
         mHandler = new Handler();
 
@@ -238,8 +242,12 @@ public class Main extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // ana sayfa
-                Home home = new Home();
-                return home;
+
+              Home home = new Home();
+              return home;
+
+
+
             case 1:
                 // iş emri oluştur
                 JobOrder jobOrder = new JobOrder();
@@ -247,8 +255,11 @@ public class Main extends AppCompatActivity {
 
             case 2:
                 // gelen iş emirleri
-                IncomingJobOrder incomingJobOrder = new IncomingJobOrder();
-                return incomingJobOrder;
+/*                IncomingJobOrder incomingJobOrder = new IncomingJobOrder();
+                return incomingJobOrder;*/
+
+                Intent go_home = new Intent(getApplicationContext(),MainBottomNavigation.class);
+                startActivity(go_home);
 
             case 3:
                 // bildirimler
@@ -409,6 +420,7 @@ public class Main extends AppCompatActivity {
         }
 
         super.onBackPressed();
+
     }
 
     @Override
@@ -549,5 +561,7 @@ public class Main extends AppCompatActivity {
         else
             fab.hide();
     }
+
+
 
 }
