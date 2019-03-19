@@ -347,7 +347,7 @@ public class Server {
     }
 
     public static String TodoAdd(Integer ID,Integer project_ID,Integer territory_ID,Integer building_ID,Integer area_ID,
-                                 Integer device_ID,Integer workOrderType_ID,Integer workOrderCategory_ID,
+                                 Integer device_ID,Integer workOrderType_ID,Integer workImportance_ID,Integer workOrderCategory_ID,
                                  Integer user_ID,String description){
 
         String method_Login = "Todo/TodoAdd";
@@ -364,8 +364,9 @@ public class Server {
             jsonObject.put("AreaID", area_ID);
             jsonObject.put("DeviceID", device_ID);
             jsonObject.put("WorkOrderTypeID", workOrderType_ID);
+            jsonObject.put("WorkImportanceID", workImportance_ID);
             jsonObject.put("WorkOrderCategoryID", workOrderCategory_ID);
-            jsonObject.put("UserID", user_ID);
+            jsonObject.put("AssignedUserID", user_ID);
             jsonObject.put("Description", description);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

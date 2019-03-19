@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +69,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private EditText aciklama;
     View view;
 
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+
     private ProjectsTask projectsTask = null;
     private TerritoryTask territoryTask = null;
     private BuildingTask buildingTask = null;
@@ -114,6 +119,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     //WorkCategory model
     private Integer workCategoryModel = 0;
 
+    //WorkImportance
+    private Integer workImportance = 0;
+
     //UserList
     private DataUser response_userList;
     private ArrayList<ModelUser> userList;
@@ -159,6 +167,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         Paper.init(getActivity());
         //get UserID from Login
         get_userID = Paper.book().read("user_id");
+
+        //RadioGroup init
+        radioGroup = (RadioGroup) view.findViewById(R.id.radiogroup);
 
         //Proje Spinner
         spin_proje = view.findViewById(R.id.spinner_proje);
@@ -247,10 +258,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                     // Notify the selected item text
 
                     if(position == 1){
-                        workOrderType = 1;
+                        //Talep
+                        workOrderType = 10;
                     }
                     else if(position == 2){
-                        workOrderType = 2;
+                        //Arıza
+                        workOrderType = 11;
                     }
 
                 }
@@ -312,16 +325,16 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                     // Notify the selected item text
 
                     if(position == 1){
-
-                        workCategoryModel = 1;
+                        //Elektirik
+                        workCategoryModel = 6;
                     }
                     else if(position == 2){
-
-                        workCategoryModel = 2;
+                        //Mekanik
+                        workCategoryModel = 5;
                     }
                     if(position == 3){
-
-                        workCategoryModel = 3;
+                        //İnşaat
+                        workCategoryModel = 7;
                     }
                 }
             }
@@ -355,6 +368,25 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
             case R.id.btn_jobOrder:
 
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = (RadioButton) view.findViewById(selectedId);
+
+                String get_Selected_Rdaio = radioButton.getText().toString();
+
+                if(get_Selected_Rdaio.equals("Esnek")){
+
+                    workImportance = 27;
+
+                }else if(get_Selected_Rdaio.equals("Normal")){
+
+                    workImportance = 28;
+
+                }else if(get_Selected_Rdaio.equals("Acil")){
+
+                    workImportance = 29;
+
+                }
+
                String get_Project = spin_proje.getSelectedItem().toString();
                String get_Bolge = spin_bolge.getSelectedItem().toString();
                String get_Bina = spin_bina.getSelectedItem().toString();
@@ -386,14 +418,17 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                }else {
 
                    //TodoAdd Service Running
-                   todoAdd = new TodoAdd(getUserID,projectID,territoryID,buildingID,areaID,deviceID,workOrderType,workCategoryModel,userID,get_aciklama);
+                   todoAdd = new TodoAdd(getUserID,projectID,territoryID,buildingID,areaID,deviceID,workOrderType,workImportance,workCategoryModel,userID,get_aciklama);
                    todoAdd.execute((Void) null);
 
                }
 
                break;
+
         }
     }
+
+
 
     private void showToasty(String mesaj) {
 
@@ -1250,12 +1285,13 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         private final Integer area_id;
         private final Integer device_id;
         private final Integer workOrderType_id;
+        private final Integer workImportance_id;
         private final Integer workOrderCategory_id;
         private final Integer user_id;
         private final String descrption;
 
         TodoAdd(Integer id,Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
-                Integer device_id,Integer workOrderType_id,Integer workOrderCategory_id,Integer user_id,
+                Integer device_id,Integer workOrderType_id,Integer workImportance_id,Integer workOrderCategory_id,Integer user_id,
                 String descrption){
 
             this.id = id;
@@ -1265,6 +1301,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             this.area_id = area_id;
             this.device_id = device_id;
             this.workOrderType_id = workOrderType_id;
+            this.workImportance_id = workImportance_id;
             this.workOrderCategory_id = workOrderCategory_id;
             this.user_id = user_id;
             this.descrption = descrption;
@@ -1284,7 +1321,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         protected Boolean doInBackground(Void... voids) {
 
             String todoAdd_service = Server.TodoAdd(id,proje_id,territory_id,building_id,area_id,device_id,
-                    workOrderType_id,workOrderCategory_id,user_id,descrption);
+                    workOrderType_id,workImportance_id,workOrderCategory_id,user_id,descrption);
             if(!todoAdd_service.trim().equalsIgnoreCase("false")){
 
                 try {
