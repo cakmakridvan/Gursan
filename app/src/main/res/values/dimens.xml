@@ -8,5 +8,6 @@
     <dimen name="badge_count_textsize">12dp</dimen>
     <dimen name="edt_pad_size">14dp</dimen>
     <dimen name="edt_pad_leftright">5dp</dimen>
+    <dimen name="details_margin_padding">12dp</dimen>
 
 </resources>

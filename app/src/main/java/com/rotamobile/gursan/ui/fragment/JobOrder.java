@@ -33,6 +33,8 @@ import com.rotamobile.gursan.model.buildingSpinner.DataBuilding;
 import com.rotamobile.gursan.model.deviceSpinner.DataDevice;
 import com.rotamobile.gursan.model.deviceSpinner.ModelDevice;
 import com.rotamobile.gursan.model.projectSpinner.DataProject;
+import com.rotamobile.gursan.model.subjectsSpinner.DataSubject;
+import com.rotamobile.gursan.model.subjectsSpinner.ModelSubject;
 import com.rotamobile.gursan.model.territorySpinner.DataTerritory;
 import com.rotamobile.gursan.model.buildingSpinner.ModelBuilding;
 import com.rotamobile.gursan.model.projectSpinner.ModelProject;
@@ -55,6 +57,7 @@ import static com.rotamobile.gursan.data.Server.GetArea;
 import static com.rotamobile.gursan.data.Server.GetBuilding;
 import static com.rotamobile.gursan.data.Server.GetDevice;
 import static com.rotamobile.gursan.data.Server.GetProjects;
+import static com.rotamobile.gursan.data.Server.GetSubjects;
 import static com.rotamobile.gursan.data.Server.GetTerritory;
 import static com.rotamobile.gursan.data.Server.GetUserList;
 import static com.rotamobile.gursan.data.Server.GetUsers;
@@ -64,7 +67,7 @@ import static java.lang.Integer.parseInt;
 public class JobOrder extends Fragment implements View.OnClickListener {
 
 
-    private Spinner spin_proje, spin_bolge, spin_alan, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi, spin_kisiler;
+    private Spinner spin_proje, spin_bolge, spin_alan, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi, spin_kisiler, spin_iskonu;
     private String get_userID;
     private EditText aciklama;
     View view;
@@ -79,6 +82,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private DeviceTask deviceTask = null;
     private UserListTask userListTask = null;
     private TodoAdd todoAdd = null;
+    private SubjectTask subjectTask = null;
 
     private ProgressDialog progressDialog,progressDialog_todo;
     private List<String> list_proje;
@@ -87,6 +91,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private List<String> list_alan;
     private List<String> list_cihaz;
     private List<String> list_kisiler;
+    private List<String> list_konu;
     private Integer projectID = 0;
 
     //Territory
@@ -113,6 +118,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private String get_mesaj_device = "";
     private Integer deviceID = 0;
 
+    //WorkTopic
+    private DataSubject response_subject;
+    private ArrayList<ModelSubject> subjectList;
+    private String get_mesaj_subject = "";
+    private Integer subjectID = 0;
+
     //WorkOrderType
     private Integer workOrderType = 0;
 
@@ -130,6 +141,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     //Açıklama
     private String get_aciklama = "";
+
+    //UserID
+    private Integer user_id = 0;
 
     //Button of Sending Job Order
     private Button send_jobOrder;
@@ -167,6 +181,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         Paper.init(getActivity());
         //get UserID from Login
         get_userID = Paper.book().read("user_id");
+        user_id = Integer.parseInt(get_userID);
 
         //RadioGroup init
         radioGroup = (RadioGroup) view.findViewById(R.id.radiogroup);
@@ -207,6 +222,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         list_cihaz.add("Cihaz Seçiniz");
         spin_cihaz.setEnabled(false);
         deviceSpinnerAction();
+
+        //Subjects
+        spin_iskonu = view.findViewById(R.id.spinner_iskonusu);
+        list_konu = new ArrayList<String>();
+        list_konu.add("Konu Seçiniz");
+        deviceSubjectAction();
 
 
         //İş Emri Tipi
@@ -393,10 +414,11 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                String get_Alan = spin_alan.getSelectedItem().toString();
                String get_Cihaz = spin_cihaz.getSelectedItem().toString();
                String get_isEmriTipi = spin_isemriTipi.getSelectedItem().toString();
+               String get_isKonusu = spin_iskonu.getSelectedItem().toString();
                String get_isModeli = spin_isemriTalebi.getSelectedItem().toString();
                String get_kisiler = spin_kisiler.getSelectedItem().toString();
                get_aciklama = aciklama.getText().toString();
-               Integer getUserID = Integer.parseInt(get_userID);
+               user_id = Integer.parseInt(get_userID);
 
 
                if(get_Project.equals("Proje Seçiniz")){
@@ -407,18 +429,18 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                    showToasty("Bina Seçiniz");
                }else if(get_Alan.equals("Alan Seçiniz")){
                    showToasty("Alan Seçiniz");
-               }else if(get_Cihaz.equals("Cihaz Seçiniz")){
-                   showToasty("Cihaz Seçiniz");
                }else if(get_isEmriTipi.equals("İş Emri Tipini Seçiniz")){
                    showToasty("İş Emri Tipini Seçiniz");
                }else if(get_isModeli.equals("İş Modelini Seçiniz")){
                    showToasty("İş Modelini Seçiniz");
+               }else if(get_isKonusu.equals("Konu Seçiniz")){
+                   showToasty("Konu Seçiniz");
                }else if(get_kisiler.equals("Kişileri Seçiniz")){
                    showToasty("Kişileri Seçiniz");
                }else {
 
                    //TodoAdd Service Running
-                   todoAdd = new TodoAdd(getUserID,projectID,territoryID,buildingID,areaID,deviceID,workOrderType,workImportance,workCategoryModel,userID,get_aciklama);
+                   todoAdd = new TodoAdd(projectID,territoryID,buildingID,areaID,deviceID,workOrderType,workImportance,workCategoryModel,subjectID,userID,get_aciklama,user_id,user_id);
                    todoAdd.execute((Void) null);
 
                }
@@ -1198,6 +1220,11 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             if(!get_mesaj_userList.equals("false")){
                 list_kisiler.clear();
                 list_kisiler.add("Kişileri Seçiniz");
+
+                //Subject Service Running
+                subjectTask = new SubjectTask();
+                subjectTask.execute((Void) null);
+
                 if (userList.size() > 0) {
                     for (int i = 0; i < userList.size(); i++) {
 
@@ -1276,9 +1303,122 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     }
 
+    public class SubjectTask extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String subjects_result = GetSubjects();
+                if(!subjects_result.trim().equalsIgnoreCase("false")){
+
+                    response_subject = new Gson().fromJson(subjects_result, DataSubject.class);
+                    subjectList = response_subject.getData_list();
+                    Log.i("Tag:subjectList",""+subjectList);
+                    get_mesaj_subject = "true";
+
+
+                }else{
+                    get_mesaj_subject = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_subject.equals("false")){
+                list_konu.clear();
+                list_konu.add("Konu Seçiniz");
+                if (subjectList.size() > 0) {
+                    for (int i = 0; i < subjectList.size(); i++) {
+
+                        //Getting Subject Name
+                        list_konu.add(subjectList.get(i).getSubjectText());
+
+                    }
+                }
+                deviceSpinnerAction();
+            }else{
+                list_cihaz.clear();
+                list_cihaz.add("Cihaz Seçiniz");
+                deviceSubjectAction();
+            }
+        }
+
+
+    }
+
+    private void deviceSubjectAction(){
+
+        ArrayAdapter<String> dataAdapter_subject = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, list_konu) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+
+        };
+        dataAdapter_subject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_iskonu.setAdapter(dataAdapter_subject);
+        spin_iskonu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+
+                    //Getting userID to get data from UserGet
+                    subjectID = subjectList.get(position-1).getID();
+                    Log.i("Tag:UserID:",""+subjectID);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
     public class TodoAdd extends AsyncTask<Void, Void, Boolean>{
 
-        private final Integer id;
         private final Integer proje_id;
         private final Integer territory_id;
         private final Integer building_id;
@@ -1287,14 +1427,17 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         private final Integer workOrderType_id;
         private final Integer workImportance_id;
         private final Integer workOrderCategory_id;
+        private final Integer workTopic_id;
         private final Integer user_id;
         private final String descrption;
+        private final Integer insert_user_id;
+        private final Integer insert_update_id;
 
-        TodoAdd(Integer id,Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
-                Integer device_id,Integer workOrderType_id,Integer workImportance_id,Integer workOrderCategory_id,Integer user_id,
-                String descrption){
+        TodoAdd(Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
+                Integer device_id,Integer workOrderType_id,Integer workImportance_id,Integer workOrderCategory_id,Integer workTopic_id,Integer user_id,
+                String descrption,Integer insert_user_id,Integer insert_update_id){
 
-            this.id = id;
+
             this.proje_id = proje_id;
             this.territory_id = territory_id;
             this.building_id = building_id;
@@ -1303,8 +1446,11 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             this.workOrderType_id = workOrderType_id;
             this.workImportance_id = workImportance_id;
             this.workOrderCategory_id = workOrderCategory_id;
+            this.workTopic_id = workTopic_id;
             this.user_id = user_id;
             this.descrption = descrption;
+            this.insert_user_id = insert_user_id;
+            this.insert_update_id = insert_update_id;
         }
 
         @Override
@@ -1320,8 +1466,8 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            String todoAdd_service = Server.TodoAdd(id,proje_id,territory_id,building_id,area_id,device_id,
-                    workOrderType_id,workImportance_id,workOrderCategory_id,user_id,descrption);
+            String todoAdd_service = Server.TodoAdd(proje_id,territory_id,building_id,area_id,device_id,
+                    workOrderType_id,workImportance_id,workOrderCategory_id,workTopic_id,user_id,descrption,insert_user_id,insert_update_id);
             if(!todoAdd_service.trim().equalsIgnoreCase("false")){
 
                 try {

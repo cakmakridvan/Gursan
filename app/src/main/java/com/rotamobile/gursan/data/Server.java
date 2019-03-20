@@ -346,9 +346,50 @@ public class Server {
         return result;
     }
 
-    public static String TodoAdd(Integer ID,Integer project_ID,Integer territory_ID,Integer building_ID,Integer area_ID,
-                                 Integer device_ID,Integer workOrderType_ID,Integer workImportance_ID,Integer workOrderCategory_ID,
-                                 Integer user_ID,String description){
+    public static String GetSubjects() {
+
+        String method_Projects = "HelperService/GetAllSubjects";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        }
+        finally {
+            try{
+
+                if(inputStream != null)inputStream.close();
+
+            }catch(Exception squish){
+                return "false";
+            }
+        }
+        return result;
+    }
+
+    public static String TodoAdd(Integer project_ID,Integer territory_ID,Integer building_ID,Integer area_ID,
+                                 Integer device_ID,Integer workOrderType_ID,Integer workImportance_ID,Integer workOrderCategory_ID,Integer workTopic_ID,
+                                 Integer user_ID,String description,Integer insertUser_ID,Integer updateUser_ID){
 
         String method_Login = "Todo/TodoAdd";
 
@@ -357,7 +398,6 @@ public class Server {
             URL url = new URL(Main_URL  + method_Login); // here is your URL path
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("ID",ID);
             jsonObject.put("ProjectID", project_ID);
             jsonObject.put("TerritoryID", territory_ID);
             jsonObject.put("BuildingID", building_ID);
@@ -366,8 +406,11 @@ public class Server {
             jsonObject.put("WorkOrderTypeID", workOrderType_ID);
             jsonObject.put("WorkImportanceID", workImportance_ID);
             jsonObject.put("WorkOrderCategoryID", workOrderCategory_ID);
+            jsonObject.put("SubjectID",workTopic_ID);
             jsonObject.put("AssignedUserID", user_ID);
             jsonObject.put("Description", description);
+            jsonObject.put("InsertUserID",insertUser_ID);
+            jsonObject.put("UpdateUserID",updateUser_ID);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
@@ -417,6 +460,47 @@ public class Server {
             return "false";
         }
 
+    }
+
+    public static String GetTodoList(Integer userID) {
+
+        String method_Projects = "Todo/TodoList";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpPost httppost = new HttpPost(Main_URL + method_Projects + "?" + "userID=" + userID);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        }
+        finally {
+            try{
+
+                if(inputStream != null)inputStream.close();
+
+            }catch(Exception squish){
+                return "false";
+            }
+        }
+        return result;
     }
 
     public static String getPostDataString(JSONObject params) throws Exception {

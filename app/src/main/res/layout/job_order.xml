@@ -213,6 +213,26 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="@dimen/edt_pad_leftright"
+            android:paddingRight="@dimen/edt_pad_leftright"
+            android:gravity="left"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_iskonusu"
+                android:padding="@dimen/edt_pad_size"
+                android:background="@drawable/effect_spinner"
+                android:spinnerMode="dialog"
+                />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
