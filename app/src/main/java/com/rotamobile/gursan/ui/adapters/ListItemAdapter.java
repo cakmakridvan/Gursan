@@ -52,6 +52,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 listItemAllMessages = list_allmesaj.get(position);
                 notifyDataSetChanged();
                 Intent goDetails = new Intent(context,Details.class);
+                goDetails.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
                 goDetails.putExtra("proje_name",listItemAllMessages.getProjectName());
                 goDetails.putExtra("teritory_name",listItemAllMessages.getTerritoryName());
                 goDetails.putExtra("building_name",listItemAllMessages.getBuildingName());
@@ -61,6 +62,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("start_date",listItemAllMessages.getStartDate());
                 goDetails.putExtra("end_date",listItemAllMessages.getEndDate());
                 goDetails.putExtra("work_user",listItemAllMessages.getWorkUser());
+                goDetails.putExtra("proje_id",listItemAllMessages.getProjectID());
+                goDetails.putExtra("teritory_id",listItemAllMessages.getTerritoryID());
+                goDetails.putExtra("building_id",listItemAllMessages.getBuildingID());
+                goDetails.putExtra("area_id",listItemAllMessages.getAreaID());
+                goDetails.putExtra("device_id",listItemAllMessages.getDeviceID());
+                goDetails.putExtra("subject_id",listItemAllMessages.getSubjectID());
+                goDetails.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                goDetails.putExtra("assigned_user_id",listItemAllMessages.getAssignedUserID());
                 context.startActivity(goDetails);
 
             }

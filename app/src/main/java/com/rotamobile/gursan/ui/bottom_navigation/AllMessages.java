@@ -120,9 +120,11 @@ public class AllMessages extends Fragment {
 
                     for(int i = 0;i<todoList.size(); i++) {
 
-                        ListItemAllMessages listItemAllMessages = new ListItemAllMessages(todoList.get(i).getProjectName(),todoList.get(i).getSubjectText(),
+                        ListItemAllMessages listItemAllMessages = new ListItemAllMessages(todoList.get(i).getID(),todoList.get(i).getProjectName(),todoList.get(i).getSubjectText(),
                                 todoList.get(i).getBuildingName(),todoList.get(i).getDeviceName(),todoList.get(i).getStartDate(),todoList.get(i).getEndDate(),
-                                todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName());
+                                todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName(),todoList.get(i).getProjectID(),
+                                todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
+                                todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID());
                         listItems.add(listItemAllMessages);
                     }
                     adapter = new ListItemAdapter(listItems,getActivity());

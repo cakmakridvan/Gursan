@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class ListItemAllMessages {
 
+    @SerializedName("ID")
+    @Expose
+    private Integer ID;
     @SerializedName("ProjectName")
     @Expose
     private String ProjectName;
@@ -32,9 +35,34 @@ public class ListItemAllMessages {
     @SerializedName("AreaName")
     @Expose
     private String AreaName;
+    @SerializedName("ProjectID")
+    @Expose
+    private Integer ProjectID;
+    @SerializedName("TerritoryID")
+    @Expose
+    private Integer TerritoryID;
+    @SerializedName("BuildingID")
+    @Expose
+    private Integer BuildingID;
+    @SerializedName("AreaID")
+    @Expose
+    private Integer AreaID;
+    @SerializedName("DeviceID")
+    @Expose
+    private Integer DeviceID;
+    @SerializedName("SubjectID")
+    @Expose
+    private Integer SubjectID;
+    @SerializedName("InsertUserID")
+    @Expose
+    private Integer InsertUserID;
+    @SerializedName("AssignedUserID")
+    @Expose
+    private Integer AssignedUserID;
 
-    public ListItemAllMessages(String projectName, String subjectText, String buildingName, String deviceName, String startDate, String endDate, String workUser
-            , String territoryName, String areaName) {
+    public ListItemAllMessages(Integer id, String projectName, String subjectText, String buildingName, String deviceName, String startDate, String endDate, String workUser
+            , String territoryName, String areaName, Integer project_id, Integer teritory_id, Integer building_id, Integer area_id, Integer device_id, Integer subject_id
+            , Integer insert_user_id, Integer assigned_user_id) {
         ProjectName = projectName;
         SubjectText = subjectText;
         BuildingName = buildingName;
@@ -44,6 +72,23 @@ public class ListItemAllMessages {
         WorkUser = workUser;
         TerritoryName = territoryName;
         AreaName = areaName;
+        ProjectID = project_id;
+        TerritoryID = teritory_id;
+        BuildingID = building_id;
+        AreaID = area_id;
+        DeviceID = device_id;
+        SubjectID = subject_id;
+        InsertUserID = insert_user_id;
+        ID = id;
+        AssignedUserID = assigned_user_id;
+    }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getBuildingName() {
@@ -118,17 +163,69 @@ public class ListItemAllMessages {
         SubjectText = subjectText;
     }
 
+    public Integer getProjectID() {
+        return ProjectID;
+    }
 
+    public void setProjectID(Integer projectID) {
+        ProjectID = projectID;
+    }
 
+    public Integer getTerritoryID() {
+        return TerritoryID;
+    }
 
+    public void setTerritoryID(Integer territoryID) {
+        TerritoryID = territoryID;
+    }
 
+    public Integer getBuildingID() {
+        return BuildingID;
+    }
 
+    public void setBuildingID(Integer buildingID) {
+        BuildingID = buildingID;
+    }
 
+    public Integer getAreaID() {
+        return AreaID;
+    }
 
+    public void setAreaID(Integer areaID) {
+        AreaID = areaID;
+    }
 
+    public Integer getDeviceID() {
+        return DeviceID;
+    }
 
+    public void setDeviceID(Integer deviceID) {
+        DeviceID = deviceID;
+    }
 
+    public Integer getSubjectID() {
+        return SubjectID;
+    }
 
+    public void setSubjectID(Integer subjectID) {
+        SubjectID = subjectID;
+    }
+
+    public Integer getInsertUserID() {
+        return InsertUserID;
+    }
+
+    public void setInsertUserID(Integer insertUserID) {
+        InsertUserID = insertUserID;
+    }
+
+    public Integer getAssignedUserID() {
+        return AssignedUserID;
+    }
+
+    public void setAssignedUserID(Integer assignedUserID) {
+        AssignedUserID = assignedUserID;
+    }
 
 
 }

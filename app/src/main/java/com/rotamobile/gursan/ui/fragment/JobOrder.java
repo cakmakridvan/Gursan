@@ -731,8 +731,6 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 }
                 return view;
             }
-
-
         };
         dataAdapter_bolge.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_bolge.setAdapter(dataAdapter_bolge);

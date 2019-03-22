@@ -30,11 +30,10 @@
                 android:id="@+id/toolbarImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 android:fitsSystemWindows="true"
                 android:src="@drawable/splash_icon1"
                 app:layout_collapseMode="parallax"
-                android:layout_gravity="center"
                 />
 
             <android.support.v7.widget.Toolbar
@@ -57,10 +56,14 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <!--Update View-->
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/layout_update"
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,18 +88,19 @@
                     android:textStyle="bold"
                     />
 
-                <Spinner
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txt_kullanici_adi"
-                    android:padding="@dimen/edt_pad_size"
-                    android:background="@drawable/effect_spinner"
-                    android:spinnerMode="dialog"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="...."
+                    android:id="@+id/update_userName"
+                    android:textColor="@color/black"
                     />
 
             </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -124,7 +128,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -152,7 +156,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -180,7 +184,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -208,7 +212,35 @@
 
         </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Cihaz Adı:      "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_name_device_name"
+                    android:padding="@dimen/edt_pad_size"
+                    android:background="@drawable/effect_spinner"
+                    android:spinnerMode="dialog"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -236,7 +268,50 @@
 
         </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="@dimen/edt_pad_leftright"
+                android:paddingRight="@dimen/edt_pad_leftright"
+                >
+
+                <Button
+                    android:id="@+id/btn_jobUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/effect_button"
+                    android:text="Güncelle"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <!--Detail View-->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/layout_detail"
+        android:visibility="gone"
+        >
+
+        <!--Detail View-->
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -248,81 +323,200 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
-                android:text="Cihaz Adı:      "
+                android:text="Kullanıcı Adı: "
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txt_name_device_name"
-                android:padding="@dimen/edt_pad_size"
-                android:background="@drawable/effect_spinner"
-                android:spinnerMode="dialog"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/details_margin_padding"
-            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
-                android:text="Başlangıç Zamanı: "
+                android:text="..."
                 android:textColor="@color/black"
-                android:textStyle="bold"
+                android:id="@+id/txt_userName"
                 />
 
-            <Spinner
+        </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_start_date"
-                android:padding="@dimen/edt_pad_size"
-                android:background="@drawable/effect_spinner"
-                android:spinnerMode="dialog"
-                />
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Proje Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/details_margin_padding"
-            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_projeName"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:lineSpacingExtra="8dp"
-                android:text="Bitiş Zamanı: "
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                />
+            </LinearLayout>
 
-            <Spinner
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_send_date"
-                android:padding="@dimen/edt_pad_size"
-                android:background="@drawable/effect_spinner"
-                android:spinnerMode="dialog"
-                />
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Bölge Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_teritoryName"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Bina Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_buildingName"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Alan Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_areaName"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Cihaz Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_deviceName"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Konu Adı: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_subjectName"
+                    />
+
+            </LinearLayout>
+
+     </LinearLayout>
 
 
-
-        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
