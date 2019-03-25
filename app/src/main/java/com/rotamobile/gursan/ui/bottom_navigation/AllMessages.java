@@ -1,6 +1,8 @@
 package com.rotamobile.gursan.ui.bottom_navigation;
 
 
+import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +44,7 @@ public class AllMessages extends Fragment {
     private TodoListTask todoListTask = null;
 
     private String get_userID;
+    private ProgressDialog progressDialog;
 
 
     public AllMessages() {
@@ -62,6 +65,11 @@ public class AllMessages extends Fragment {
 
         //get UserID from Login
         get_userID = Paper.book().read("user_id");
+
+     //Progress Diaolog initialize
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setIndeterminate(true);
 
         //TodoList Service Running
         todoListTask = new TodoListTask(Integer.parseInt(get_userID));
@@ -86,6 +94,11 @@ public class AllMessages extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            progressDialog.setMessage("\tLoading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_progress);
         }
 
         @Override
@@ -116,6 +129,8 @@ public class AllMessages extends Fragment {
 
             if(!get_mesaj_todoList.equals("false")){
 
+                progressDialog.dismiss();
+
                 if(todoList.size() > 0){
 
                     for(int i = 0;i<todoList.size(); i++) {
@@ -124,7 +139,7 @@ public class AllMessages extends Fragment {
                                 todoList.get(i).getBuildingName(),todoList.get(i).getDeviceName(),todoList.get(i).getStartDate(),todoList.get(i).getEndDate(),
                                 todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName(),todoList.get(i).getProjectID(),
                                 todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
-                                todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID());
+                                todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate());
                         listItems.add(listItemAllMessages);
                     }
                     adapter = new ListItemAdapter(listItems,getActivity());
@@ -132,7 +147,7 @@ public class AllMessages extends Fragment {
                 }
 
             }else{
-
+                progressDialog.dismiss();
             }
         }
 

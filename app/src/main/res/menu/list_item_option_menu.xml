@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_item_add_documen" android:title="Döküman Ekle"></item>
+    <item android:id="@+id/menu_item_add_mataria" android:title="Malzeme Ekle"></item>
+
+</menu>

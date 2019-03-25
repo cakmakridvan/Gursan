@@ -62,7 +62,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_update"
-        android:visibility="gone"
         >
 
         <LinearLayout
@@ -76,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/details_margin_padding"
+                android:gravity="center"
                 >
 
                 <TextView
@@ -100,6 +100,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:lineSpacingExtra="8dp"
+                android:text="Proje Adı:       "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                />
+
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,15 +118,7 @@
             android:padding="@dimen/details_margin_padding"
             >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:lineSpacingExtra="8dp"
-            android:text="Proje Adı:       "
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            />
+
 
             <Spinner
                 android:layout_width="match_parent"
@@ -128,22 +131,23 @@
 
         </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:lineSpacingExtra="8dp"
+                android:text="Bölge Adı:      "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                />
+
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/details_margin_padding"
             >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:lineSpacingExtra="8dp"
-            android:text="Bölge Adı:      "
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            />
 
             <Spinner
                 android:layout_width="match_parent"
@@ -156,13 +160,6 @@
 
         </LinearLayout>
 
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/details_margin_padding"
-            >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,7 +168,15 @@
                 android:text="Bina Adı:         "
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:paddingLeft="12dp"
                 />
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/details_margin_padding"
+            >
 
             <Spinner
                 android:layout_width="match_parent"
@@ -184,13 +189,6 @@
 
         </LinearLayout>
 
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/details_margin_padding"
-            >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -199,7 +197,15 @@
                 android:text="Alan Adı:        "
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:paddingLeft="12dp"
                 />
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/details_margin_padding"
+            >
 
             <Spinner
                 android:layout_width="match_parent"
@@ -212,22 +218,23 @@
 
         </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:lineSpacingExtra="8dp"
+                android:text="Cihaz Adı:      "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/details_margin_padding"
                 >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:lineSpacingExtra="8dp"
-                    android:text="Cihaz Adı:      "
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    />
 
                 <Spinner
                     android:layout_width="match_parent"
@@ -240,13 +247,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/details_margin_padding"
-            >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -255,7 +255,15 @@
                 android:text="Konu Adı:       "
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:paddingLeft="12dp"
                 />
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/details_margin_padding"
+            >
 
             <Spinner
                 android:layout_width="match_parent"
@@ -267,6 +275,55 @@
                 />
 
         </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:lineSpacingExtra="8dp"
+                android:text="Servis Tipi:       "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_name_servis_tipi"
+                    android:padding="@dimen/edt_pad_size"
+                    android:background="@drawable/effect_spinner"
+                    android:spinnerMode="dialog"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <EditText
+                    android:background="@drawable/rounded_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:padding="4dp"
+                    android:textSize="17dp"
+                    android:hint="Açıklama"
+                    android:textColor="@color/black"
+                    android:id="@+id/edt_update_aciklama"
+                    />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

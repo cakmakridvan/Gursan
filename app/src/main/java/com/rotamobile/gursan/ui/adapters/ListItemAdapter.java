@@ -3,10 +3,13 @@ package com.rotamobile.gursan.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,12 +73,43 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("subject_id",listItemAllMessages.getSubjectID());
                 goDetails.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                 goDetails.putExtra("assigned_user_id",listItemAllMessages.getAssignedUserID());
+                goDetails.putExtra("auhorizate_update",listItemAllMessages.getAuthorizationUpdate());
                 context.startActivity(goDetails);
 
             }
         });
 
-        if(row_index == position){
+        viewHolder.dot_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                listItemAllMessages = list_allmesaj.get(position);
+
+                PopupMenu popupMenu = new PopupMenu(context, viewHolder.dot_icon);
+                popupMenu.inflate(R.menu.list_item_option_menu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()){
+
+                            case R.id.menu_item_add_documen:
+                                Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
+                                break;
+
+                            case R.id.menu_item_add_mataria:
+                                Toast.makeText(context,listItemAllMessages.getSubjectText(),Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+/*        if(row_index == position){
             viewHolder.linear.setBackgroundColor(Color.parseColor("#6BE9F6"));
 
         }
@@ -83,7 +117,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         {
             viewHolder.linear.setBackgroundColor(Color.parseColor("#ffffff"));
 
-        }
+        }*/
     }
 
     @Override
@@ -95,6 +129,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         public TextView textViewHead;
         public TextView textViewDesc;
+        public ImageButton dot_icon;
         public LinearLayout linear;
 
         public ViewHolder(View itemView) {
@@ -102,6 +137,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
             textViewHead = itemView.findViewById(R.id.txt_head);
             textViewDesc = itemView.findViewById(R.id.txt_desc);
+            dot_icon = itemView.findViewById(R.id.txt_option_item);
             linear = itemView.findViewById(R.id.linearLayout);
         }
     }

@@ -109,8 +109,18 @@ public class Main extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+
+                navItemIndex = 1;
+                CURRENT_TAG = TAG_PHOTOS;
+                loadHomeFragment();
+
+/*                JobOrder fragment = new JobOrder();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame, fragment);
+                transaction.commit();*/
+
             }
         });
 
@@ -258,8 +268,8 @@ public class Main extends AppCompatActivity {
 /*                IncomingJobOrder incomingJobOrder = new IncomingJobOrder();
                 return incomingJobOrder;*/
 
-                Intent go_home = new Intent(getApplicationContext(),MainBottomNavigation.class);
-                startActivity(go_home);
+/*                Intent go_home = new Intent(getApplicationContext(),MainBottomNavigation.class);
+                startActivity(go_home);*/
 
             case 3:
                 // bildirimler
@@ -308,8 +318,12 @@ public class Main extends AppCompatActivity {
                         CURRENT_TAG = TAG_PHOTOS;
                         break;
                     case R.id.nav_gelen_is_emirleri:
-                        navItemIndex = 2;
-                        CURRENT_TAG = TAG_MOVIES;
+/*                        navItemIndex = 2;
+                        CURRENT_TAG = TAG_MOVIES;*/
+
+                        Intent go_home = new Intent(getApplicationContext(),MainBottomNavigation.class);
+                        startActivity(go_home);
+
                         break;
                     case R.id.nav_bildirimler:
                         navItemIndex = 3;

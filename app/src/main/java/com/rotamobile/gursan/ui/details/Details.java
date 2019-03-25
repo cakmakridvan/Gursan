@@ -58,14 +58,15 @@ import static com.rotamobile.gursan.data.Server.GetTerritory;
 
 public class Details extends AppCompatActivity {
 
-    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name;
+    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi;
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id;
+    private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
 
     Bundle extras;
     private ImageButton back_imagebutton;
-    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject;
+    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service;
     private ProgressDialog progressDialog,progressDialog_todoListUpdate;
     private String get_userID;
 
@@ -83,6 +84,7 @@ public class Details extends AppCompatActivity {
     ArrayAdapter<String> dataAdapter_area;
     ArrayAdapter<String> dataAdapter_device;
     ArrayAdapter<String> dataAdapter_subject;
+    ArrayAdapter<String> dataAdapter_service;
 
     //Proje
     private Integer projectID = 0;
@@ -124,6 +126,8 @@ public class Details extends AppCompatActivity {
     Button update;
     private String get_mesaj_todoListUpdate ="";
 
+    private Integer workOrderServiceID = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,8 +155,10 @@ public class Details extends AppCompatActivity {
         get_subject_id = extras.getInt("subject_id");
         get_insert_user_id = extras.getInt("insert_user_id");    //Who create work order ID
         get_assigned_user_id = extras.getInt("assigned_user_id");//Selected User who doing work Order
+        get_authorizaUpdate = extras.getBoolean("auhorizate_update");
 
         Log.i("get_proje_id",""+get_proje_id);
+        Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
        //Assign operation
         projectID = get_proje_id;
         territoryID = get_territory_id;
@@ -178,7 +184,7 @@ public class Details extends AppCompatActivity {
         get_userID = Paper.book().read("user_id");
         get_LoginID = Integer.parseInt(get_userID);
 
-        if(get_LoginID == get_insert_user_id){
+        if(get_authorizaUpdate){
 
             lyt_update.setVisibility(View.VISIBLE);
             initialize_update();
@@ -206,7 +212,9 @@ public class Details extends AppCompatActivity {
         area_name = findViewById(R.id.txt_name_area);
         device_name = findViewById(R.id.txt_name_device_name);
         subject_name = findViewById(R.id.txt_name_subject);
+        servis_name = findViewById(R.id.txt_name_servis_tipi);
         update_user = findViewById(R.id.update_userName);
+
 
         //set UserName
         update_user.setText(get_kullanici_adi);
@@ -247,7 +255,7 @@ public class Details extends AppCompatActivity {
                     showToasty("Cihaz Seçiniz");
                 }else{
 
-                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID);
+                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID,workOrderServiceID);
                     todoListUpdateTask.execute((Void)null);
                 }
             }
@@ -302,8 +310,6 @@ public class Details extends AppCompatActivity {
                     R.layout.detail_spinner_text_color, list_territory);
             dataAdapter_territory.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             territory_name.setAdapter(dataAdapter_territory);
-
-
         }
         //Building Spinner
         if(get_building_name != null && !get_building_name.isEmpty()) {
@@ -361,6 +367,12 @@ public class Details extends AppCompatActivity {
             subject_name.setAdapter(dataAdapter_subject);
         }
 
+        //Service Tip Spinner
+        list_service = new ArrayList<String>();
+        list_service.add("Servis Tipini Seçiniz");
+        list_service.add("İç Servis");
+        list_service.add("Dış Servis");
+        serviceTipSpinner();
 
     }
 
@@ -1208,9 +1220,10 @@ public class Details extends AppCompatActivity {
         private final Integer workTopic_id;
         private final Integer assigned_user_id;
         private final Integer insert_update_id;
+        private final Integer workOrderService_id;
 
         TodoListUpdate(Integer id,Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
-                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id){
+                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id,Integer work_Order_Service_id){
 
             this.id = id;
             this.proje_id = proje_id;
@@ -1221,6 +1234,7 @@ public class Details extends AppCompatActivity {
             this.workTopic_id = workTopic_id;
             this.assigned_user_id = assigned_user_id;
             this.insert_update_id = insert_update_id;
+            this.workOrderService_id = work_Order_Service_id;
         }
 
         @Override
@@ -1237,7 +1251,7 @@ public class Details extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
 
             String todoListUpdate_service = Server.TodoListUpdate(id,proje_id,territory_id,building_id,area_id,device_id,
-                    workTopic_id,assigned_user_id,insert_update_id);
+                    workTopic_id,assigned_user_id,insert_update_id,workOrderService_id);
             if(!todoListUpdate_service.trim().equalsIgnoreCase("false")){
 
                 try {
@@ -1295,6 +1309,69 @@ public class Details extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void serviceTipSpinner(){
+
+        dataAdapter_service = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.detail_spinner_text_color, list_service) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+
+        };
+        dataAdapter_service.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
+        servis_name.setAdapter(dataAdapter_service);
+        servis_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+
+                    if(position == 1){
+
+                        workOrderServiceID = 8;
+
+                    }else if(position == 2){
+
+                        workOrderServiceID = 9;
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 

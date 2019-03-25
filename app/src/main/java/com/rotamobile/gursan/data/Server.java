@@ -505,7 +505,7 @@ public class Server {
 
     public static String TodoListUpdate(Integer id,Integer project_ID,Integer territory_ID,Integer building_ID,Integer area_ID,
                                  Integer device_ID,Integer workTopic_ID,
-                                 Integer assigned_user_ID,Integer updateUser_ID){
+                                 Integer assigned_user_ID,Integer updateUser_ID,Integer workOrderService_ID){
 
         String method_Login = "Todo/TodoListUpdate";
 
@@ -523,6 +523,7 @@ public class Server {
             jsonObject.put("SubjectID",workTopic_ID);
             jsonObject.put("AssignedUserID", assigned_user_ID);
             jsonObject.put("UpdateUserID",updateUser_ID);
+            jsonObject.put("WorkOrderServiceID",workOrderService_ID);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
