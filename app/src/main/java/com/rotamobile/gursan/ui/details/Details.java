@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -59,10 +60,11 @@ import static com.rotamobile.gursan.data.Server.GetTerritory;
 public class Details extends AppCompatActivity {
 
     private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name;
-    private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi;
+    private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id;
     private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
+    private EditText aciklama;
 
     Bundle extras;
     private ImageButton back_imagebutton;
@@ -119,6 +121,7 @@ public class Details extends AppCompatActivity {
     private String get_mesaj_subject = "";
     private Integer subjectID = 0;
 
+
     NestedScrollView lyt_update,lyt_detail;
     CollapsingToolbarLayout collapsingToolbarLayout;
     private Integer get_LoginID = 0;
@@ -156,9 +159,13 @@ public class Details extends AppCompatActivity {
         get_insert_user_id = extras.getInt("insert_user_id");    //Who create work order ID
         get_assigned_user_id = extras.getInt("assigned_user_id");//Selected User who doing work Order
         get_authorizaUpdate = extras.getBoolean("auhorizate_update");
+        get_descriptionUpdate = extras.getString("description_update");
 
         Log.i("get_proje_id",""+get_proje_id);
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
+        Log.i("get_description",""+get_descriptionUpdate);
+
+
        //Assign operation
         projectID = get_proje_id;
         territoryID = get_territory_id;
@@ -215,7 +222,6 @@ public class Details extends AppCompatActivity {
         servis_name = findViewById(R.id.txt_name_servis_tipi);
         update_user = findViewById(R.id.update_userName);
 
-
         //set UserName
         update_user.setText(get_kullanici_adi);
 
@@ -244,6 +250,12 @@ public class Details extends AppCompatActivity {
                   String get_bina = building_name.getSelectedItem().toString();
                   String get_area = area_name.getSelectedItem().toString();
                   String get_device = device_name.getSelectedItem().toString();
+                  String get_aciklama = aciklama.getText().toString();
+
+                  if(get_aciklama == null && get_aciklama.isEmpty()){
+
+                      get_aciklama = "";
+                  }
 
                 if(get_bolge.equals("Bölge Seçiniz")){
                     showToasty("Bölge Seçiniz");
@@ -255,7 +267,7 @@ public class Details extends AppCompatActivity {
                     showToasty("Cihaz Seçiniz");
                 }else{
 
-                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID,workOrderServiceID);
+                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID,workOrderServiceID,get_aciklama);
                     todoListUpdateTask.execute((Void)null);
                 }
             }
@@ -365,6 +377,14 @@ public class Details extends AppCompatActivity {
                     R.layout.detail_spinner_text_color, list_subject);
             dataAdapter_subject.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             subject_name.setAdapter(dataAdapter_subject);
+        }
+
+        //Aciklama
+        aciklama = findViewById(R.id.edt_update_aciklama);
+        if(get_descriptionUpdate != null && !get_descriptionUpdate.isEmpty()){
+
+            aciklama.setText(get_descriptionUpdate);
+
         }
 
         //Service Tip Spinner
@@ -1221,9 +1241,10 @@ public class Details extends AppCompatActivity {
         private final Integer assigned_user_id;
         private final Integer insert_update_id;
         private final Integer workOrderService_id;
+        private final String description;
 
         TodoListUpdate(Integer id,Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
-                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id,Integer work_Order_Service_id){
+                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id,Integer work_Order_Service_id,String description){
 
             this.id = id;
             this.proje_id = proje_id;
@@ -1235,6 +1256,7 @@ public class Details extends AppCompatActivity {
             this.assigned_user_id = assigned_user_id;
             this.insert_update_id = insert_update_id;
             this.workOrderService_id = work_Order_Service_id;
+            this.description = description;
         }
 
         @Override
@@ -1251,7 +1273,7 @@ public class Details extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
 
             String todoListUpdate_service = Server.TodoListUpdate(id,proje_id,territory_id,building_id,area_id,device_id,
-                    workTopic_id,assigned_user_id,insert_update_id,workOrderService_id);
+                    workTopic_id,assigned_user_id,insert_update_id,workOrderService_id,description);
             if(!todoListUpdate_service.trim().equalsIgnoreCase("false")){
 
                 try {

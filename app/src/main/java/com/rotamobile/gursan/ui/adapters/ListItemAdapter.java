@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,18 +19,23 @@ import android.widget.Toast;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.details.Details;
+import com.rotamobile.gursan.ui.documents.CaptureImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
+public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> implements Filterable {
 
-    List<ListItemAllMessages> list_allmesaj;
+    private List<ListItemAllMessages> list_allmesaj;
+    private List<ListItemAllMessages> list_allmesajFull;
+
     ListItemAllMessages listItemAllMessages;
     private Context context;
     private int row_index = -1;
 
     public ListItemAdapter(List<ListItemAllMessages> list_allmesaj, Context context) {
         this.list_allmesaj = list_allmesaj;
+        list_allmesajFull = new ArrayList<>(list_allmesaj);
         this.context = context;
     }
 
@@ -74,6 +81,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                 goDetails.putExtra("assigned_user_id",listItemAllMessages.getAssignedUserID());
                 goDetails.putExtra("auhorizate_update",listItemAllMessages.getAuthorizationUpdate());
+                goDetails.putExtra("description_update",listItemAllMessages.getDescription());
                 context.startActivity(goDetails);
 
             }
@@ -84,7 +92,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
             public void onClick(View v) {
 
                 listItemAllMessages = list_allmesaj.get(position);
-
+              //for Documents and matarial added
                 PopupMenu popupMenu = new PopupMenu(context, viewHolder.dot_icon);
                 popupMenu.inflate(R.menu.list_item_option_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -94,7 +102,9 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                         switch (item.getItemId()){
 
                             case R.id.menu_item_add_documen:
-                                Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
+                                Intent go_capture = new Intent(context,CaptureImage.class);
+                                context.startActivity(go_capture);
                                 break;
 
                             case R.id.menu_item_add_mataria:
@@ -124,6 +134,47 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     public int getItemCount() {
         return list_allmesaj.size();
     }
+
+  //for SearchView in RecyclerView
+    @Override
+    public Filter getFilter() {
+        return list_allmesaj_filter;
+    }
+
+    private Filter list_allmesaj_filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<ListItemAllMessages> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+
+                filteredList.addAll(list_allmesajFull);
+            }else{
+
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ListItemAllMessages item : list_allmesajFull ){
+
+                    if(item.getProjectName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            list_allmesaj.clear();
+            list_allmesaj.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

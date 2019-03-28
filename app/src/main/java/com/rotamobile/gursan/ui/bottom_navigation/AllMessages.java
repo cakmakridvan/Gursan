@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,6 +38,7 @@ public class AllMessages extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private ListItemAdapter adap;
 
     private List<ListItemAllMessages> listItems;
 
@@ -51,6 +56,10 @@ public class AllMessages extends Fragment {
         // Required empty public constructor
     }
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +74,8 @@ public class AllMessages extends Fragment {
 
         //get UserID from Login
         get_userID = Paper.book().read("user_id");
+
+
 
      //Progress Diaolog initialize
         progressDialog = new ProgressDialog(getActivity());
@@ -139,11 +150,15 @@ public class AllMessages extends Fragment {
                                 todoList.get(i).getBuildingName(),todoList.get(i).getDeviceName(),todoList.get(i).getStartDate(),todoList.get(i).getEndDate(),
                                 todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName(),todoList.get(i).getProjectID(),
                                 todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
-                                todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate());
+                                todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate(),
+                                todoList.get(i).getDescription());
                         listItems.add(listItemAllMessages);
                     }
                     adapter = new ListItemAdapter(listItems,getActivity());
-                    recyclerView.setAdapter(adapter);
+                    //for SearchView in RecyclerView
+                    adap = new ListItemAdapter(listItems,getActivity());
+                    /*recyclerView.setAdapter(adapter);*/
+                    recyclerView.setAdapter(adap);
                 }
 
             }else{
@@ -153,5 +168,39 @@ public class AllMessages extends Fragment {
 
 
     }
+  //for SearchView in RecyclerView
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+
+        inflater.inflate(R.menu.allmesaj_search_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search:
+                if(listItems.size()>0) {
+                    SearchView searchView = (SearchView) item.getActionView();
+
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String s) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String s) {
+
+                            adap.getFilter().filter(s);
+                            return false;
+                        }
+                    });
+                }
+                break;
+
+        }
+        return true;
+    }
 }

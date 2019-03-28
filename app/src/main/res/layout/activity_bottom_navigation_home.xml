@@ -20,13 +20,12 @@
         android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"  >
 
-<ImageButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/bac_btn"
-    android:id="@+id/back_button"
-    android:background="@null"
-    />
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/bac_btn" />
 
 
         <TextView
