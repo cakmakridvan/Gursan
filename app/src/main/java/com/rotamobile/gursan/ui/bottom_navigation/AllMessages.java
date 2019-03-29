@@ -2,6 +2,7 @@ package com.rotamobile.gursan.ui.bottom_navigation;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rotamobile.gursan.R;
@@ -48,8 +50,9 @@ public class AllMessages extends Fragment {
 
     private TodoListTask todoListTask = null;
 
-    private String get_userID;
+    private String get_userID,get_userTypeID;
     private ProgressDialog progressDialog;
+    private TextView bos_list;
 
 
     public AllMessages() {
@@ -70,10 +73,14 @@ public class AllMessages extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        bos_list = view.findViewById(R.id.empty_list_allMesaj);
+
         listItems = new ArrayList<>();
 
         //get UserID from Login
         get_userID = Paper.book().read("user_id");
+        //get UserTypeID
+        get_userTypeID = Paper.book().read("user_type_id");
 
 
 
@@ -82,8 +89,8 @@ public class AllMessages extends Fragment {
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setIndeterminate(true);
 
-        //TodoList Service Running
-        todoListTask = new TodoListTask(Integer.parseInt(get_userID));
+        //TodoList Service Running   //status 2001:Tüm Mesaj, 2005:Açık Mesaj, 2003:Kapalı Mesaj
+        todoListTask = new TodoListTask(Integer.parseInt(get_userID),1,Integer.parseInt(get_userTypeID),2001);
         todoListTask.execute((Void) null);
 
 
@@ -95,11 +102,16 @@ public class AllMessages extends Fragment {
     public class TodoListTask extends AsyncTask<Void, Void, Boolean> {
 
         private Integer user_id;
+        private Integer project_id;
+        private Integer user_type_id;
+        private Integer status;
 
-        TodoListTask(Integer user_id){
+        TodoListTask(Integer user_id,Integer project_id, Integer user_type_id, Integer status){
 
             this.user_id = user_id;
-
+            this.project_id = project_id;
+            this.user_type_id = user_type_id;
+            this.status = status;
         }
 
         @Override
@@ -115,7 +127,7 @@ public class AllMessages extends Fragment {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                String todo_result = GetTodoList(user_id);
+                String todo_result = GetTodoList(user_id,project_id,user_type_id,status);
                 if(!todo_result.trim().equalsIgnoreCase("false")){
 
                     response_todoList = new Gson().fromJson(todo_result, DataList.class);
@@ -159,10 +171,16 @@ public class AllMessages extends Fragment {
                     adap = new ListItemAdapter(listItems,getActivity());
                     /*recyclerView.setAdapter(adapter);*/
                     recyclerView.setAdapter(adap);
+                }else{
+                    progressDialog.dismiss();
+                    bos_list.setVisibility(View.VISIBLE);
+
                 }
 
             }else{
                 progressDialog.dismiss();
+                bos_list.setVisibility(View.VISIBLE);
+                bos_list.setText("Hata!! Tekrar Deneyiniz.");
             }
         }
 

@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private UserLogin userLogin = null;
     private ProgressDialog progressDialog;
 
-    private String get_mesaj,get_name,get_surname,get_userID;
+    private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +157,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     get_name = jobject_data.getString("Name");
                     get_surname = jobject_data.getString("LastName");
                     get_userID = jobject_data.getString("ID");
+                    get_userTypeID = jobject_data.getString("UserTypeID");
                     Log.i("name",get_name);
                     Log.i("Surname",get_surname);
 
@@ -203,6 +204,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 //Saving UserID to Paper
                 Paper.book().write("user_id",get_userID);
+                //Saving UserTypeID to Paper
+                Paper.book().write("user_type_id",get_userTypeID);
 
                 startActivity(go_main);
                 finish();

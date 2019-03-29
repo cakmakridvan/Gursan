@@ -462,12 +462,13 @@ public class Server {
 
     }
 
-    public static String GetTodoList(Integer userID) {
+    public static String GetTodoList(Integer userID,Integer project_id,Integer user_type_id,Integer status) {
 
         String method_Projects = "Todo/TodoList";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "userID=" + userID);
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "UserID=" + userID + "&" + "ProjectID=" + project_id + "&" + "UserTypeID=" + user_type_id + "&" +
+        "Status=" + status);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 
@@ -575,6 +576,83 @@ public class Server {
         }
 
     }
+
+    public static String DocumentAdd(Integer workOrderID,Integer documentTypeID, Boolean active, String documentContent, String commentText, Integer insertUserID,
+                                     Integer updateUserID){
+
+        String method_Login = "DocumentService/DocumentAdd";
+
+        try {
+
+            URL url = new URL(Main_URL  + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID",0);
+            jsonObject.put("CommentID",0);
+            jsonObject.put("WorkOrderID",workOrderID);// WorkOrder ID
+            jsonObject.put("DocumentTypeID",documentTypeID);
+            jsonObject.put("DocumentContent",documentContent);
+            jsonObject.put("Active",active);
+            jsonObject.put("InsertUserID",insertUserID);
+            jsonObject.put("InsertDate","2019-03-28T12:46:04.135Z");
+            jsonObject.put("UpdateUserID",updateUserID);
+            jsonObject.put("UpdateDate","2019-03-28T12:46:04.135Z");
+            jsonObject.put("UserID",0);
+            jsonObject.put("CommentText",commentText);
+
+
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in=new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line="";
+
+                while((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            }
+            else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ",""+responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ",e.getMessage());
+            return "false";
+        }
+
+    }
+
+
 
     public static String getPostDataString(JSONObject params) throws Exception {
 

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_item_add_documen" android:title="Döküman Ekle"></item>
-    <item android:id="@+id/menu_item_add_mataria" android:title="Malzeme Ekle"></item>
+    <item android:id="@+id/menu_item_add_documen" android:title="Resim Çek"
+        android:icon="@drawable/camera"  app:showAsAction="ifRoom" ></item>
+    <item android:id="@+id/menu_item_add_mataria" android:title="Galeriden Ekle" android:icon="@drawable/material_ekle"
+        app:showAsAction="ifRoom"></item>
+    <item android:id="@+id/menu_item_add_galery" android:title="Döküman Ekle" android:icon="@drawable/galeri"
+        app:showAsAction="ifRoom"></item>
+    <item android:id="@+id/menu_item_add_pdf" android:title="Malzeme Ekle" android:icon="@drawable/document"
+        app:showAsAction="ifRoom"></item>
+
 
 </menu>

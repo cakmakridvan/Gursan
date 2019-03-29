@@ -1,8 +1,11 @@
 package com.rotamobile.gursan.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.details.Details;
 import com.rotamobile.gursan.ui.documents.CaptureImage;
+import com.rotamobile.gursan.ui.documents.OpenGalery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +92,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         });
 
         viewHolder.dot_icon.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
 
@@ -104,18 +109,31 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                             case R.id.menu_item_add_documen:
                                 //Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
                                 Intent go_capture = new Intent(context,CaptureImage.class);
+                                go_capture.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
+                                go_capture.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                                 context.startActivity(go_capture);
                                 break;
 
                             case R.id.menu_item_add_mataria:
-                                Toast.makeText(context,listItemAllMessages.getSubjectText(),Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context,listItemAllMessages.getSubjectText(),Toast.LENGTH_SHORT).show();
+
+                                Intent go_galery = new Intent(context,OpenGalery.class);
+                                go_galery.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
+                                go_galery.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                                context.startActivity(go_galery);
+
                                 break;
+
+
                         }
 
                         return false;
                     }
                 });
-                popupMenu.show();
+                @SuppressLint("RestrictedApi") MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) popupMenu.getMenu(), viewHolder.dot_icon);
+                menuHelper.setForceShowIcon(true);
+                menuHelper.show();
+                /*popupMenu.show();*/
             }
         });
 
