@@ -80,9 +80,11 @@
     <!--Navigation View Item in HomePage-->
     <string name="app_name_navi">Bottom Navigation</string>
     <string name="title_tumu">Tümü</string>
-    <string name="title_acil">Acil</string>
-    <string name="title_yildizli">İşaretli</string>
+    <string name="title_acil">Açık</string>
+    <string name="title_yildizli">Kapalı</string>
     <string name="title_zamanli">Zamanlı</string>
+
+    <string name="msj_status_order">Empty List</string>
 
 
 

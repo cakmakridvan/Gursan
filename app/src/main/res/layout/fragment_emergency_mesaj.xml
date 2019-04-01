@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bottom_navigation.AllMessages">
+    tools:context="com.rotamobile.gursan.ui.bottom_navigation.EmergencyMessages">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_emergencymesaj"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Emergency MEssages" />
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/msj_status_order"
+        android:textSize="30sp"
+        android:id="@+id/empty_list_EmergencyMesaj"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

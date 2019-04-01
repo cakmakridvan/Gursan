@@ -13,6 +13,7 @@
      android:id="@+id/action_tr"
      android:orderInCategory="100"
      android:title="@string/turkce"
+     android:icon="@drawable/turkey"
      app:showAsAction="never"
      />
 
@@ -21,6 +22,7 @@
         android:id="@+id/action_en"
         android:orderInCategory="100"
         android:title="@string/ingilizce"
+        android:icon="@drawable/england"
         app:showAsAction="never"
         />
 

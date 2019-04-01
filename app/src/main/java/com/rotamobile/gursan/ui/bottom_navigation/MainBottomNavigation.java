@@ -82,13 +82,13 @@ public class MainBottomNavigation extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_acil_mesajlar:
-                    txt_toolbar.setText("Acil Mesajlar");
+                    txt_toolbar.setText("Açık Mesajlar");
                     navItemIndex = 1;
                     fragment = new EmergencyMessages();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_bayrakli_mesajlar:
-                    txt_toolbar.setText("Bayraklı Mesajlar");
+                    txt_toolbar.setText("Kapalı Mesajlar");
                     navItemIndex = 2;
                     fragment = new FlagMessages();
                     loadFragment(fragment);

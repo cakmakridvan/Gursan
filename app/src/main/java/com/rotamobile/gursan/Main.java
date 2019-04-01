@@ -1,5 +1,6 @@
 package com.rotamobile.gursan;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.menu.MenuBuilder;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -464,10 +467,18 @@ public class Main extends AppCompatActivity {
         icon.setDrawableByLayerId(R.id.ic_group_count, badge);
     }
 
+   @SuppressLint("RestrictedApi")
    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.main, menu);
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main,menu);
+
+       if(menu instanceof MenuBuilder){
+
+           MenuBuilder menuBuilder = (MenuBuilder) menu;
+           menuBuilder.setOptionalIconsVisible(true);
+       }
 
         return true;
     }
@@ -553,7 +564,7 @@ public class Main extends AppCompatActivity {
 
         }
 
-        return true;
+        return false;
     }
 
     private void updateLanguage2(String language) {

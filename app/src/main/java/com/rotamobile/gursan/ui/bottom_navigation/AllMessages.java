@@ -2,7 +2,6 @@ package com.rotamobile.gursan.ui.bottom_navigation;
 
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rotamobile.gursan.R;
-import com.rotamobile.gursan.model.deviceSpinner.DataDevice;
 import com.rotamobile.gursan.model.todoList.DataList;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.adapters.ListItemAdapter;

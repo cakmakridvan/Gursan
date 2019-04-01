@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Liste Boş"
-        android:textSize="35sp"
+        android:text="@string/msj_status_order"
+        android:textSize="30sp"
         android:id="@+id/empty_list_allMesaj"
         android:visibility="gone"
         />

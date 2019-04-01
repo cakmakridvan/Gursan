@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,8 +34,8 @@ public class Home extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+  //Search in RecyclerView
     private ListItemAdapter adap;
-
     private List<ListItemAllMessages> listItems;
 
     private DataList response_todoList;
@@ -44,10 +48,13 @@ public class Home extends Fragment {
     private ProgressDialog progressDialog;
     private TextView liste_bos;
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -76,6 +83,7 @@ public class Home extends Fragment {
         //TodoList Service Running
         todoListTask = new TodoListTask(Integer.parseInt(get_userID),1,Integer.parseInt(get_userTypeID),2005);
         todoListTask.execute((Void) null);
+
 
         return view;
     }
@@ -168,6 +176,41 @@ public class Home extends Fragment {
         }
 
 
+    }
+
+  //For Search RecyclerView Button for Message
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.home_search_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search2:
+                if(listItems.size()>0) {
+                    SearchView searchView = (SearchView) item.getActionView();
+
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String s) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String s) {
+
+                            adap.getFilter().filter(s);
+                            return false;
+                        }
+                    });
+                }
+                break;
+
+        }
+        return true;
     }
 
 
