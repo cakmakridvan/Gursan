@@ -1,1 +1,1 @@
-include ':app', ':sweetalert'
+include ':app', ':sweetalert', ':multiselectspinner'

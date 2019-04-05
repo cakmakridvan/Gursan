@@ -62,7 +62,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_update"
-        android:visibility="gone"
+
         >
 
         <LinearLayout
@@ -303,6 +303,50 @@
                     android:background="@drawable/effect_spinner"
                     android:spinnerMode="dialog"
                     />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/lyt_tanimli_isler"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Tanımlı İşler:       "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:paddingLeft="12dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/details_margin_padding"
+                    >
+
+                    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                        android:id="@+id/searchMultiSpinnerUnlimited"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="14dp"
+                        app:hintText="Tanımlı İşer"
+                        android:background="@drawable/effect_spinner"
+                        android:spinnerMode="dialog"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:outlineAmbientShadowColor="@color/black"
+                        />
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 

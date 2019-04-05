@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.rotamobile.gursan.ui.activity.CodeReader;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.fragment.Exit;
 import com.rotamobile.gursan.ui.fragment.Home;
@@ -336,6 +337,9 @@ public class Main extends AppCompatActivity {
                         navItemIndex = 4;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
+                    case R.id.nav_iletisim:
+                        Intent go_scanner = new Intent(getApplicationContext(),CodeReader.class);
+                        startActivity(go_scanner);
                     case R.id.nav_cikis:
 
                         new SweetAlertDialog(Main.this, SweetAlertDialog.WARNING_TYPE)

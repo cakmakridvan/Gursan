@@ -77,6 +77,17 @@
             android:label=""
             />
 
+        <activity android:name=".ui.documents.PickDocument"
+            android:theme="@style/AppThemeLight"
+            android:screenOrientation="portrait"
+            android:label=""
+            />
+
+         <activity android:name=".ui.activity.CodeReader"
+             android:theme="@style/AppThemeLight"
+             />
+
+
     </application>
 
 </manifest>

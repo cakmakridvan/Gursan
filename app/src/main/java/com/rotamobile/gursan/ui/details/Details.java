@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.androidbuts.multispinnerfilter.KeyPairBoolData;
+import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
+import com.androidbuts.multispinnerfilter.SpinnerListener;
 import com.google.gson.Gson;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
@@ -29,6 +35,8 @@ import com.rotamobile.gursan.model.areaSpinner.DataArea;
 import com.rotamobile.gursan.model.areaSpinner.ModelArea;
 import com.rotamobile.gursan.model.buildingSpinner.DataBuilding;
 import com.rotamobile.gursan.model.buildingSpinner.ModelBuilding;
+import com.rotamobile.gursan.model.definedJobSpinner.DataDefinedJob;
+import com.rotamobile.gursan.model.definedJobSpinner.ModelDefinedJob;
 import com.rotamobile.gursan.model.deviceSpinner.DataDevice;
 import com.rotamobile.gursan.model.deviceSpinner.ModelDevice;
 import com.rotamobile.gursan.model.projectSpinner.DataProject;
@@ -44,6 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -52,6 +61,7 @@ import io.paperdb.Paper;
 
 import static com.rotamobile.gursan.data.Server.GetArea;
 import static com.rotamobile.gursan.data.Server.GetBuilding;
+import static com.rotamobile.gursan.data.Server.GetDefinedList;
 import static com.rotamobile.gursan.data.Server.GetDevice;
 import static com.rotamobile.gursan.data.Server.GetProjects;
 import static com.rotamobile.gursan.data.Server.GetSubjects;
@@ -68,7 +78,7 @@ public class Details extends AppCompatActivity {
 
     Bundle extras;
     private ImageButton back_imagebutton;
-    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service;
+    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service,list_definedJob;
     private ProgressDialog progressDialog,progressDialog_todoListUpdate;
     private String get_userID;
 
@@ -79,6 +89,7 @@ public class Details extends AppCompatActivity {
     private DeviceTask deviceTask = null;
     private SubjectTask subjectTask = null;
     private TodoListUpdate todoListUpdateTask = null;
+    private DefinedJobTask definedJobTask = null;
 
     ArrayAdapter<String> dataAdapter_proje;
     ArrayAdapter<String> dataAdapter_territory;
@@ -121,6 +132,11 @@ public class Details extends AppCompatActivity {
     private String get_mesaj_subject = "";
     private Integer subjectID = 0;
 
+    //DefinedJob
+    private DataDefinedJob response_definedJob;
+    private ArrayList<ModelDefinedJob> definedJobList;
+    private String get_mesaj_definedJob = "";
+
 
     NestedScrollView lyt_update,lyt_detail;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -130,6 +146,9 @@ public class Details extends AppCompatActivity {
     private String get_mesaj_todoListUpdate ="";
 
     private Integer workOrderServiceID = 0;
+
+    private LinearLayout tanimli_lyt;
+    List<KeyPairBoolData> listArray0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,16 +185,17 @@ public class Details extends AppCompatActivity {
         Log.i("get_description",""+get_descriptionUpdate);
 
 
-       //Assign operation
+     //Assign operation
         projectID = get_proje_id;
         territoryID = get_territory_id;
         buildingID = get_building_id;
         areaID = get_area_id;
         deviceID = get_device_id;
         subjectID = get_subject_id;
-
+    //Layouts Define
         lyt_update = findViewById(R.id.layout_update);
         lyt_detail = findViewById(R.id.layout_detail);
+        tanimli_lyt = findViewById(R.id.lyt_tanimli_isler);
 
         //BackButton Action
         back_imagebutton = findViewById(R.id.back_button);
@@ -203,6 +223,7 @@ public class Details extends AppCompatActivity {
 
 
     }
+
 
     private void initialize_update() {
 
@@ -393,6 +414,29 @@ public class Details extends AppCompatActivity {
         list_service.add("İç Servis");
         list_service.add("Dış Servis");
         serviceTipSpinner();
+
+        /**
+         * Search MultiSelection Spinner (With Search/Filter Functionality)
+         *
+         *  Using MultiSpinnerSearch class
+         */
+
+        /**
+         * Getting array of String to Bind in Spinner
+         */
+        //final List<String> list = Arrays.asList(getResources().getStringArray(R.array.sports_array));
+
+
+/*        for (int i = 0; i < list.size(); i++) {
+            KeyPairBoolData h = new KeyPairBoolData();
+            h.setId(i + 1);
+            h.setName(list.get(i));
+            h.setSelected(false);
+            listArray0.add(h);
+        }*/
+
+
+
 
     }
 
@@ -1377,12 +1421,16 @@ public class Details extends AppCompatActivity {
                 if (position > 0) {
 
                     if(position == 1){
-
+                    //İç Servis Selected
                         workOrderServiceID = 8;
+                        definedJobTask = new DefinedJobTask();
+                        definedJobTask.execute((Void) null);
+                        tanimli_lyt.setVisibility(View.VISIBLE);
 
                     }else if(position == 2){
-
+                    //Dış Servis Selected
                         workOrderServiceID = 9;
+                        tanimli_lyt.setVisibility(View.GONE);
                     }
 
 
@@ -1394,6 +1442,97 @@ public class Details extends AppCompatActivity {
 
             }
         });
+    }
+
+    public class DefinedJobTask extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("\tLoading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_progress);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String definedJob_result = GetDefinedList();
+                if(!definedJob_result.trim().equalsIgnoreCase("false")){
+
+                    response_definedJob = new Gson().fromJson(definedJob_result, DataDefinedJob.class);
+                    definedJobList = response_definedJob.getData_list();
+                    Log.i("Tag:definedJobList",""+definedJobList);
+                    get_mesaj_definedJob = "true";
+
+
+                }else{
+                    get_mesaj_definedJob = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_definedJob.equals("false")){
+                progressDialog.dismiss();
+
+                if (definedJobList.size() > 0) {
+
+                    list_definedJob = new ArrayList<String>();
+                    listArray0 = new ArrayList<>();
+
+/*                    list_device.clear();
+                    list_device.add("Cihaz Seçiniz");*/
+                    for (int i = 0; i < definedJobList.size(); i++) {
+
+                        //Getting Device Name
+                        list_definedJob.add(definedJobList.get(i).getName());
+
+                        KeyPairBoolData h = new KeyPairBoolData();
+                        h.setId(definedJobList.get(i).getID());
+                        h.setName(definedJobList.get(i).getName());
+                        h.setSelected(false);
+                        listArray0.add(h);
+
+                    }
+
+                    MultiSpinnerSearch searchMultiSpinnerUnlimited = (MultiSpinnerSearch) findViewById(R.id.searchMultiSpinnerUnlimited);
+
+                    searchMultiSpinnerUnlimited.setItems(listArray0, -1, new SpinnerListener() {
+
+                        @Override
+                        public void onItemsSelected(List<KeyPairBoolData> items) {
+
+                            for (int i = 0; i < items.size(); i++) {
+                                if (items.get(i).isSelected()) {
+                                    Log.i("TAG_DefinedJob", i + " : " + items.get(i).getName() + items.get(i).getId() + " : " + items.get(i).isSelected());
+                                }
+                            }
+                        }
+                    });
+
+                }else{
+                    //list_device.clear();
+                    //list_device.add("Cihaz Bulunamadı");
+
+                }
+                //deviceSpinnerAction();
+            }else{
+                progressDialog.dismiss();
+                //deviceSpinnerAction();
+
+            }
+        }
+
     }
 
 

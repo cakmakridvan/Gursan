@@ -26,7 +26,7 @@
         <menu>
             <item
                 android:id="@+id/nav_ayarlar"
-                android:icon="@drawable/ayarlart"
+                android:icon="@drawable/qrcode"
                 android:title="@string/nav_settings" />
             <item
                 android:id="@+id/nav_iletisim"

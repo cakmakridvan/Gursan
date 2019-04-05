@@ -24,6 +24,7 @@ import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.details.Details;
 import com.rotamobile.gursan.ui.documents.CaptureImage;
 import com.rotamobile.gursan.ui.documents.OpenGalery;
+import com.rotamobile.gursan.ui.documents.PickDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,8 +122,15 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 go_galery.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
                                 go_galery.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                                 context.startActivity(go_galery);
-
                                 break;
+
+/*                            case R.id.menu_item_add_galery:
+
+                                Intent go_document = new Intent(context,PickDocument.class);
+                                go_document.putExtra("id",listItemAllMessages.getID());
+                                go_document.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                                context.startActivity(go_document);
+                                break;*/
 
 
                         }

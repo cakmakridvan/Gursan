@@ -16,7 +16,7 @@
     <string name="nav_is_emri_olustur">Create Work Order</string>
     <string name="nav_gelen_is_emri">Incoming Business Orders</string>
     <string name="nav_notifications">Notifications</string>
-    <string name="nav_settings">Settings</string>
+    <string name="nav_settings">QR Code Reader</string>
     <string name="nav_about_us">About</string>
     <string name="nav_iletisim">Contact</string>
     <string name="nav_cikis">Exit</string>
