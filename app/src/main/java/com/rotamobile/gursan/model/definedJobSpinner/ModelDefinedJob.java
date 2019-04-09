@@ -11,6 +11,17 @@ public class ModelDefinedJob {
     @SerializedName("Name")
     @Expose
     private String Name;
+    @SerializedName("Selected")
+    @Expose
+    private boolean Selected;
+
+    public boolean getSelected() {
+        return Selected;
+    }
+
+    public void setSelected(boolean selected) {
+        Selected = selected;
+    }
 
     public Integer getID(){
 

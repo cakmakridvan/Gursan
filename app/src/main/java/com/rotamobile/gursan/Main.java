@@ -334,12 +334,14 @@ public class Main extends AppCompatActivity {
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_ayarlar:
+                        Intent go_scanner = new Intent(getApplicationContext(),CodeReader.class);
+                        startActivity(go_scanner);
+
+                        break;
+                    case R.id.nav_iletisim:
                         navItemIndex = 4;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
-                    case R.id.nav_iletisim:
-                        Intent go_scanner = new Intent(getApplicationContext(),CodeReader.class);
-                        startActivity(go_scanner);
                     case R.id.nav_cikis:
 
                         new SweetAlertDialog(Main.this, SweetAlertDialog.WARNING_TYPE)

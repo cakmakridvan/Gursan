@@ -306,6 +306,50 @@
 
             </LinearLayout>
 
+        <!--Girilen Tanımlı İşler-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/lyt_girilen_isler"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Girilen Tanımlı İşler"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:paddingLeft="12dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:padding="@dimen/details_margin_padding"
+                    >
+
+                    <EditText
+                        android:background="@drawable/rounded_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        android:padding="4dp"
+                        android:textSize="17dp"
+                        android:id="@+id/edt_girilen_isler"
+                        android:editable="false"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        <!--Tanımlı İşler-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

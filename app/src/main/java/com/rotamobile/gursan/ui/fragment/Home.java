@@ -154,7 +154,7 @@ public class Home extends Fragment {
                                 todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName(),todoList.get(i).getProjectID(),
                                 todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
                                 todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate(),
-                                todoList.get(i).getDescription());
+                                todoList.get(i).getDescription(),todoList.get(i).getWorkID());
                         listItems.add(listItemAllMessages);
                     }
                     adapter = new ListItemAdapter(listItems,getActivity());

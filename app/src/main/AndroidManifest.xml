@@ -85,6 +85,8 @@
 
          <activity android:name=".ui.activity.CodeReader"
              android:theme="@style/AppThemeLight"
+             android:label=""
+             android:screenOrientation="portrait"
              />
 
 

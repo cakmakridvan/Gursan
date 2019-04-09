@@ -87,6 +87,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("assigned_user_id",listItemAllMessages.getAssignedUserID());
                 goDetails.putExtra("auhorizate_update",listItemAllMessages.getAuthorizationUpdate());
                 goDetails.putExtra("description_update",listItemAllMessages.getDescription());
+                goDetails.putExtra("work_id",listItemAllMessages.getID());//WorkOrder ID
                 context.startActivity(goDetails);
 
             }
@@ -124,13 +125,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 context.startActivity(go_galery);
                                 break;
 
-/*                            case R.id.menu_item_add_galery:
+                            case R.id.menu_item_add_galery:
 
                                 Intent go_document = new Intent(context,PickDocument.class);
                                 go_document.putExtra("id",listItemAllMessages.getID());
                                 go_document.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                                 context.startActivity(go_document);
-                                break;*/
+                                break;
 
 
                         }

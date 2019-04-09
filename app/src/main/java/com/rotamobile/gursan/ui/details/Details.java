@@ -51,6 +51,7 @@ import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,12 +67,13 @@ import static com.rotamobile.gursan.data.Server.GetDevice;
 import static com.rotamobile.gursan.data.Server.GetProjects;
 import static com.rotamobile.gursan.data.Server.GetSubjects;
 import static com.rotamobile.gursan.data.Server.GetTerritory;
+import static com.rotamobile.gursan.data.Server.PostDefinedList;
 
 public class Details extends AppCompatActivity {
 
     private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
-    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id;
+    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id;
     private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
     private EditText aciklama;
@@ -90,6 +92,7 @@ public class Details extends AppCompatActivity {
     private SubjectTask subjectTask = null;
     private TodoListUpdate todoListUpdateTask = null;
     private DefinedJobTask definedJobTask = null;
+    private PostDefinedJobTask postDefinedJobTask = null;
 
     ArrayAdapter<String> dataAdapter_proje;
     ArrayAdapter<String> dataAdapter_territory;
@@ -147,8 +150,12 @@ public class Details extends AppCompatActivity {
 
     private Integer workOrderServiceID = 0;
 
-    private LinearLayout tanimli_lyt;
+    private LinearLayout tanimli_lyt,girilen_lyt;
     List<KeyPairBoolData> listArray0;
+    private EditText edt_girilen_is;
+    private int[] get_selected_id;
+    private String get_mesaj_postDefined = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +186,9 @@ public class Details extends AppCompatActivity {
         get_assigned_user_id = extras.getInt("assigned_user_id");//Selected User who doing work Order
         get_authorizaUpdate = extras.getBoolean("auhorizate_update");
         get_descriptionUpdate = extras.getString("description_update");
+        get_work_id = extras.getInt("work_id");
+
+
 
         Log.i("get_proje_id",""+get_proje_id);
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
@@ -196,6 +206,7 @@ public class Details extends AppCompatActivity {
         lyt_update = findViewById(R.id.layout_update);
         lyt_detail = findViewById(R.id.layout_detail);
         tanimli_lyt = findViewById(R.id.lyt_tanimli_isler);
+        girilen_lyt = findViewById(R.id.lyt_girilen_isler);
 
         //BackButton Action
         back_imagebutton = findViewById(R.id.back_button);
@@ -1348,6 +1359,10 @@ public class Details extends AppCompatActivity {
 
             if(get_mesaj_todoListUpdate.equals("true")) {
 
+                //Send PstDefinedServices
+                postDefinedJobTask = new PostDefinedJobTask();
+                postDefinedJobTask.execute((Void) null);
+
                 progressDialog_todoListUpdate.dismiss();
 
                 new SweetAlertDialog(Details.this, SweetAlertDialog.SUCCESS_TYPE)
@@ -1431,6 +1446,11 @@ public class Details extends AppCompatActivity {
                     //Dış Servis Selected
                         workOrderServiceID = 9;
                         tanimli_lyt.setVisibility(View.GONE);
+
+                        if(girilen_lyt.getVisibility() == View.VISIBLE){
+
+                            girilen_lyt.setVisibility(View.GONE);
+                        }
                     }
 
 
@@ -1446,6 +1466,7 @@ public class Details extends AppCompatActivity {
 
     public class DefinedJobTask extends AsyncTask<Void, Void, Boolean>{
 
+        KeyPairBoolData h;
 
         @Override
         protected void onPreExecute() {
@@ -1459,7 +1480,7 @@ public class Details extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                String definedJob_result = GetDefinedList();
+                String definedJob_result = GetDefinedList(get_work_id);
                 if(!definedJob_result.trim().equalsIgnoreCase("false")){
 
                     response_definedJob = new Gson().fromJson(definedJob_result, DataDefinedJob.class);
@@ -1482,6 +1503,10 @@ public class Details extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
 
+
+            edt_girilen_is = findViewById(R.id.edt_girilen_isler);
+            edt_girilen_is.setText("");
+
             if(!get_mesaj_definedJob.equals("false")){
                 progressDialog.dismiss();
 
@@ -1490,35 +1515,56 @@ public class Details extends AppCompatActivity {
                     list_definedJob = new ArrayList<String>();
                     listArray0 = new ArrayList<>();
 
-/*                    list_device.clear();
+/*                  list_device.clear();
                     list_device.add("Cihaz Seçiniz");*/
                     for (int i = 0; i < definedJobList.size(); i++) {
-
-                        //Getting Device Name
+                     //Getting Device Name
                         list_definedJob.add(definedJobList.get(i).getName());
 
-                        KeyPairBoolData h = new KeyPairBoolData();
+                        h = new KeyPairBoolData();
                         h.setId(definedJobList.get(i).getID());
                         h.setName(definedJobList.get(i).getName());
+                     //if definedJobList.get(i).getSelected() false write it
                         h.setSelected(false);
-                        listArray0.add(h);
 
+                     if(definedJobList.get(i).getSelected() == true){
+
+                         if(girilen_lyt.getVisibility() != View.VISIBLE){
+
+                             girilen_lyt.setVisibility(View.VISIBLE);
+                         }
+
+                         edt_girilen_is.append(definedJobList.get(i).getName());
+                         edt_girilen_is.append(",");
+                     }
+
+                        listArray0.add(h);
                     }
 
-                    MultiSpinnerSearch searchMultiSpinnerUnlimited = (MultiSpinnerSearch) findViewById(R.id.searchMultiSpinnerUnlimited);
+                    final MultiSpinnerSearch searchMultiSpinnerUnlimited = (MultiSpinnerSearch) findViewById(R.id.searchMultiSpinnerUnlimited);
 
                     searchMultiSpinnerUnlimited.setItems(listArray0, -1, new SpinnerListener() {
 
                         @Override
                         public void onItemsSelected(List<KeyPairBoolData> items) {
+                            get_selected_id = new int[20];
+                            int sayac = 0;
 
                             for (int i = 0; i < items.size(); i++) {
-                                if (items.get(i).isSelected()) {
                                     Log.i("TAG_DefinedJob", i + " : " + items.get(i).getName() + items.get(i).getId() + " : " + items.get(i).isSelected());
-                                }
+                                    if(items.get(i).isSelected() == true) {
+
+                                        get_selected_id [sayac] = (int) items.get(i).getId();
+                                        //get_selected_id.add((int) items.get(i).getId());
+                                        //get_selected_id.length;
+                                        sayac++;
+                                    }
                             }
+
                         }
                     });
+
+
 
                 }else{
                     //list_device.clear();
@@ -1528,6 +1574,66 @@ public class Details extends AppCompatActivity {
                 //deviceSpinnerAction();
             }else{
                 progressDialog.dismiss();
+                //deviceSpinnerAction();
+
+            }
+        }
+
+    }
+
+    public class PostDefinedJobTask extends AsyncTask<Void, Void, Boolean>{
+
+/*        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("\tLoading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_progress);
+        }*/
+
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String postdefinedJob_result = PostDefinedList(get_work_id,get_LoginID,get_selected_id);
+                if(!postdefinedJob_result.trim().equalsIgnoreCase("false")){
+
+                    try {
+
+                        JSONObject jObject = new JSONObject(postdefinedJob_result);
+                        get_mesaj_postDefined = jObject.getString("Successful");
+                        //String get_mesaj_data = jObject.getString("Data");
+
+                        Log.i("msjTodoAdd",get_mesaj_postDefined);
+                        //Log.i("msjData",get_mesaj_data);
+
+                    } catch (JSONException e) {
+                        Log.i("Exception: ",e.getMessage());
+
+                    }
+
+
+                }else{
+                    get_mesaj_postDefined = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_postDefined.equals("false")){
+                //progressDialog.dismiss();
+
+
+            }else{
+                //progressDialog.dismiss();
                 //deviceSpinnerAction();
 
             }

@@ -65,11 +65,15 @@ public class ListItemAllMessages {
     @SerializedName("Description")
     @Expose
     private String Description;
+    @SerializedName("WorkID")
+    @Expose
+    private Integer WorkID;
+
 
 
     public ListItemAllMessages(Integer id, String projectName, String subjectText, String buildingName, String deviceName, String startDate, String endDate, String workUser
             , String territoryName, String areaName, Integer project_id, Integer teritory_id, Integer building_id, Integer area_id, Integer device_id, Integer subject_id
-            , Integer insert_user_id, Integer assigned_user_id, Boolean authorizaUpdata, String description_update) {
+            , Integer insert_user_id, Integer assigned_user_id, Boolean authorizaUpdata, String description_update, Integer workID) {
 
         ProjectName = projectName;
         SubjectText = subjectText;
@@ -91,6 +95,7 @@ public class ListItemAllMessages {
         AssignedUserID = assigned_user_id;
         AuthorizationUpdate = authorizaUpdata;
         Description = description_update;
+        WorkID = workID;
     }
 
     public Integer getID() {
@@ -252,6 +257,15 @@ public class ListItemAllMessages {
 
     public void setDescription(String description) {
         Description = description;
+    }
+
+
+    public Integer getWorkID() {
+        return WorkID;
+    }
+
+    public void setWorkID(Integer workID) {
+        WorkID = workID;
     }
 
 

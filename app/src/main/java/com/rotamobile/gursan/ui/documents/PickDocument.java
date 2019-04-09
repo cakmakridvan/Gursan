@@ -49,6 +49,7 @@ public class PickDocument extends AppCompatActivity {
                 InputStream ips = PickDocument.this.getContentResolver().openInputStream(uri);
                 byte[] bytes = new byte[ips.available()];
                 ips.read(bytes, 0, bytes.length);
+                encode_document = Base64.encodeToString(bytes, Base64.DEFAULT);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

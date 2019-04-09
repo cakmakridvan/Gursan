@@ -21,8 +21,7 @@ public class Settings extends Fragment {
         return view;
     }
 
-
-
+    
 
 
 
