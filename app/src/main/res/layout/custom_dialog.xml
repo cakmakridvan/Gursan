@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:lineSpacingExtra="8dp"
+        android:text="Atanacak Kişiyi Değiştir:       "
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:paddingLeft="12dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/details_margin_padding"
+        >
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_assing_user"
+            android:padding="@dimen/edt_pad_size"
+            android:background="@drawable/effect_spinner"
+            android:spinnerMode="dialog"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kişi Ata"
+        android:layout_gravity="center"
+        android:id="@+id/kisi_ata"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/details_margin_padding"
+        >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_workStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:lineSpacingExtra="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:paddingLeft="12dp"
+        android:visibility="invisible"
+        />
+
+</LinearLayout>

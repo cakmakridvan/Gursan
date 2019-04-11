@@ -51,6 +51,17 @@
                     android:background="@null"
                     />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="İşi Ata  "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_gravity="right|top"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/is_atama"
+                    />
+
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -62,7 +73,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_update"
-
+        android:visibility="gone"
         >
 
         <LinearLayout
@@ -276,6 +287,8 @@
                 />
 
         </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="wrap_content"

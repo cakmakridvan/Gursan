@@ -45,7 +45,10 @@ import com.rotamobile.gursan.model.subjectsSpinner.DataSubject;
 import com.rotamobile.gursan.model.subjectsSpinner.ModelSubject;
 import com.rotamobile.gursan.model.territorySpinner.DataTerritory;
 import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
+import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
+import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.ui.dialog_customize.CustomDialogClass;
 
 
 import org.json.JSONException;
@@ -71,7 +74,7 @@ import static com.rotamobile.gursan.data.Server.PostDefinedList;
 
 public class Details extends AppCompatActivity {
 
-    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name;
+    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id;
     private Boolean get_authorizaUpdate;
@@ -80,7 +83,7 @@ public class Details extends AppCompatActivity {
 
     Bundle extras;
     private ImageButton back_imagebutton;
-    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service,list_definedJob;
+    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service,list_definedJob,list_assignedUSer;
     private ProgressDialog progressDialog,progressDialog_todoListUpdate;
     private String get_userID;
 
@@ -93,6 +96,7 @@ public class Details extends AppCompatActivity {
     private TodoListUpdate todoListUpdateTask = null;
     private DefinedJobTask definedJobTask = null;
     private PostDefinedJobTask postDefinedJobTask = null;
+
 
     ArrayAdapter<String> dataAdapter_proje;
     ArrayAdapter<String> dataAdapter_territory;
@@ -155,6 +159,12 @@ public class Details extends AppCompatActivity {
     private EditText edt_girilen_is;
     private int[] get_selected_id;
     private String get_mesaj_postDefined = "";
+    private String get_userTypeID = "";
+    private DataUserType response_dataUserType;
+    private ArrayList<ModelUserType> dataUSerType;
+    private String get_mesaj_dataUserType = "";
+    private Integer get_assgnedID = 0;
+    private TextView is_ata;
 
 
     @Override
@@ -188,11 +198,20 @@ public class Details extends AppCompatActivity {
         get_descriptionUpdate = extras.getString("description_update");
         get_work_id = extras.getInt("work_id");
 
-
-
         Log.i("get_proje_id",""+get_proje_id);
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
         Log.i("get_description",""+get_descriptionUpdate);
+
+        //İş Atama Action
+        is_ata = findViewById(R.id.is_atama);
+        is_ata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialogClass cdd = new CustomDialogClass(Details.this,get_proje_id,get_id);
+                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cdd.show();
+            }
+        });
 
 
      //Assign operation
@@ -253,6 +272,7 @@ public class Details extends AppCompatActivity {
         subject_name = findViewById(R.id.txt_name_subject);
         servis_name = findViewById(R.id.txt_name_servis_tipi);
         update_user = findViewById(R.id.update_userName);
+        assigned_user = findViewById(R.id.txt_assing_user);
 
         //set UserName
         update_user.setText(get_kullanici_adi);
@@ -272,6 +292,13 @@ public class Details extends AppCompatActivity {
         subjectTask = new SubjectTask();
         subjectTask.execute((Void) null);
 
+        //get UserTypeID
+        get_userTypeID = Paper.book().read("user_type_id");
+
+        //GetByUserType
+        list_assignedUSer = new ArrayList<String>();
+        list_assignedUSer.add("Kişiyi seçiniz");
+
         //Update Button Event Listener
         update = findViewById(R.id.btn_jobUpdate);
         update.setOnClickListener(new View.OnClickListener() {
@@ -287,6 +314,10 @@ public class Details extends AppCompatActivity {
                   if(get_aciklama == null && get_aciklama.isEmpty()){
 
                       get_aciklama = "";
+                  }
+                  if(get_assgnedID != 0){
+
+
                   }
 
                 if(get_bolge.equals("Bölge Seçiniz")){
@@ -1640,6 +1671,10 @@ public class Details extends AppCompatActivity {
         }
 
     }
+
+
+
+
 
 
 }
