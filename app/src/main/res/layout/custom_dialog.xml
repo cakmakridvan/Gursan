@@ -5,16 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:lineSpacingExtra="8dp"
-        android:text="Atanacak Kişiyi Değiştir:       "
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:paddingLeft="12dp"
-        />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,13 +25,26 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kişi Ata"
-        android:layout_gravity="center"
-        android:id="@+id/kisi_ata"
-        />
+        android:padding="@dimen/details_margin_padding"
+        >
+
+        <Button
+            android:id="@+id/kisi_ata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Atanacak Kişiyi Değiştir"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:background="@color/colorAccent"
+            />
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,15 +61,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:lineSpacingExtra="8dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:paddingLeft="12dp"
-        android:visibility="invisible"
-        />
+
 
 </LinearLayout>

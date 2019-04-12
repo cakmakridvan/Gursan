@@ -9,7 +9,7 @@
     <item android:id="@+id/menu_item_add_galery" android:title="Döküman Ekle" android:icon="@drawable/galeri"
         app:showAsAction="ifRoom"></item>
     <item android:id="@+id/menu_item_add_pdf" android:title="Malzeme Ekle" android:icon="@drawable/document"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom" android:visible="false"></item>
     <item android:id="@+id/menu_item_is_kapat" android:title="İşi Kapa" android:icon="@android:drawable/btn_dialog"
         app:showAsAction="ifRoom"></item>
 

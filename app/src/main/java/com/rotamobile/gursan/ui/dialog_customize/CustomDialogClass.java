@@ -3,6 +3,7 @@ package com.rotamobile.gursan.ui.dialog_customize;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -27,13 +28,16 @@ import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
 import com.rotamobile.gursan.model.workStatus.DataWorkStatus;
 import com.rotamobile.gursan.model.workStatus.ModelWorkStatus;
 import com.rotamobile.gursan.ui.adapters.WorkStatusAdapter;
+import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.details.Details;
+import com.rotamobile.gursan.utils.enums.Enums;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.paperdb.Paper;
 
 
@@ -46,6 +50,7 @@ public class CustomDialogClass extends Dialog {
     private DataWorkStatus response_workStatus;
     private ArrayList<ModelWorkStatus> dataWorkStatus;
     private List<String> list_assignedUSer;
+    private List<Integer> list_assignedID;
     private Spinner assigned_user;
     private Integer get_assigned_user_id = 0;
 
@@ -54,6 +59,7 @@ public class CustomDialogClass extends Dialog {
     private WorkStatusAdd workStatusAdd = null;
 
     private String get_userTypeID = "";
+    private Integer insert_userID;
     private Integer get_proje_id;
     private Integer workOrder_id;
     private RecyclerView recycler;
@@ -61,11 +67,12 @@ public class CustomDialogClass extends Dialog {
     private List<ModelWorkStatus> list_workStatus;
     private Button btn_kisi_ata;
 
-    public CustomDialogClass(Activity a,Integer project_id,Integer workOrder_id) {
+    public CustomDialogClass(Activity a,Integer project_id,Integer workOrder_id,Integer insert_userID) {
         super(a);
         this.c = a;
         get_proje_id = project_id;
         this.workOrder_id = workOrder_id;
+        this.insert_userID = insert_userID;
     }
 
     @Override
@@ -81,7 +88,7 @@ public class CustomDialogClass extends Dialog {
 
                 if(get_assigned_user_id != 0){
 
-                    workStatusAdd= new WorkStatusAdd(get_assigned_user_id);
+                    workStatusAdd= new WorkStatusAdd(workOrder_id, Enums.onay,get_assigned_user_id,insert_userID);
                     workStatusAdd.execute((Void) null);
                 }else{
 
@@ -114,11 +121,15 @@ public class CustomDialogClass extends Dialog {
         //get UserTypeID
         get_userTypeID = Paper.book().read("user_type_id");
 
+        //get UserID from Login
+        String get_userID = Paper.book().read("user_id");
+        Integer get_LoginID = Integer.parseInt(get_userID);
+
         //GetByUserType
         list_assignedUSer = new ArrayList<String>();
         list_assignedUSer.add("Kişiyi seçiniz");
 
-        getByUserTypeWithProject = new GetByUserTypeWithProject(Integer.parseInt(get_userTypeID),get_proje_id);
+        getByUserTypeWithProject = new GetByUserTypeWithProject(get_LoginID,get_proje_id);
         getByUserTypeWithProject.execute((Void) null);
 
         workStatusListTask = new WorkStatusList(workOrder_id);
@@ -302,7 +313,7 @@ public class CustomDialogClass extends Dialog {
 
                     for(int i=0;i<dataWorkStatus.size();i++) {
 
-                        ModelWorkStatus modelWorkStatus = new ModelWorkStatus(dataWorkStatus.get(i).getAssignedName(),dataWorkStatus.get(i).getAssignedName());
+                        ModelWorkStatus modelWorkStatus = new ModelWorkStatus(dataWorkStatus.get(i).getAssignedName(),dataWorkStatus.get(i).getAssignsName());
                         list_workStatus.add(modelWorkStatus);
 
                     }
@@ -320,12 +331,19 @@ public class CustomDialogClass extends Dialog {
     public class WorkStatusAdd extends AsyncTask<Void, Void, Boolean> {
 
         private final Integer assigned_id;
+        private final Integer workOrder_id;
+        private final Integer moveType_id;
+        private final Integer insertUser_id;
+
         private String get_mesaj_workStatusAdd = "";
         String get_mesaj = "";
 
-        WorkStatusAdd(Integer assigned_id){
+        WorkStatusAdd(Integer workOrder_id,Integer moveType_id,Integer assigned_id,Integer insertUser_id){
 
+            this.workOrder_id = workOrder_id;
+            this.moveType_id = moveType_id;
             this.assigned_id = assigned_id;
+            this.insertUser_id = insertUser_id;
         }
 
         @Override
@@ -342,7 +360,7 @@ public class CustomDialogClass extends Dialog {
         protected Boolean doInBackground(Void... voids) {
 
             try {
-                String getWorkStatusAdd_service = Server.WorkStatusAdd(assigned_id);
+                String getWorkStatusAdd_service = Server.WorkStatusAdd(workOrder_id,moveType_id,assigned_id,insertUser_id);
                 if(!getWorkStatusAdd_service.trim().equalsIgnoreCase("false")){
 
                     JSONObject jsonObject = new JSONObject(getWorkStatusAdd_service);
@@ -365,7 +383,20 @@ public class CustomDialogClass extends Dialog {
             if(!get_mesaj_workStatusAdd.equals("false")) {
                 progressDialog_workStatusAdd.dismiss();
 
-                Toast.makeText(c,"İşlem Başarılı",Toast.LENGTH_LONG).show();
+                new SweetAlertDialog(c, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("İşlem Mesajı")
+                        .setContentText("İşlem Başarılı,İş Atandı")
+                        .setConfirmText("Tamam")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+
+                                Intent go_home = new Intent(c,MainBottomNavigation.class);
+                                c.startActivity(go_home);
+                            }
+                        })
+                        .show();
 
             }else{
 

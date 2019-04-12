@@ -24,6 +24,7 @@ import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.model.todoList.DataList;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.adapters.ListItemAdapter;
+import com.rotamobile.gursan.utils.enums.Enums;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class EmergencyMessages extends Fragment {
 
     private TodoListTask todoListTask = null;
 
-    private String get_userID,get_userTypeID;
+    private String get_userID,get_userTypeID,get_projectID;
     private ProgressDialog progressDialog;
     private TextView bos_list;
 
@@ -78,6 +79,8 @@ public class EmergencyMessages extends Fragment {
         get_userID = Paper.book().read("user_id");
         //get UserTypeID
         get_userTypeID = Paper.book().read("user_type_id");
+        //get ProjectID
+        get_projectID = Paper.book().read("project_id");
 
         //Progress Diaolog initialize
         progressDialog = new ProgressDialog(getActivity());
@@ -85,7 +88,7 @@ public class EmergencyMessages extends Fragment {
         progressDialog.setIndeterminate(true);
 
         //TodoList Service Running   //status 2001:Tüm Mesaj, 2005:Açık Mesaj, 2003:Kapalı Mesaj
-        todoListTask = new TodoListTask(Integer.parseInt(get_userID),1,Integer.parseInt(get_userTypeID),2005);
+        todoListTask = new TodoListTask(Integer.parseInt(get_userID),Integer.parseInt(get_projectID),Integer.parseInt(get_userTypeID), Enums.msj_acik);
         todoListTask.execute((Void) null);
 
         return view;
@@ -156,12 +159,13 @@ public class EmergencyMessages extends Fragment {
                                 todoList.get(i).getWorkUser(),todoList.get(i).getTerritoryName(),todoList.get(i).getAreaName(),todoList.get(i).getProjectID(),
                                 todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
                                 todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate(),
-                                todoList.get(i).getDescription(),todoList.get(i).getWorkID());
+                                todoList.get(i).getDescription(),todoList.get(i).getWorkID(),todoList.get(i).getWorkOrderServiceID(),todoList.get(i).getWorkOrderCategoryID(),
+                                todoList.get(i).getWorkOrderTypeID(),todoList.get(i).getWorkImportanceID());
                         listItems.add(listItemAllMessages);
                     }
-                    adapter = new ListItemAdapter(listItems,getActivity());
+                    adapter = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);
                     //for SearchView in RecyclerView
-                    adap = new ListItemAdapter(listItems,getActivity());
+                    adap = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);
                     /*recyclerView.setAdapter(adapter);*/
                     recyclerView.setAdapter(adap);
                 }else{

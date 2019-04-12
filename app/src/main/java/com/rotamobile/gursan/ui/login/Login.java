@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private UserLogin userLogin = null;
     private ProgressDialog progressDialog;
 
-    private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID;
+    private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID,get_projectID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,8 +158,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     get_surname = jobject_data.getString("LastName");
                     get_userID = jobject_data.getString("ID");
                     get_userTypeID = jobject_data.getString("UserTypeID");
+                    get_projectID = jobject_data.getString("ProjectID");
+                 //Saved getting project_id
+                    Paper.book().write("project_id",get_projectID);
+
                     Log.i("name",get_name);
                     Log.i("Surname",get_surname);
+                    Log.i("projectID",get_projectID);
 
                 } catch (JSONException e) {
                     Log.i("Exception: ",e.getMessage());

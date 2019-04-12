@@ -60,6 +60,7 @@
                     android:layout_gravity="right|top"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/is_atama"
+                    android:visibility="gone"
                     />
 
             </android.support.v7.widget.Toolbar>

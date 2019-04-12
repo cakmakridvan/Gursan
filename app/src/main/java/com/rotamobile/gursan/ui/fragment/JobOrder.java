@@ -42,6 +42,7 @@ import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 import com.rotamobile.gursan.model.userSpinner.DataUser;
 import com.rotamobile.gursan.model.userSpinner.ModelUser;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.utils.enums.Enums;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -280,11 +281,11 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
                     if(position == 1){
                         //Talep
-                        workOrderType = 10;
+                        workOrderType = Enums.talep;
                     }
                     else if(position == 2){
                         //Arıza
-                        workOrderType = 11;
+                        workOrderType = Enums.ariza;
                     }
 
                 }
@@ -347,15 +348,15 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
                     if(position == 1){
                         //Elektirik
-                        workCategoryModel = 6;
+                        workCategoryModel = Enums.elektronik;
                     }
                     else if(position == 2){
                         //Mekanik
-                        workCategoryModel = 5;
+                        workCategoryModel = Enums.mekanik;
                     }
                     if(position == 3){
                         //İnşaat
-                        workCategoryModel = 7;
+                        workCategoryModel = Enums.insaat;
                     }
                 }
             }
@@ -396,15 +397,15 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
                 if(get_Selected_Rdaio.equals("Esnek")){
 
-                    workImportance = 27;
+                    workImportance = Enums.is_esnek;
 
                 }else if(get_Selected_Rdaio.equals("Normal")){
 
-                    workImportance = 28;
+                    workImportance = Enums.is_normal;
 
                 }else if(get_Selected_Rdaio.equals("Acil")){
 
-                    workImportance = 29;
+                    workImportance = Enums.is_acil;
 
                 }
 

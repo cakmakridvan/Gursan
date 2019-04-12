@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.utils.enums.Enums;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
@@ -106,7 +108,7 @@ public class CaptureImage extends AppCompatActivity {
                     showToasty("Resim Dönüştürme Başarısız");
                 }else{
 
-                    documentADD_task = new DocumentADD(get_workerID,30,true,encoded,get_comment,get_userID,get_userID);
+                    documentADD_task = new DocumentADD(get_workerID,Enums.resim,true,encoded,get_comment,get_userID,get_userID);
                     documentADD_task.execute((Void)null);
 
                 }

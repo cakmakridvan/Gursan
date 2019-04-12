@@ -502,7 +502,8 @@ public class Server {
 
     public static String TodoListUpdate(Integer id, Integer project_ID, Integer territory_ID, Integer building_ID, Integer area_ID,
                                         Integer device_ID, Integer workTopic_ID,
-                                        Integer assigned_user_ID, Integer updateUser_ID, Integer workOrderService_ID, String description) {
+                                        Integer assigned_user_ID, Integer updateUser_ID, Integer workOrderService_ID, String description, Integer moveType_id,
+                                        Integer WorkOrderCategory_ID, Integer WorkOrderType_ID, Integer WorkImportance_ID) {
 
         String method_Login = "Todo/TodoListUpdate";
 
@@ -522,6 +523,10 @@ public class Server {
             jsonObject.put("UpdateUserID", updateUser_ID);
             jsonObject.put("WorkOrderServiceID", workOrderService_ID);
             jsonObject.put("Description", description);
+            jsonObject.put("MoveTypeID",moveType_id);
+            jsonObject.put("WorkOrderCategoryID",WorkOrderCategory_ID);
+            jsonObject.put("WorkOrderTypeID",WorkOrderType_ID);
+            jsonObject.put("WorkImportanceID",WorkImportance_ID);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
@@ -756,7 +761,7 @@ public class Server {
         String method_Login = "UserService/GetByUserTypeWithProjectAuth";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(Main_URL + method_Login + "?" + "userTypeID=" + user_TypeID + "&" + "projectID=" + project_ID);
+        HttpPost httppost = new HttpPost(Main_URL + method_Login + "?" + "userID=" + user_TypeID + "&" + "projectID=" + project_ID);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 
@@ -832,7 +837,7 @@ public class Server {
         return result;
     }
 
-    public static String WorkStatusAdd(Integer assigned_id) {
+    public static String WorkStatusAdd(Integer workOrder_id,Integer moveType_id,Integer assigned_id,Integer insertUser_id) {
 
         String method_Login = "WorkStatus/WorkSatusAdd";
 
@@ -841,7 +846,10 @@ public class Server {
             URL url = new URL(Main_URL + method_Login); // here is your URL path
 
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("WorkOrderID",workOrder_id);
+            jsonObject.put("MoveTypeID",moveType_id);
             jsonObject.put("AssignedUserID", assigned_id);
+            jsonObject.put("InsertUserID", insertUser_id);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);

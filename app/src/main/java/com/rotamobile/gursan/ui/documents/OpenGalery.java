@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.utils.enums.Enums;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,7 +117,7 @@ public class OpenGalery extends AppCompatActivity {
                 }else{
 
 
-                    documentOpenGalery_task = new DocomentOpenGalery(get_workerID,30,true,encoded_galery,get_comment_galery,get_userID,get_userID);
+                    documentOpenGalery_task = new DocomentOpenGalery(get_workerID, Enums.resim,true,encoded_galery,get_comment_galery,get_userID,get_userID);
                     documentOpenGalery_task.execute((Void)null);
 
                 }

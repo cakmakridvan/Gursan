@@ -68,12 +68,25 @@ public class ListItemAllMessages {
     @SerializedName("WorkID")
     @Expose
     private Integer WorkID;
+    @SerializedName("WorkOrderServiceID")
+    @Expose
+    private Integer WorkOrderServiceID;
+    @SerializedName("WorkOrderCategoryID")
+    @Expose
+    private Integer WorkOrderCategoryID;
+    @SerializedName("WorkOrderTypeID")
+    @Expose
+    private Integer WorkOrderTypeID;
+    @SerializedName("WorkImportanceID")
+    @Expose
+    private Integer WorkImportanceID;
 
 
 
     public ListItemAllMessages(Integer id, String projectName, String subjectText, String buildingName, String deviceName, String startDate, String endDate, String workUser
             , String territoryName, String areaName, Integer project_id, Integer teritory_id, Integer building_id, Integer area_id, Integer device_id, Integer subject_id
-            , Integer insert_user_id, Integer assigned_user_id, Boolean authorizaUpdata, String description_update, Integer workID) {
+            , Integer insert_user_id, Integer assigned_user_id, Boolean authorizaUpdata, String description_update, Integer workID, Integer WorkOrderServiceID, Integer WorkOrderCategoryID
+            , Integer WorkOrderTypeID, Integer WorkImportanceID) {
 
         ProjectName = projectName;
         SubjectText = subjectText;
@@ -96,6 +109,10 @@ public class ListItemAllMessages {
         AuthorizationUpdate = authorizaUpdata;
         Description = description_update;
         WorkID = workID;
+        this.WorkOrderServiceID = WorkOrderServiceID;
+        this.WorkOrderCategoryID = WorkOrderCategoryID;
+        this.WorkOrderTypeID = WorkOrderTypeID;
+        this.WorkImportanceID = WorkImportanceID;
     }
 
     public Integer getID() {
@@ -266,6 +283,38 @@ public class ListItemAllMessages {
 
     public void setWorkID(Integer workID) {
         WorkID = workID;
+    }
+
+    public Integer getWorkOrderServiceID() {
+        return WorkOrderServiceID;
+    }
+
+    public void setWorkOrderServiceID(Integer workOrderServiceID) {
+        WorkOrderServiceID = workOrderServiceID;
+    }
+
+    public Integer getWorkOrderCategoryID() {
+        return WorkOrderCategoryID;
+    }
+
+    public void setWorkOrderCategoryID(Integer workOrderCategoryID) {
+        WorkOrderCategoryID = workOrderCategoryID;
+    }
+
+    public Integer getWorkOrderTypeID() {
+        return WorkOrderTypeID;
+    }
+
+    public void setWorkOrderTypeID(Integer workOrderTypeID) {
+        WorkOrderTypeID = workOrderTypeID;
+    }
+
+    public Integer getWorkImportanceID() {
+        return WorkImportanceID;
+    }
+
+    public void setWorkImportanceID(Integer workImportanceID) {
+        WorkImportanceID = workImportanceID;
     }
 
 

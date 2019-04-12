@@ -49,6 +49,7 @@ import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
 import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.dialog_customize.CustomDialogClass;
+import com.rotamobile.gursan.utils.enums.Enums;
 
 
 import org.json.JSONException;
@@ -76,7 +77,8 @@ public class Details extends AppCompatActivity {
 
     private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
-    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id;
+    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status;
+    private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
     private EditText aciklama;
@@ -197,6 +199,10 @@ public class Details extends AppCompatActivity {
         get_authorizaUpdate = extras.getBoolean("auhorizate_update");
         get_descriptionUpdate = extras.getString("description_update");
         get_work_id = extras.getInt("work_id");
+        get_status = extras.getInt("status");//Get MoveType ID
+        get_workCategory_id = extras.getInt("workOrderCategory_id");
+        get_workOrderType_id = extras.getInt("workOrderType_id");
+        get_workImportance_id = extras.getInt("WorkImportance_id");
 
         Log.i("get_proje_id",""+get_proje_id);
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
@@ -207,7 +213,7 @@ public class Details extends AppCompatActivity {
         is_ata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogClass cdd = new CustomDialogClass(Details.this,get_proje_id,get_id);
+                CustomDialogClass cdd = new CustomDialogClass(Details.this,get_proje_id,get_id,get_insert_user_id);
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.show();
             }
@@ -241,9 +247,10 @@ public class Details extends AppCompatActivity {
         get_userID = Paper.book().read("user_id");
         get_LoginID = Integer.parseInt(get_userID);
 
-        if(get_authorizaUpdate){
+        if(get_authorizaUpdate && !get_status.equals(Enums.msj_kapali)){
 
             lyt_update.setVisibility(View.VISIBLE);
+            is_ata.setVisibility(View.VISIBLE);
             initialize_update();
         }else{
 
@@ -330,7 +337,8 @@ public class Details extends AppCompatActivity {
                     showToasty("Cihaz Seçiniz");
                 }else{
 
-                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID,workOrderServiceID,get_aciklama);
+                    todoListUpdateTask = new TodoListUpdate(get_id,projectID,territoryID,buildingID,areaID,deviceID,subjectID,get_assigned_user_id,get_LoginID,workOrderServiceID,get_aciklama,get_status,
+                            get_workCategory_id,get_workOrderType_id,get_workImportance_id);
                     todoListUpdateTask.execute((Void)null);
                 }
             }
@@ -1328,9 +1336,14 @@ public class Details extends AppCompatActivity {
         private final Integer insert_update_id;
         private final Integer workOrderService_id;
         private final String description;
+        private final Integer moveType_id;
+        private final Integer WorkOrderCategoryID;
+        private final Integer WorkOrderTypeID;
+        private final Integer WorkImportanceID;
 
         TodoListUpdate(Integer id,Integer proje_id,Integer territory_id,Integer building_id,Integer area_id,
-                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id,Integer work_Order_Service_id,String description){
+                Integer device_id,Integer workTopic_id,Integer assigned_user_id,Integer insert_update_id,Integer work_Order_Service_id,String description, Integer moveType_id,
+                Integer WorkOrderCategoryID, Integer WorkOrderTypeID, Integer WorkImportanceID){
 
             this.id = id;
             this.proje_id = proje_id;
@@ -1343,6 +1356,10 @@ public class Details extends AppCompatActivity {
             this.insert_update_id = insert_update_id;
             this.workOrderService_id = work_Order_Service_id;
             this.description = description;
+            this.moveType_id = moveType_id;
+            this.WorkOrderCategoryID = WorkOrderCategoryID;
+            this.WorkOrderTypeID = WorkOrderTypeID;
+            this.WorkImportanceID = WorkImportanceID;
         }
 
         @Override
@@ -1359,7 +1376,7 @@ public class Details extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
 
             String todoListUpdate_service = Server.TodoListUpdate(id,proje_id,territory_id,building_id,area_id,device_id,
-                    workTopic_id,assigned_user_id,insert_update_id,workOrderService_id,description);
+                    workTopic_id,assigned_user_id,insert_update_id,workOrderService_id,description,moveType_id,WorkOrderCategoryID,WorkOrderTypeID,WorkImportanceID);
             if(!todoListUpdate_service.trim().equalsIgnoreCase("false")){
 
                 try {
@@ -1468,14 +1485,14 @@ public class Details extends AppCompatActivity {
 
                     if(position == 1){
                     //İç Servis Selected
-                        workOrderServiceID = 8;
+                        workOrderServiceID = Enums.ic_Servis;
                         definedJobTask = new DefinedJobTask();
                         definedJobTask.execute((Void) null);
                         tanimli_lyt.setVisibility(View.VISIBLE);
 
                     }else if(position == 2){
                     //Dış Servis Selected
-                        workOrderServiceID = 9;
+                        workOrderServiceID = Enums.dis_Servis;
                         tanimli_lyt.setVisibility(View.GONE);
 
                         if(girilen_lyt.getVisibility() == View.VISIBLE){

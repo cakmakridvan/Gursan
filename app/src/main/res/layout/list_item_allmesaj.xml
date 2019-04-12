@@ -56,6 +56,7 @@
                     android:background="@null"
                     android:id="@+id/txt_option_item"
                     android:layout_gravity="right"
+                    android:visibility="gone"
                     />
                 </LinearLayout>
 

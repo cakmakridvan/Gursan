@@ -1,9 +1,12 @@
 package com.rotamobile.gursan.ui.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
@@ -20,14 +23,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rotamobile.gursan.R;
+import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
+import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.details.Details;
 import com.rotamobile.gursan.ui.documents.CaptureImage;
 import com.rotamobile.gursan.ui.documents.OpenGalery;
 import com.rotamobile.gursan.ui.documents.PickDocument;
+import com.rotamobile.gursan.utils.enums.Enums;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.paperdb.Paper;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> implements Filterable {
 
@@ -37,18 +48,36 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     ListItemAllMessages listItemAllMessages;
     private Context context;
     private int row_index = -1;
+    private ProgressDialog progressDialog;
+    private WorkStatusClose workStatusClose = null;
+    private Integer get_LoginID = 0;
+    private Integer getStatus_id = 0;
 
-    public ListItemAdapter(List<ListItemAllMessages> list_allmesaj, Context context) {
+    public ListItemAdapter(List<ListItemAllMessages> list_allmesaj, Context context, Integer getStatus_id) {
         this.list_allmesaj = list_allmesaj;
         list_allmesajFull = new ArrayList<>(list_allmesaj);
         this.context = context;
+        this.getStatus_id = getStatus_id;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_allmesaj,viewGroup,false);
+        //Progress Diaolog initialize
+        progressDialog = new ProgressDialog(context);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        //get UserID from Login
+        String get_userID = Paper.book().read("user_id");
+        get_LoginID = Integer.parseInt(get_userID);
+
+        progressDialog.setIndeterminate(true);
+
         return new ViewHolder(v);
+
+
+
     }
 
     @Override
@@ -58,6 +87,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         viewHolder.textViewHead.setText(listItemAllMessages.getProjectName());
         viewHolder.textViewDesc.setText(listItemAllMessages.getSubjectText());
+
+        Integer i = listItemAllMessages.getWorkOrderServiceID();
+
+        if(!getStatus_id.equals(Enums.kapali)){
+
+              viewHolder.dot_icon.setVisibility(View.VISIBLE);
+        }
 
         viewHolder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,10 +124,17 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("auhorizate_update",listItemAllMessages.getAuthorizationUpdate());
                 goDetails.putExtra("description_update",listItemAllMessages.getDescription());
                 goDetails.putExtra("work_id",listItemAllMessages.getID());//WorkOrder ID
+                goDetails.putExtra("status",getStatus_id);//MoveType ID
+                goDetails.putExtra("workOrderCategory_id", listItemAllMessages.getWorkOrderCategoryID());
+                goDetails.putExtra("workOrderType_id",listItemAllMessages.getWorkOrderTypeID());
+                goDetails.putExtra("WorkImportance_id",listItemAllMessages.getWorkImportanceID());
+
                 context.startActivity(goDetails);
 
             }
         });
+
+
 
         viewHolder.dot_icon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
@@ -101,7 +144,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 listItemAllMessages = list_allmesaj.get(position);
               //for Documents and matarial added
                 PopupMenu popupMenu = new PopupMenu(context, viewHolder.dot_icon);
-                popupMenu.inflate(R.menu.list_item_option_menu);
+
+                if(listItemAllMessages.getWorkOrderServiceID().equals(Enums.ic_Servis)) {
+                    popupMenu.inflate(R.menu.list_item_option_menu);
+                }else{
+
+                    popupMenu.inflate(R.menu.list_item_option_without_material);
+                }
+
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -131,6 +181,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 go_document.putExtra("id",listItemAllMessages.getID());
                                 go_document.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
                                 context.startActivity(go_document);
+                                break;
+
+                            case R.id.menu_item_is_kapat:
+
+                                workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.kapali,get_LoginID,listItemAllMessages.getInsertUserID());
+                                workStatusClose.execute((Void) null);
+
                                 break;
 
 
@@ -217,6 +274,85 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
             textViewDesc = itemView.findViewById(R.id.txt_desc);
             dot_icon = itemView.findViewById(R.id.txt_option_item);
             linear = itemView.findViewById(R.id.linearLayout);
+        }
+    }
+
+    public class WorkStatusClose extends AsyncTask<Void, Void, Boolean> {
+
+        private final Integer assigned_id;
+        private final Integer workOrder_id;
+        private final Integer moveType_id;
+        private final Integer insertUser_id;
+
+        private String get_mesaj_workStatusAdd = "";
+        String get_mesaj = "";
+
+        WorkStatusClose(Integer workOrder_id,Integer moveType_id,Integer assigned_id,Integer insertUser_id){
+
+            this.workOrder_id = workOrder_id;
+            this.moveType_id = moveType_id;
+            this.assigned_id = assigned_id;
+            this.insertUser_id = insertUser_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog.setMessage("\tLoading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_progress);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            try {
+                String getWorkStatusAdd_service = Server.WorkStatusAdd(workOrder_id,moveType_id,assigned_id,insertUser_id);
+                if(!getWorkStatusAdd_service.trim().equalsIgnoreCase("false")){
+
+                    JSONObject jsonObject = new JSONObject(getWorkStatusAdd_service);
+                    get_mesaj = jsonObject.getString("Successful");
+
+                }else{
+                    get_mesaj = "false";
+                }
+
+            } catch (Exception e) {
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj.equals("false")) {
+                progressDialog.dismiss();
+
+                new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("İşlem Mesajı")
+                        .setContentText("İşlem Başarılı,İş Kapandı")
+                        .setConfirmText("Tamam")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                sweetAlertDialog.dismissWithAnimation();
+                                Intent go_home = new Intent(context,MainBottomNavigation.class);
+                                context.startActivity(go_home);
+                            }
+                        })
+                        .show();
+
+            }else{
+
+                progressDialog.dismiss();
+                Toast.makeText(context,"Başarısız",Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 }
