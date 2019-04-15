@@ -260,7 +260,7 @@ public class SingleSpinnerSearch extends android.support.v7.widget.AppCompatSpin
 
 			if(data.isSelected()){
 				holder.textView.setTypeface(null, Typeface.BOLD);
-				holder.textView.setTextColor(Color.WHITE);
+				holder.textView.setTextColor(Color.BLACK);
 				convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.list_selected));
 			}
 			return convertView;

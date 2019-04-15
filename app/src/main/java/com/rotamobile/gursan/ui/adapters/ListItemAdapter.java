@@ -27,6 +27,7 @@ import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.details.Details;
+import com.rotamobile.gursan.ui.documents.AddMaterial;
 import com.rotamobile.gursan.ui.documents.CaptureImage;
 import com.rotamobile.gursan.ui.documents.OpenGalery;
 import com.rotamobile.gursan.ui.documents.PickDocument;
@@ -158,7 +159,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
                         switch (item.getItemId()){
 
-                            case R.id.menu_item_add_documen:
+                            case R.id.menu_item_takeCapture:
                                 //Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
                                 Intent go_capture = new Intent(context,CaptureImage.class);
                                 go_capture.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
@@ -166,7 +167,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 context.startActivity(go_capture);
                                 break;
 
-                            case R.id.menu_item_add_mataria:
+                            case R.id.menu_item_add_fromGalery:
                                 //Toast.makeText(context,listItemAllMessages.getSubjectText(),Toast.LENGTH_SHORT).show();
 
                                 Intent go_galery = new Intent(context,OpenGalery.class);
@@ -175,7 +176,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 context.startActivity(go_galery);
                                 break;
 
-                            case R.id.menu_item_add_galery:
+                            case R.id.menu_item_addDocuman:
 
                                 Intent go_document = new Intent(context,PickDocument.class);
                                 go_document.putExtra("id",listItemAllMessages.getID());
@@ -183,11 +184,16 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                                 context.startActivity(go_document);
                                 break;
 
+                            case R.id.menu_item_add_material:
+
+                                Intent go_material = new Intent(context,AddMaterial.class);
+                                context.startActivity(go_material);
+                                break;
+
                             case R.id.menu_item_is_kapat:
 
                                 workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.kapali,get_LoginID,listItemAllMessages.getInsertUserID());
                                 workStatusClose.execute((Void) null);
-
                                 break;
 
 

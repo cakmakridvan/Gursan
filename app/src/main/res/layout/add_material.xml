@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_material"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bac_btn"
+            android:id="@+id/back_button_malzeme"
+            android:background="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toolbar Title"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title_malzeme"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <com.androidbuts.multispinnerfilter.SingleSpinnerSearch
+            android:id="@+id/searchSingleSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            app:hintText="Malzeme Ekle"
+            android:background="@drawable/effect_spinner"
+            android:spinnerMode="dialog"
+            />
+
+        <EditText
+            android:id="@+id/number_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:inputType="phone"/>
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/ic_menu_send"
+            android:onClick="onGetField"
+            />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/ic_delete"
+            android:onClick="onDelete"/>
+
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/add_field_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#555"
+        android:layout_gravity="center"
+        android:onClick="onAddField"
+        android:textColor="#FFF"
+        android:text="Add Field"
+        android:paddingLeft="5dp"/>
+
+
+
+
+
+</LinearLayout>

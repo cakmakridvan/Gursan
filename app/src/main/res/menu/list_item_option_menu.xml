@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_item_add_documen" android:title="Resim Çek"
+    <item android:id="@+id/menu_item_takeCapture" android:title="Resim Çek"
         android:icon="@drawable/camera"  app:showAsAction="ifRoom" ></item>
-    <item android:id="@+id/menu_item_add_mataria" android:title="Galeriden Ekle" android:icon="@drawable/material_ekle"
+    <item android:id="@+id/menu_item_add_fromGalery" android:title="Galeriden Ekle" android:icon="@drawable/material_ekle"
         app:showAsAction="ifRoom"></item>
-    <item android:id="@+id/menu_item_add_galery" android:title="Döküman Ekle" android:icon="@drawable/galeri"
+    <item android:id="@+id/menu_item_addDocuman" android:title="Döküman Ekle" android:icon="@drawable/galeri"
         app:showAsAction="ifRoom"></item>
-    <item android:id="@+id/menu_item_add_pdf" android:title="Malzeme Ekle" android:icon="@drawable/document"
+    <item android:id="@+id/menu_item_add_material" android:title="Malzeme Ekle" android:icon="@drawable/document"
         app:showAsAction="ifRoom"></item>
     <item android:id="@+id/menu_item_is_kapat" android:title="İşi Kapa" android:icon="@android:drawable/btn_dialog"
         app:showAsAction="ifRoom"></item>

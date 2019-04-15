@@ -133,5 +133,11 @@
         <item>Swimming 5</item>
     </string-array>
 
+    <string-array name="types">
+        <item>Mobile</item>
+        <item>Office</item>
+        <item>Home</item>
+    </string-array>
+
 
 </resources>
