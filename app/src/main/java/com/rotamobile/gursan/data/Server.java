@@ -940,6 +940,68 @@ public class Server {
         return result;
     }
 
+    public static String MaterialAdd(Integer id, Integer workOrder_id,Integer adet) {
+
+        String method_Login = "MaterialService/MaterialAdd";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", id);
+            jsonObject.put("WorkOrderID", workOrder_id);
+            jsonObject.put("ProductID", adet);
+
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
 
 
 }

@@ -289,7 +289,7 @@ public class SingleSpinnerSearch extends android.support.v7.widget.AppCompatSpin
 					}
 
 					/********
-					 * 
+					 *
 					 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
 					 *  else does the Filtering and returns FilteredArrList(Filtered)  
 					 *

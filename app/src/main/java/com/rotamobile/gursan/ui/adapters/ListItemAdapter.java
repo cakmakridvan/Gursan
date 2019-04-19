@@ -136,7 +136,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         });
 
 
-
+       //PopupMenu Click Listener
         viewHolder.dot_icon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -187,6 +187,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                             case R.id.menu_item_add_material:
 
                                 Intent go_material = new Intent(context,AddMaterial.class);
+                                go_material.putExtra("id",listItemAllMessages.getID());
                                 context.startActivity(go_material);
                                 break;
 

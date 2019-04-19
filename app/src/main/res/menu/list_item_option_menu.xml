@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom"></item>
     <item android:id="@+id/menu_item_add_material" android:title="Malzeme Ekle" android:icon="@drawable/document"
         app:showAsAction="ifRoom"></item>
-    <item android:id="@+id/menu_item_is_kapat" android:title="İşi Kapa" android:icon="@android:drawable/btn_dialog"
+    <item android:id="@+id/menu_item_is_kapat" android:title="İşi Kapa" android:icon="@android:drawable/ic_delete"
         app:showAsAction="ifRoom"></item>
 
 
