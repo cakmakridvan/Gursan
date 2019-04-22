@@ -77,7 +77,7 @@ public class Details extends AppCompatActivity {
 
     private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
-    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status;
+    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id;
     private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
@@ -200,6 +200,7 @@ public class Details extends AppCompatActivity {
         get_descriptionUpdate = extras.getString("description_update");
         get_work_id = extras.getInt("work_id");
         get_status = extras.getInt("status");//Get MoveType ID
+        get_MoveTyoe_id = extras.getInt("moveType");
         get_workCategory_id = extras.getInt("workOrderCategory_id");
         get_workOrderType_id = extras.getInt("workOrderType_id");
         get_workImportance_id = extras.getInt("WorkImportance_id");
@@ -247,7 +248,8 @@ public class Details extends AppCompatActivity {
         get_userID = Paper.book().read("user_id");
         get_LoginID = Integer.parseInt(get_userID);
 
-        if(get_authorizaUpdate && !get_status.equals(Enums.msj_kapali)){
+     //Check workOrder is Detail or Uptade
+        if(get_authorizaUpdate && !(get_MoveTyoe_id.equals(Enums.msj_kapali))){
 
             lyt_update.setVisibility(View.VISIBLE);
             is_ata.setVisibility(View.VISIBLE);

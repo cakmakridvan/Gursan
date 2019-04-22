@@ -1,32 +1,58 @@
 package com.rotamobile.gursan.ui.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
+import com.rotamobile.gursan.data.Server;
+import com.rotamobile.gursan.model.devicehistory.DataHistory;
+import com.rotamobile.gursan.model.devicehistory.ModelHistory;
+import com.rotamobile.gursan.ui.adapters.CodeAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class CodeReader extends AppCompatActivity {
 
-    private TextView icerik;
+    //private TextView icerik;
     private Toolbar toolbar;
     private TextView title;
     private ImageButton back_btn;
+    private ProgressDialog progressDialog;
+
+    private DataHistory response_dataHistory;
+    private ArrayList<ModelHistory> history_list;
+    private String get_mesaj_history_list;
+
+    private CodeAdapter code_adapter;
+    private List<ModelHistory> list_history;
+    private RecyclerView recyclerView;
+
+    private TextView codeListe_bos;
+    private CodeReaderTask codeReaderTask = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +62,20 @@ public class CodeReader extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_top);
         setSupportActionBar(toolbar);
 
-        icerik = findViewById(R.id.txt_icerik);
+        recyclerView = findViewById(R.id.recycler_codeReader);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //icerik = findViewById(R.id.txt_icerik);
         title = findViewById(R.id.toolbar_title);
         title.setText("QR Code Okuyucu");
+        codeListe_bos = findViewById(R.id.empty_listcode);
+
+        list_history = new ArrayList<>();
+
+        //Progress Diaolog initialize
+        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setIndeterminate(true);
 
         back_btn = findViewById(R.id.back_button);
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +135,11 @@ public class CodeReader extends AppCompatActivity {
             if(result.getContents() == null){
                 Toast.makeText(this,"Kod Okuma İptal Edildi",Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
-                icerik.setText(result.getContents());
+                //Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
+
+             //CodeReader Service Running
+                codeReaderTask = new CodeReaderTask(Integer.parseInt(result.getContents()));
+                codeReaderTask.execute((Void) null);
             }
         }
         else{
@@ -120,14 +160,72 @@ public class CodeReader extends AppCompatActivity {
         integrator.initiateScan();
     }
 
-/*    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public class CodeReaderTask extends AsyncTask<Void, Void, Boolean>{
 
-        Intent go_main = new Intent(getApplicationContext(),Main.class);
-        go_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(go_main);
-    }*/
+        private Integer code;
+
+        CodeReaderTask(Integer code){
+
+            this.code = code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+/*            progressDialog.setMessage("\tLoading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_progress);*/
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            try {
+                String codeResult = Server.GetHistoryDevice(code);
+                if(!codeResult.trim().equalsIgnoreCase("false")){
+
+                    response_dataHistory = new Gson().fromJson(codeResult, DataHistory.class);
+                    history_list = response_dataHistory.getData_list();
+                    Log.i("Tag:DeviceHistoryList",""+history_list);
+                    get_mesaj_history_list = "true";
+                }else{
+                    get_mesaj_history_list = "false";
+                }
+
+            }catch(Exception e){
+
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(!get_mesaj_history_list.equals("false")){
+
+              //progressDialog.dismiss();
+             if(history_list.size() > 0){
+
+             for(int i=0; i<history_list.size(); i++){
+
+                ModelHistory modelHistory = new ModelHistory(history_list.get(i).getSubjectText(),history_list.get(i).getDescription(),history_list.get(i).getInsertDateString());
+                list_history.add(modelHistory);
+              }
+                 code_adapter = new CodeAdapter(list_history,getApplicationContext());
+                 recyclerView.setAdapter(code_adapter);
+             }else{
+                 //progressDialog.dismiss();
+                 codeListe_bos.setVisibility(View.VISIBLE);
+                 }
+            }else{
+
+                //progressDialog.dismiss();
+                codeListe_bos.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
 }

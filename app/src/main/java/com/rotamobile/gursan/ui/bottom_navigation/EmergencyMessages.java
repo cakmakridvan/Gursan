@@ -160,7 +160,7 @@ public class EmergencyMessages extends Fragment {
                                 todoList.get(i).getTerritoryID(),todoList.get(i).getBuildingID(),todoList.get(i).getAreaID(),todoList.get(i).getDeviceID(),
                                 todoList.get(i).getSubjectID(),todoList.get(i).getInsertUserID(),todoList.get(i).getAssignedUserID(),todoList.get(i).getAuthorizationUpdate(),
                                 todoList.get(i).getDescription(),todoList.get(i).getWorkID(),todoList.get(i).getWorkOrderServiceID(),todoList.get(i).getWorkOrderCategoryID(),
-                                todoList.get(i).getWorkOrderTypeID(),todoList.get(i).getWorkImportanceID());
+                                todoList.get(i).getWorkOrderTypeID(),todoList.get(i).getWorkImportanceID(),todoList.get(i).getMoveTypeID());
                         listItems.add(listItemAllMessages);
                     }
                     adapter = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);

@@ -30,6 +30,11 @@ public class Enums {
     public final static Integer resim = 1901;
     public final static Integer word = 1903;
     public final static Integer excel = 1904;
+ //Move Type ID
+    public final static Integer is_acik = 2005;
+    public final static Integer is_kapali = 2003;
+
+
 
 
 

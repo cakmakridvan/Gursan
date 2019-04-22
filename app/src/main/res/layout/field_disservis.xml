@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="20dp"
+    >
+
+    <EditText
+        android:id="@+id/dis_servis_konu"
+        android:layout_width="0dp"
+        android:layout_weight="1.4"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_marginTop="5dp"
+        android:hint="Konu"
+        />
+
+    <EditText
+        android:id="@+id/dis_servis_aciklama"
+        android:layout_width="0dp"
+        android:layout_weight="2.1"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginTop="5dp"
+        android:hint="Açıklama"
+        />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.3"
+        android:layout_marginTop="5dp"
+        android:id="@+id/spin_cinsi"
+        android:background="@drawable/effect_spinner"
+        android:spinnerMode="dialog"
+        android:paddingRight="3dp"
+        />
+
+    <EditText
+        android:id="@+id/dis_servis_adet"
+        android:layout_width="0dp"
+        android:layout_weight="1.1"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginTop="5dp"
+        android:hint="Adet"
+        />
+
+
+    <Button
+        android:id="@+id/send_button_dis_Servis"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_menu_send"
+        android:onClick="onGetFieldDisServis"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/delete_button_dis_servis"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_delete"
+        android:onClick="onDeleteDisServis"
+        android:layout_marginTop="5dp"
+        />
+
+
+
+</LinearLayout>

@@ -1003,5 +1003,169 @@ public class Server {
 
     }
 
+    public static String GetHistoryDevice(Integer code){
+
+        String method_Projects = "HelperService/GetHistoryOfDevice";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "code=" + code);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        } finally {
+            try {
+
+                if (inputStream != null) inputStream.close();
+
+            } catch (Exception squish) {
+                return "false";
+            }
+        }
+        return result;
+
+    }
+
+    public static String RequestAdd(Integer id, String subject, String description, Integer unit_id, Integer amount, Integer insertUser_id){
+
+        String method_Login = "RequestService/RequestAdd";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("WorkOrderID", id);
+            jsonObject.put("Subject", subject);
+            jsonObject.put("Description", description);
+            jsonObject.put("UnitID", unit_id);
+            jsonObject.put("Amount", amount);
+            jsonObject.put("InsertUserID", insertUser_id);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
+    public static String ProductUnit(){
+
+        String method_Login = "RotaTypeService/ProductUnit";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+            JSONObject jsonObject = new JSONObject();
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
 
 }

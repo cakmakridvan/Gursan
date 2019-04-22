@@ -28,6 +28,7 @@ import com.rotamobile.gursan.model.allWithStock.DataStock;
 import com.rotamobile.gursan.model.allWithStock.ModelStock;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -160,8 +161,6 @@ public class AddMaterial extends AppCompatActivity {
              Toast.makeText(getApplicationContext(),"Malzeme Seçiniz",Toast.LENGTH_LONG).show();
          }
 
-
-
             //Toast.makeText(getApplicationContext(),""+selectedID + edittext_var.getText().toString(),Toast.LENGTH_LONG).show();
         }
 
@@ -199,8 +198,6 @@ public class AddMaterial extends AppCompatActivity {
                         Log.i("Exception: ",e.getMessage());
 
                     }
-
-
                 }else{
                     get_mesaj_materials = "false";
                 }
@@ -305,7 +302,7 @@ public class AddMaterial extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-
+                Log.i("Exception: ",e.getMessage());
             }
             return false;
         }

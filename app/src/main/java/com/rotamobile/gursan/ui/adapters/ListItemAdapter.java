@@ -29,6 +29,7 @@ import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.details.Details;
 import com.rotamobile.gursan.ui.documents.AddMaterial;
 import com.rotamobile.gursan.ui.documents.CaptureImage;
+import com.rotamobile.gursan.ui.documents.DisServisForm;
 import com.rotamobile.gursan.ui.documents.OpenGalery;
 import com.rotamobile.gursan.ui.documents.PickDocument;
 import com.rotamobile.gursan.utils.enums.Enums;
@@ -69,15 +70,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         progressDialog = new ProgressDialog(context);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        //get UserID from Login
+     //get UserID from Login
         String get_userID = Paper.book().read("user_id");
         get_LoginID = Integer.parseInt(get_userID);
 
         progressDialog.setIndeterminate(true);
 
         return new ViewHolder(v);
-
-
 
     }
 
@@ -91,9 +90,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         Integer i = listItemAllMessages.getWorkOrderServiceID();
 
-        if(!getStatus_id.equals(Enums.kapali)){
+    //Check MoveTypeID is equal or not Enums.kapali
+        if(!(listItemAllMessages.getMoveTypeID().equals(Enums.kapali)) && (listItemAllMessages.getAuthorizationUpdate())){
 
-              viewHolder.dot_icon.setVisibility(View.VISIBLE);
+            viewHolder.dot_icon.setVisibility(View.VISIBLE);
+        }else{
+
+            viewHolder.dot_icon.setVisibility(View.GONE);
         }
 
         viewHolder.linear.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +128,8 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("auhorizate_update",listItemAllMessages.getAuthorizationUpdate());
                 goDetails.putExtra("description_update",listItemAllMessages.getDescription());
                 goDetails.putExtra("work_id",listItemAllMessages.getID());//WorkOrder ID
-                goDetails.putExtra("status",getStatus_id);//MoveType ID
+                goDetails.putExtra("status",getStatus_id);//status
+                goDetails.putExtra("moveType",listItemAllMessages.getMoveTypeID());//Move TypeID
                 goDetails.putExtra("workOrderCategory_id", listItemAllMessages.getWorkOrderCategoryID());
                 goDetails.putExtra("workOrderType_id",listItemAllMessages.getWorkOrderTypeID());
                 goDetails.putExtra("WorkImportance_id",listItemAllMessages.getWorkImportanceID());
@@ -145,11 +149,12 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 listItemAllMessages = list_allmesaj.get(position);
               //for Documents and matarial added
                 PopupMenu popupMenu = new PopupMenu(context, viewHolder.dot_icon);
-
+            //Checking WorkOrder, iç servis or dış servis or not
                 if(listItemAllMessages.getWorkOrderServiceID().equals(Enums.ic_Servis)) {
                     popupMenu.inflate(R.menu.list_item_option_menu);
+                }else if(listItemAllMessages.getWorkOrderServiceID().equals(Enums.dis_Servis)){
+                    popupMenu.inflate(R.menu.list_item_option_with_disservisform);
                 }else{
-
                     popupMenu.inflate(R.menu.list_item_option_without_material);
                 }
 
@@ -160,40 +165,47 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                         switch (item.getItemId()){
 
                             case R.id.menu_item_takeCapture:
-                                //Toast.makeText(context,listItemAllMessages.getProjectName(),Toast.LENGTH_SHORT).show();
+
                                 Intent go_capture = new Intent(context,CaptureImage.class);
                                 go_capture.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
-                                go_capture.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                                go_capture.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());//Insert User ID
                                 context.startActivity(go_capture);
                                 break;
 
                             case R.id.menu_item_add_fromGalery:
-                                //Toast.makeText(context,listItemAllMessages.getSubjectText(),Toast.LENGTH_SHORT).show();
 
                                 Intent go_galery = new Intent(context,OpenGalery.class);
                                 go_galery.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
-                                go_galery.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                                go_galery.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());//Insert User ID
                                 context.startActivity(go_galery);
                                 break;
 
                             case R.id.menu_item_addDocuman:
 
                                 Intent go_document = new Intent(context,PickDocument.class);
-                                go_document.putExtra("id",listItemAllMessages.getID());
-                                go_document.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());
+                                go_document.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
+                                go_document.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());//Insert User ID
                                 context.startActivity(go_document);
                                 break;
 
                             case R.id.menu_item_add_material:
 
                                 Intent go_material = new Intent(context,AddMaterial.class);
-                                go_material.putExtra("id",listItemAllMessages.getID());
+                                go_material.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
                                 context.startActivity(go_material);
+                                break;
+
+                            case R.id.menu_item_disServisFormu:
+
+                                Intent go_disServisFormu = new Intent(context,DisServisForm.class);
+                                go_disServisFormu.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
+                                go_disServisFormu.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());//Insert User ID
+                                context.startActivity(go_disServisFormu);
                                 break;
 
                             case R.id.menu_item_is_kapat:
 
-                                workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.kapali,get_LoginID,listItemAllMessages.getInsertUserID());
+                                workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.kapali,get_LoginID,listItemAllMessages.getInsertUserID());// WorkOrder ID, Kapalı, User ID , Insert User ID
                                 workStatusClose.execute((Void) null);
                                 break;
 
@@ -247,7 +259,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
                 for (ListItemAllMessages item : list_allmesajFull ){
 
-                    if(item.getProjectName().toLowerCase().contains(filterPattern)){
+                    if(item.getSubjectText().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }

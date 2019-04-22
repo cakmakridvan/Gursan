@@ -94,6 +94,11 @@
             android:label=""
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.documents.DisServisForm"
+            android:theme="@style/AppThemeLight"
+            android:label=""
+            android:screenOrientation="portrait"/>
+
 
     </application>
 

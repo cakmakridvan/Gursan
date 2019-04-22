@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_dis_servis"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_dis_servis"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bac_btn"
+            android:id="@+id/back_button_dis_servis"
+            android:background="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toolbar Title"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title_dis_servis"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:id="@+id/add_field_button_dis_servis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/effect_button"
+        android:layout_gravity="center"
+        android:onClick="onAddFieldDisServis"
+        android:textColor="@color/black"
+        android:text="Ön Talep Formu Oluştur"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        />
+
+
+</LinearLayout>
