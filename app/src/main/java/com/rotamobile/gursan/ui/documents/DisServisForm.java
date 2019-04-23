@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -36,6 +38,9 @@ public class DisServisForm extends AppCompatActivity {
     private TextView title;
     private ImageButton back_dis_Servis;
     private LinearLayout parentLinearLayout;
+    private Integer get_workerID = 0;
+    private Integer get_InsertUser_id = 0;
+    Bundle extras;
 
     private DataProductUnit response_ProductUnit;
     private ArrayList<ModelProductUnit> defined_productUnit;
@@ -47,6 +52,12 @@ public class DisServisForm extends AppCompatActivity {
     private RequestAdd requestAddTask = null;
     private Boolean get_mesajRequestAdd;
     private String get_mesajRequest = "";
+    private EditText edt_konu,edt_aciklama,edt_adet;
+    private Integer get_Selected_id = 0;
+    private Integer get_Selected_amount = 0;
+
+    private Button check,delete;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +91,13 @@ public class DisServisForm extends AppCompatActivity {
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_dis_servis);
 
+        //get Values from ListItemAdapter
+        extras = getIntent().getExtras();
+        if(extras != null) {
+            get_workerID = extras.getInt("id"); //get WorkID
+            get_InsertUser_id = extras.getInt("insert_user_id"); //get InsertUserID
+        }
+
         //ProductUnit Service
         productUnitTask = new ProductUnit();
         productUnitTask.execute((Void) null);
@@ -104,6 +122,35 @@ public class DisServisForm extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
     }
     public void onGetFieldDisServis(View v){
+
+        edt_konu = (EditText)((View) v.getParent()).findViewById(R.id.dis_servis_konu);
+        edt_aciklama = (EditText)((View) v.getParent()).findViewById(R.id.dis_servis_aciklama);
+        spin = (Spinner)((View) v.getParent()).findViewById(R.id.spin_cinsi);
+        edt_adet = (EditText)((View) v.getParent()).findViewById(R.id.dis_servis_adet);
+
+        check = (Button)((View) v.getParent()).findViewById(R.id.send_button_dis_Servis);
+        delete = (Button)((View) v.getParent()).findViewById(R.id.delete_button_dis_servis);
+
+
+        String get_konu = edt_konu.getText().toString();
+        String get_aciklama = edt_aciklama.getText().toString();
+        String get_amount = edt_adet.getText().toString();
+
+        if(!get_amount.equals("")){
+            get_Selected_amount = Integer.parseInt(get_amount);
+        }
+
+        if(spin.getSelectedItem() != null){
+            for(int i=0;i<defined_productUnit.size();i++){
+                if(spin.getSelectedItem().toString().equals(defined_productUnit.get(i).getName())){
+                    get_Selected_id = defined_productUnit.get(i).getID();
+                }
+            }
+        }
+
+        //Send RequestADD
+        requestAddTask = new RequestAdd(get_workerID,get_konu,get_aciklama,get_Selected_id,get_Selected_amount,get_InsertUser_id);
+        requestAddTask.execute((Void) null);
 
     }
 
@@ -258,7 +305,7 @@ public class DisServisForm extends AppCompatActivity {
 
             try {
                 String getRequestAdd_result = Server.RequestAdd(workOrder_id,subject,description,unit_id,amount,insertUser_id);
-                if(getRequestAdd_result.trim().equalsIgnoreCase("false")){
+                if(!getRequestAdd_result.trim().equalsIgnoreCase("false")){
 
                     try{
 
@@ -286,6 +333,11 @@ public class DisServisForm extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             if(get_mesajRequestAdd.equals(true)){
                 progressDialogAdd.dismiss();
+
+                delete.setBackgroundResource(R.drawable.check);
+                delete.setClickable(false);
+                check.setClickable(false);
+
             }else{
                 progressDialogAdd.dismiss();
             }

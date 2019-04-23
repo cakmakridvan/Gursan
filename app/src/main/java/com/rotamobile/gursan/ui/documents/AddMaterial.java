@@ -318,15 +318,12 @@ public class AddMaterial extends AppCompatActivity {
                     delete.setBackgroundResource(R.drawable.check);
                     delete.setClickable(false);
                     check.setClickable(false);
-
-
                 }
 
 
             else{
                 progressDialog.dismiss();
                 //deviceSpinnerAction();
-
             }
         }
 
