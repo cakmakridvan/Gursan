@@ -14,13 +14,18 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_collapseMode="pin">
 
-        <ImageButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/bac_btn"
-            android:id="@+id/back_button_dis_servis"
-            android:background="@null"
-            />
+            android:orientation="horizontal">
+
+        <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bac_btn"
+        android:id="@+id/back_button_dis_servis"
+        android:background="@null"
+        />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +35,29 @@
             android:id="@+id/toolbar_title_dis_servis"
             android:textColor="@android:color/white"
             android:textSize="22sp"
+            android:layout_margin="5dp"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/is_listesi"
+            android:background="@null"
+            android:id="@+id/imgbtn_dis_servis_listeleme"
+            />
+
+        </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 

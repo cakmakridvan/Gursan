@@ -940,7 +940,7 @@ public class Server {
         return result;
     }
 
-    public static String MaterialAdd(Integer id, Integer workOrder_id,Integer adet) {
+    public static String MaterialAdd(Integer amount, Integer workOrder_id,Integer product_id,Integer insert_user_id) {
 
         String method_Login = "MaterialService/MaterialAdd";
 
@@ -949,9 +949,10 @@ public class Server {
             URL url = new URL(Main_URL + method_Login); // here is your URL path
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("ID", id);
+            jsonObject.put("Amount", amount);
             jsonObject.put("WorkOrderID", workOrder_id);
-            jsonObject.put("ProductID", adet);
+            jsonObject.put("ProductID", product_id);
+            jsonObject.put("InsertUserID",insert_user_id);
 
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -1165,6 +1166,46 @@ public class Server {
             return "false";
         }
 
+    }
+
+    public static String RequestGetByWorkOrder(Integer workOrder_id){
+
+        String method_Projects = "RequestService/GetByWorkOrder";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "workOrderID=" + workOrder_id);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        } finally {
+            try {
+
+                if (inputStream != null) inputStream.close();
+
+            } catch (Exception squish) {
+                return "false";
+            }
+        }
+        return result;
     }
 
 

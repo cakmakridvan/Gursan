@@ -192,6 +192,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
                                 Intent go_material = new Intent(context,AddMaterial.class);
                                 go_material.putExtra("id",listItemAllMessages.getID());// WorkOrder ID
+                                go_material.putExtra("insert_user_id",listItemAllMessages.getInsertUserID());//Insert User ID
                                 context.startActivity(go_material);
                                 break;
 

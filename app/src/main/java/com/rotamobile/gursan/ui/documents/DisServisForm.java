@@ -36,7 +36,7 @@ public class DisServisForm extends AppCompatActivity {
 
     private Toolbar toolbar_dis_servis;
     private TextView title;
-    private ImageButton back_dis_Servis;
+    private ImageButton back_dis_Servis,talep_form_listeleme;
     private LinearLayout parentLinearLayout;
     private Integer get_workerID = 0;
     private Integer get_InsertUser_id = 0;
@@ -89,6 +89,15 @@ public class DisServisForm extends AppCompatActivity {
             }
         });
 
+        talep_form_listeleme = findViewById(R.id.imgbtn_dis_servis_listeleme);
+        talep_form_listeleme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_dis_servis);
 
         //get Values from ListItemAdapter
@@ -98,7 +107,7 @@ public class DisServisForm extends AppCompatActivity {
             get_InsertUser_id = extras.getInt("insert_user_id"); //get InsertUserID
         }
 
-        //ProductUnit Service
+     //ProductUnit Service
         productUnitTask = new ProductUnit();
         productUnitTask.execute((Void) null);
 
@@ -140,6 +149,7 @@ public class DisServisForm extends AppCompatActivity {
             get_Selected_amount = Integer.parseInt(get_amount);
         }
 
+     //Get Selected id from Spinner Name
         if(spin.getSelectedItem() != null){
             for(int i=0;i<defined_productUnit.size();i++){
                 if(spin.getSelectedItem().toString().equals(defined_productUnit.get(i).getName())){

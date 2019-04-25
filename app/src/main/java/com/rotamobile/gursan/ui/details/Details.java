@@ -80,7 +80,7 @@ public class Details extends AppCompatActivity {
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id;
     private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
-    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,update_user;
+    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_aciklama,update_user;
     private EditText aciklama;
 
     Bundle extras;
@@ -503,6 +503,7 @@ public class Details extends AppCompatActivity {
         detail_area = findViewById(R.id.txt_areaName);
         detail_device = findViewById(R.id.txt_deviceName);
         detail_subject = findViewById(R.id.txt_subjectName);
+        detail_aciklama = findViewById(R.id.txt_aciklama);
 
         detail_user.setText(get_kullanici_adi);
         detail_proje.setText(get_project_name);
@@ -517,6 +518,7 @@ public class Details extends AppCompatActivity {
         }
 
         detail_subject.setText(get_subject_name);
+        detail_aciklama.setText(get_descriptionUpdate);
     }
 
     private void showToasty(String mesaj) {
