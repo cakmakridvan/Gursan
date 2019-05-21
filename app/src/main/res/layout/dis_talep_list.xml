@@ -14,7 +14,7 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"  >
 
         <ImageButton
-            android:id="@+id/back_button_talep_list"
+            android:id="@+id/back_button_dis_servis_talep_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Toolbar Title"
             android:layout_gravity="center"
-            android:id="@+id/toolbar_title_talep_list"
+            android:id="@+id/toolbar_title_dis_servis_talep_list"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             />
@@ -46,8 +46,8 @@
         android:layout_gravity="center"
         android:text="@string/msj_status_order"
         android:textSize="30sp"
-        android:id="@+id/empty_talep_list"
-
+        android:id="@+id/empty_talep_dis_servis_talep_list"
+        android:visibility="gone"
         />
 
 </LinearLayout>

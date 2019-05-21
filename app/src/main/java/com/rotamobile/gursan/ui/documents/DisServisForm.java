@@ -4,8 +4,10 @@ package com.rotamobile.gursan.ui.documents;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +30,8 @@ import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.productUnitSpinner.DataProductUnit;
 import com.rotamobile.gursan.model.productUnitSpinner.ModelProductUnit;
+import com.rotamobile.gursan.ui.activity.DisServisTalepList;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +60,7 @@ public class DisServisForm extends AppCompatActivity {
     private Integer get_Selected_id = 0;
     private Integer get_Selected_amount = 0;
 
-    private Button check,delete;
+    private ImageButton check,delete;
 
 
     @Override
@@ -94,11 +98,14 @@ public class DisServisForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent go_disServisTalep = new Intent(DisServisForm.this,DisServisTalepList.class);
+                go_disServisTalep.putExtra("workerID",get_workerID);
+                startActivity(go_disServisTalep);
 
             }
         });
 
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_dis_servis);
+        parentLinearLayout = (LinearLayout) findViewById(R.id.lyt_scroll_dis_servis);
 
         //get Values from ListItemAdapter
         extras = getIntent().getExtras();
@@ -137,8 +144,8 @@ public class DisServisForm extends AppCompatActivity {
         spin = (Spinner)((View) v.getParent()).findViewById(R.id.spin_cinsi);
         edt_adet = (EditText)((View) v.getParent()).findViewById(R.id.dis_servis_adet);
 
-        check = (Button)((View) v.getParent()).findViewById(R.id.send_button_dis_Servis);
-        delete = (Button)((View) v.getParent()).findViewById(R.id.delete_button_dis_servis);
+        check = (ImageButton)((View) v.getParent()).findViewById(R.id.send_button_dis_Servis);
+        delete = (ImageButton)((View) v.getParent()).findViewById(R.id.delete_button_dis_servis);
 
 
         String get_konu = edt_konu.getText().toString();
@@ -153,7 +160,7 @@ public class DisServisForm extends AppCompatActivity {
         if(spin.getSelectedItem() != null){
             for(int i=0;i<defined_productUnit.size();i++){
                 if(spin.getSelectedItem().toString().equals(defined_productUnit.get(i).getName())){
-                    get_Selected_id = defined_productUnit.get(i).getID();
+                    get_Selected_id = defined_productUnit.get(i).getCode();
                 }
             }
         }
@@ -269,7 +276,7 @@ public class DisServisForm extends AppCompatActivity {
                 if (position > 0) {
 
                     //Getting AreaID to get data from Device
-                    Integer get_selectedProductID = defined_productUnit.get(position-1).getID();
+                    Integer get_selectedProductID = defined_productUnit.get(position-1).getCode();
                     Log.i("Tag:ProductUnitID:",""+get_selectedProductID);
 
                 }
@@ -344,7 +351,7 @@ public class DisServisForm extends AppCompatActivity {
             if(get_mesajRequestAdd.equals(true)){
                 progressDialogAdd.dismiss();
 
-                delete.setBackgroundResource(R.drawable.check);
+                delete.setImageResource(R.drawable.tick);
                 delete.setClickable(false);
                 check.setClickable(false);
 

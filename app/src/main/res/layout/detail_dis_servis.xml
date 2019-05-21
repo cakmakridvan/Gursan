@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_top"
+        android:id="@+id/toolbar_top_dis_servis_detail"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -14,7 +14,7 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"  >
 
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/back_button_dis_servis_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -26,28 +26,12 @@
             android:layout_height="wrap_content"
             android:text="Toolbar Title"
             android:layout_gravity="center"
-            android:id="@+id/toolbar_title"
+            android:id="@+id/toolbar_title_dis_servis_detail"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             />
 
 
     </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_codeReader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/msj_status_order"
-        android:textSize="30sp"
-        android:id="@+id/empty_listcode"
-        android:visibility="gone"
-        />
 
 </LinearLayout>

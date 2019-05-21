@@ -12,6 +12,8 @@ import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.ui.login.Login;
 
+import io.paperdb.Paper;
+
 public class Splash extends AppCompatActivity {
 
     private ImageView img_icon1;
@@ -22,6 +24,8 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_splash);
+        Paper.init(Splash.this);
+
 
         img_icon1 = findViewById(R.id.spl_icon1);
 
@@ -31,13 +35,24 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+             //Check token for Login to System
+                String tokenID = Paper.book().read("token");
+                if(tokenID != null){
 
-                Intent go_main_activity = new Intent(Splash.this,Login.class);
-                startActivity(go_main_activity);
+                    startActivity(new Intent(Splash.this,Main.class));
+                }else{
 
-                //close this activity
-                finish();
+                    Intent go_main_activity = new Intent(Splash.this,Login.class);
+                    startActivity(go_main_activity);
+
+                    //close this activity
+                    finish();
+                }
+
+
             }
         },SPLASH_TIME_OUT);
     }
+
+
 }

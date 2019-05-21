@@ -366,6 +366,9 @@ public class Main extends AppCompatActivity {
                                         startActivity(go_login);
                                         finish();
 
+                                     //Delete existing token
+                                        Paper.book().delete("token");
+
                                     }
                                 })
                                 .show();

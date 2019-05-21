@@ -11,6 +11,9 @@ public class ModelProductUnit {
     @SerializedName("Name")
     @Expose
     private String Name;
+    @SerializedName("Code")
+    @Expose
+    private Integer Code;
 
     public Integer getID() {
         return ID;
@@ -26,5 +29,13 @@ public class ModelProductUnit {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public Integer getCode() {
+        return Code;
+    }
+
+    public void setCode(Integer code) {
+        Code = code;
     }
 }

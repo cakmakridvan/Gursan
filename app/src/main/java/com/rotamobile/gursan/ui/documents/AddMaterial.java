@@ -73,7 +73,7 @@ public class AddMaterial extends AppCompatActivity {
     Bundle extras;
     private Integer get_amount = 0;
     private Integer get_Selected_id = 0;
-    private Button check,delete;
+    private ImageButton delete,check;
     //private Spinner spin_material;
     private List<String> product_spin_cinsi;
 
@@ -103,7 +103,7 @@ public class AddMaterial extends AppCompatActivity {
             }
         });
 
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
+        parentLinearLayout = (LinearLayout) findViewById(R.id.lyt_scroll);
 
         //Progress Diaolog initialize
         progressDialog = new ProgressDialog(AddMaterial.this);
@@ -210,8 +210,8 @@ public class AddMaterial extends AppCompatActivity {
             get_SelectedName = (SearchableSpinner) ((View) v.getParent()).findViewById(R.id.searchSingle);
             edittext_var = (EditText)((View) v.getParent()).findViewById(R.id.number_edit_text);
             //spin_material = (Spinner) ((View) v.getParent()).findViewById(R.id.spin_cinsi_malzeme);
-            check = (Button) ((View) v.getParent()).findViewById(R.id.send_button);
-            delete = (Button) ((View) v.getParent()).findViewById(R.id.delete_button);
+            check = (ImageButton) ((View) v.getParent()).findViewById(R.id.send_button);
+            delete = (ImageButton) ((View) v.getParent()).findViewById(R.id.delete_button);
 
          //Check if amount set or not
             if(!edittext_var.getText().toString().equals("")) {
@@ -404,7 +404,7 @@ public class AddMaterial extends AppCompatActivity {
                 if(get_mesaj_addMaterial.equals(true)){
                     progressDialog.dismiss();
 
-                    delete.setBackgroundResource(R.drawable.check);
+                    delete.setImageResource(R.drawable.tick);
                     delete.setClickable(false);
                     check.setClickable(false);
                 }

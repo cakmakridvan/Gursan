@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import io.paperdb.Paper;
 
+import static com.rotamobile.gursan.data.Server.GetToken;
 import static com.rotamobile.gursan.data.Server.GetUsers;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -38,7 +39,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private UserLogin userLogin = null;
     private ProgressDialog progressDialog;
 
-    private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID,get_projectID;
+    private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID,get_projectID,get_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,20 +146,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            String login_service = GetUsers(name,password);
+            String login_service = GetToken(name,password,"password");
             if(!login_service.trim().equalsIgnoreCase("false") && !login_service.trim().equalsIgnoreCase("hata")){
 
                 try {
 
                     JSONObject jObject = new JSONObject(login_service);
                     get_mesaj = jObject.getString("Successful");
-                    String data = jObject.getString("Data");
-                    JSONObject jobject_data = new JSONObject(data);
-                    get_name = jobject_data.getString("Name");
-                    get_surname = jobject_data.getString("LastName");
-                    get_userID = jobject_data.getString("ID");
-                    get_userTypeID = jobject_data.getString("UserTypeID");
-                    get_projectID = jobject_data.getString("ProjectID");
+                    get_token = jObject.getString("access_token");
+                    get_name = jObject.getString("Name");
+                    get_surname = jObject.getString("LastName");
+                    get_userID = jObject.getString("ID");
+                    get_userTypeID = jObject.getString("UserTypeID");
+                    get_projectID = jObject.getString("ProjectID");
                  //Saved getting project_id
                     Paper.book().write("project_id",get_projectID);
 
@@ -194,7 +194,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
 
-            if(get_mesaj.equals("true")) {
+            if(get_mesaj.equalsIgnoreCase("true")) {
 
                 progressDialog.dismiss();
 
@@ -203,9 +203,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 /*                go_main.putExtra("name",get_name);
                 go_main.putExtra("last_name",get_surname);*/
-                //Saving name and surname
+                //Saving name,surname and token
                 Paper.book().write("name",get_name);
                 Paper.book().write("last_name",get_surname);
+                Paper.book().write("token",get_token);
 
                 //Saving UserID to Paper
                 Paper.book().write("user_id",get_userID);
@@ -215,7 +216,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(go_main);
                 finish();
             }
-            else if(get_mesaj.equals("false")){
+            else if(get_mesaj.equalsIgnoreCase("false")){
 
                 progressDialog.dismiss();
 

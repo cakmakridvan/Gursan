@@ -99,6 +99,16 @@
             android:label=""
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.activity.DisServisTalepList"
+            android:theme="@style/AppThemeLight"
+            android:label=""
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.details.DisServisDetail"
+            android:theme="@style/AppThemeLight"
+            android:label=""
+            android:screenOrientation="portrait"/>
+
 
     </application>
 
