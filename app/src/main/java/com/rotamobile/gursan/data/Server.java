@@ -1250,6 +1250,137 @@ public class Server {
         return result;
     }
 
+    public static String RequestUpdate(Integer workOrder_id, Integer updateUser_id, Integer amount, String subject, String description, Integer unit_id){
+
+        String method_Login = "RequestService/RequestUpdate";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", workOrder_id);
+            jsonObject.put("UpdateUserID", updateUser_id);
+            jsonObject.put("Amount", amount);
+            jsonObject.put("ProductAndService", subject);
+            jsonObject.put("Description", description);
+            jsonObject.put("UnitID", unit_id);
+            jsonObject.put("Derivative", "");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
+    public static String RequestDelete(Integer workOrder_id, Integer insertUser_id, Integer amount, String subject, String description, Integer unit_id){
+
+        String method_Login = "RequestService/RequestDelete";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("WorkOrderID", workOrder_id);
+            jsonObject.put("InsertUserID", insertUser_id);
+            jsonObject.put("Amount", amount);
+            jsonObject.put("ProductAndService", subject);
+            jsonObject.put("Description", description);
+            jsonObject.put("UnitID", unit_id);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
     public static String GetToken(String username,String password,String grantType){
 
         String method_Projects = "getToken";

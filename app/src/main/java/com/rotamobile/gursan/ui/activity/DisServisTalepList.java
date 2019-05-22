@@ -134,11 +134,11 @@ public class DisServisTalepList extends AppCompatActivity {
 
                     for(int i=0; i<data_list.size(); i++){
 
-                        ModelDisServiTalep modelDisServiTalep = new ModelDisServiTalep(data_list.get(i).getProductAndService(),data_list.get(i).getDescription(),
+                        ModelDisServiTalep modelDisServiTalep = new ModelDisServiTalep(data_list.get(i).getID(),data_list.get(i).getProductAndService(),data_list.get(i).getDescription(),
                                 data_list.get(i).getAmount(),data_list.get(i).getUnitName());
                         list_data.add(modelDisServiTalep);
                     }
-                    disServisAdapter = new DisServisAdapter(list_data,getApplicationContext());
+                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this);
                     recyclerView.setAdapter(disServisAdapter);
                 }else{
                     progressDialog.dismiss();

@@ -1,5 +1,6 @@
 package com.rotamobile.gursan.ui.adapters;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,11 +23,11 @@ public class DisServisAdapter extends RecyclerView.Adapter<DisServisAdapter.View
 
     private List<ModelDisServiTalep> modelDisServisTalepList;
     private ModelDisServiTalep modelDisServiTalep;
-    private Context context;
+    private Activity context;
     private ProgressDialog progressDialog;
     private int row_index = -1;
 
-    public DisServisAdapter(List<ModelDisServiTalep> modelDisServisTalepList, Context context){
+    public DisServisAdapter(List<ModelDisServiTalep> modelDisServisTalepList, Activity context){
 
         this.modelDisServisTalepList = modelDisServisTalepList;
         this.context = context;
@@ -57,13 +58,16 @@ public class DisServisAdapter extends RecyclerView.Adapter<DisServisAdapter.View
             @Override
             public void onClick(View v) {
 
-/*                row_index = i;
+                row_index = i;
                 modelDisServiTalep = modelDisServisTalepList.get(i);
                 notifyDataSetChanged();
                 Intent go_detailDisServis = new Intent(context,DisServisDetail.class);
                 go_detailDisServis.putExtra("konu",modelDisServiTalep.getProductAndService());
                 go_detailDisServis.putExtra("aciklama",modelDisServiTalep.getDescription());
-                context.startActivity(go_detailDisServis);*/
+                go_detailDisServis.putExtra("amount",modelDisServiTalep.getAmount());
+                go_detailDisServis.putExtra("cinsi",modelDisServiTalep.getUnitName());
+                go_detailDisServis.putExtra("detailId",modelDisServiTalep.getID());
+                context.startActivity(go_detailDisServis);
 
             }
         });

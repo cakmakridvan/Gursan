@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelDisServiTalep {
 
+
+    @SerializedName("ID")
+    @Expose
+    private Integer ID;
     @SerializedName("ProductAndService")
     @Expose
     private String ProductAndService;
@@ -34,7 +38,8 @@ public class ModelDisServiTalep {
         Amount = amount;
     }
 
-    public ModelDisServiTalep(String productAndService, String description, Integer amount, String unitName) {
+    public ModelDisServiTalep(Integer ID,String productAndService, String description, Integer amount, String unitName) {
+        this.ID = ID;
         ProductAndService = productAndService;
         Description = description;
         Amount = amount;
@@ -56,6 +61,15 @@ public class ModelDisServiTalep {
     public void setDescription(String description) {
         Description = description;
     }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
 
 
 

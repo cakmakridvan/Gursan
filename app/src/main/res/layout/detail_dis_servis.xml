@@ -34,4 +34,83 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_dis_detail_konu"
+            android:hint="Konu"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_dis_detail_aciklama"
+            android:layout_marginTop="10dp"
+            android:hint="Açıklama"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp"
+            >
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spin_dis_detail"
+            android:background="@drawable/effect_spinner"
+            android:spinnerMode="dialog"
+            android:paddingRight="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_dis_detail_amount"
+            android:layout_weight="1"
+            android:hint="Miktar"
+            />
+
+        </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_dis_detail_update"
+                android:text="Güncelle"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="20dp"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_dis_detail_delete"
+                android:text="Sil"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                />
+
+
+    </LinearLayout>
+
 </LinearLayout>
