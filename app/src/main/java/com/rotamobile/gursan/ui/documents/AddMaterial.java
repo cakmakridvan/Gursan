@@ -2,6 +2,7 @@ package com.rotamobile.gursan.ui.documents;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -33,6 +34,8 @@ import com.rotamobile.gursan.model.allWithStock.DataStock;
 import com.rotamobile.gursan.model.allWithStock.ModelStock;
 import com.rotamobile.gursan.model.productUnitSpinner.DataProductUnit;
 import com.rotamobile.gursan.model.productUnitSpinner.ModelProductUnit;
+import com.rotamobile.gursan.ui.activity.DisServisTalepList;
+import com.rotamobile.gursan.ui.activity.IcServisTalepList;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 
@@ -73,7 +76,7 @@ public class AddMaterial extends AppCompatActivity {
     Bundle extras;
     private Integer get_amount = 0;
     private Integer get_Selected_id = 0;
-    private ImageButton delete,check;
+    private ImageButton delete,check,malzeme_listele;
     //private Spinner spin_material;
     private List<String> product_spin_cinsi;
 
@@ -92,8 +95,6 @@ public class AddMaterial extends AppCompatActivity {
 
         textView_title = findViewById(R.id.toolbar_title_malzeme);
         textView_title.setText("Malzeme Ekle");
-
-
 
         back_malzeme = findViewById(R.id.back_button_malzeme);
         back_malzeme.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +130,16 @@ public class AddMaterial extends AppCompatActivity {
             get_insertUserID = extras.getInt("insert_user_id"); //get InsertUserID
         }
 
+        malzeme_listele = findViewById(R.id.imgbtn_ic_servis_listeleme);
+        malzeme_listele.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent go_icServisTalep = new Intent(AddMaterial.this,IcServisTalepList.class);
+                go_icServisTalep.putExtra("workerID",get_workerID);
+                startActivity(go_icServisTalep);
+            }
+        });
     }
 
 

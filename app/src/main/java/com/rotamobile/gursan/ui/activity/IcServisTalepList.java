@@ -17,25 +17,26 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
-import com.rotamobile.gursan.model.disServisTalepList.DataDisServisTalep;
-import com.rotamobile.gursan.model.disServisTalepList.ModelDisServiTalep;
-import com.rotamobile.gursan.ui.adapters.DisServisAdapter;
+import com.rotamobile.gursan.model.icServisTalepList.DataIcServisTalep;
+import com.rotamobile.gursan.model.icServisTalepList.ModelIcServiTalep;
+import com.rotamobile.gursan.ui.adapters.IcServisAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisServisTalepList extends AppCompatActivity {
+
+public class IcServisTalepList extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView title,talep_list;
     private ImageButton back_btn;
     private RecyclerView recyclerView;
-    private DataDisServisTalep response_dataDisServis;
-    private ArrayList<ModelDisServiTalep> data_list;
-    private String get_mesaj_dis_servis_list = "";
-    private List<ModelDisServiTalep> list_data;
-    private DisServisAdapter disServisAdapter;
-    private DisServisTalep disServisTalep = null;
+    private DataIcServisTalep response_dataIcServis;
+    private ArrayList<ModelIcServiTalep> data_list;
+    private String get_mesaj_ic_servis_list = "";
+    private List<ModelIcServiTalep> list_data;
+    private IcServisAdapter icServisAdapter;
+    private IcServisTalep icServisTalep = null;
     private ProgressDialog progressDialog;
     private Bundle extras;
     private Integer get_workerID = 0;
@@ -44,13 +45,13 @@ public class DisServisTalepList extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dis_talep_list);
+        setContentView(R.layout.ic_talep_list);
 
-        emptyList = findViewById(R.id.empty_talep_dis_servis_talep_list);
-        title = findViewById(R.id.toolbar_title_dis_servis_talep_list);
-        title.setText("Dış Servis Talep Listesi");
+        emptyList = findViewById(R.id.empty_talep_ic_servis_talep_list);
+        title = findViewById(R.id.toolbar_title_ic_servis_talep_list);
+        title.setText("İç Servis Talep Listesi");
 
-        back_btn = findViewById(R.id.back_button_dis_servis_talep_list);
+        back_btn = findViewById(R.id.back_button_ic_servis_talep_list);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,22 +59,22 @@ public class DisServisTalepList extends AppCompatActivity {
             }
         });
 
-        toolbar = findViewById(R.id.toolbar_top_talep_list);
+        toolbar = findViewById(R.id.toolbar_top_ic_talep_list);
         setSupportActionBar(toolbar);
 
-        recyclerView = findViewById(R.id.recycler_talep_list);
+        recyclerView = findViewById(R.id.recycler_ic_talep_list);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DisServisTalepList.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(IcServisTalepList.this));
 
         list_data = new ArrayList<>();
-        //get Values from DisServisForm
+        //get Values from İçServisForm
         extras = getIntent().getExtras();
         if(extras != null) {
             get_workerID = extras.getInt("workerID"); //get WorkID
         }
 
         //Progress Diaolog initialize
-        progressDialog = new ProgressDialog(DisServisTalepList.this);
+        progressDialog = new ProgressDialog(IcServisTalepList.this);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setIndeterminate(true);
 
@@ -90,15 +91,15 @@ public class DisServisTalepList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        disServisTalep = new DisServisTalep(get_workerID);
-        disServisTalep.execute((Void) null);
+        icServisTalep = new IcServisTalep(get_workerID);
+        icServisTalep.execute((Void) null);
     }
 
-    public class DisServisTalep extends AsyncTask<Void, Void, Boolean> {
+    public class IcServisTalep extends AsyncTask<Void, Void, Boolean> {
 
         private Integer workOrder_id;
 
-        DisServisTalep(Integer workOrder_id){
+        IcServisTalep(Integer workOrder_id){
 
             this.workOrder_id = workOrder_id;
         }
@@ -117,19 +118,19 @@ public class DisServisTalepList extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
 
             try {
-                String codeResult = Server.GetDisServisByWorkOrder(workOrder_id);
+                String codeResult = Server.GetIcServisByWorkOrder(workOrder_id);
                 if(!codeResult.trim().equalsIgnoreCase("false")){
 
-                    response_dataDisServis = new Gson().fromJson(codeResult, DataDisServisTalep.class);
-                    data_list = response_dataDisServis.getData_list();
+                    response_dataIcServis = new Gson().fromJson(codeResult, DataIcServisTalep.class);
+                    data_list = response_dataIcServis.getData_list_ic();
                     Log.i("Tag:DeviceHistoryList",""+ data_list);
-                    get_mesaj_dis_servis_list = "true";
+                    get_mesaj_ic_servis_list = "true";
                 }else{
-                    get_mesaj_dis_servis_list = "false";
+                    get_mesaj_ic_servis_list = "false";
                 }
 
             }catch(Exception e){
-
+                e.printStackTrace();
             }
             return false;
         }
@@ -138,19 +139,19 @@ public class DisServisTalepList extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
 
-            if(!get_mesaj_dis_servis_list.equals("false")){
+            if(!get_mesaj_ic_servis_list.equals("false")){
                 list_data.clear();
                 progressDialog.dismiss();
                 if(data_list.size() > 0){
 
                     for(int i=0; i<data_list.size(); i++){
 
-                        ModelDisServiTalep modelDisServiTalep = new ModelDisServiTalep(data_list.get(i).getID(),data_list.get(i).getProductAndService(),data_list.get(i).getDescription(),
-                                data_list.get(i).getAmount(),data_list.get(i).getUnitName());
-                        list_data.add(modelDisServiTalep);
+                        ModelIcServiTalep modelIcServiTalep = new ModelIcServiTalep(data_list.get(i).getID_ic(),data_list.get(i).getProductID_ic(),data_list.get(i).getAmount_ic(),
+                                data_list.get(i).getUnitPrice_ic(),data_list.get(i).getProductName_ic(),data_list.get(i).getUnitName_ic());
+                        list_data.add(modelIcServiTalep);
                     }
-                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this);
-                    recyclerView.setAdapter(disServisAdapter);
+                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this);
+                    recyclerView.setAdapter(icServisAdapter);
                 }else{
                     progressDialog.dismiss();
                     emptyList.setVisibility(View.VISIBLE);
@@ -166,8 +167,10 @@ public class DisServisTalepList extends AppCompatActivity {
         protected void onCancelled() {
             super.onCancelled();
 
-            disServisTalep = null;
+            icServisTalep = null;
             progressDialog.dismiss();
         }
     }
 }
+
+

@@ -1316,7 +1316,7 @@ public class Server {
 
     }
 
-    public static String RequestDelete(Integer workOrder_id, Integer insertUser_id, Integer amount, String subject, String description, Integer unit_id){
+    public static String RequestDelete(Integer id, String subject,String description,Integer unit_id,Integer amount){
 
         String method_Login = "RequestService/RequestDelete";
 
@@ -1325,12 +1325,13 @@ public class Server {
             URL url = new URL(Main_URL + method_Login); // here is your URL path
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("WorkOrderID", workOrder_id);
-            jsonObject.put("InsertUserID", insertUser_id);
-            jsonObject.put("Amount", amount);
-            jsonObject.put("ProductAndService", subject);
-            jsonObject.put("Description", description);
-            jsonObject.put("UnitID", unit_id);
+            jsonObject.put("RequestID", id);
+            jsonObject.put("ProductAndService",subject);
+            jsonObject.put("Description",description);
+            jsonObject.put("UnitID",unit_id);
+            jsonObject.put("Amount",amount);
+            jsonObject.put("Derivative", "");
+
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
@@ -1440,6 +1441,108 @@ public class Server {
             Log.i("Exception: ", e.getMessage());
             return "hata";
         }
+
+    }
+
+    public static String TestToken(String token){
+
+        String method_Projects = "Test/Get";
+
+        try {
+
+            URL url = new URL(Main_URL_token + method_Projects); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Bearer ",token);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "hata";
+        }
+
+    }
+
+    public static String GetIcServisByWorkOrder(Integer workOrder_id){
+
+        String method_Projects = "MaterialService/GetByWorkOrder";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "workOrderID=" + workOrder_id);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        } finally {
+            try {
+
+                if (inputStream != null) inputStream.close();
+
+            } catch (Exception squish) {
+                return "false";
+            }
+        }
+        return result;
 
     }
 

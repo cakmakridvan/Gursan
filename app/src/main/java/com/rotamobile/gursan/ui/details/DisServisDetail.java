@@ -23,13 +23,13 @@ import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.productUnitSpinner.DataProductUnit;
 import com.rotamobile.gursan.model.productUnitSpinner.ModelProductUnit;
-import com.rotamobile.gursan.ui.documents.DisServisForm;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.paperdb.Paper;
 
 public class DisServisDetail extends AppCompatActivity implements View.OnClickListener {
@@ -43,15 +43,17 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
     private String get_mesaj_productUnit= "";
     private List<String> product_cinsi;
     private ProductUnit productUnitTask = null;
-    private ProgressDialog progressDialog,progressDialogAdd_update;
+    private ProgressDialog progressDialog,progressDialogAdd_update,progressDialogAdd_delete;
     private Spinner spinner;
     private Integer get_cinsiCode;
     private ImageButton back;
     private TextView title;
-    private Button guncelle;
+    private Button guncelle,sil;
     private String getUserID = "";
     private RequestUpdate requestUpdate = null;
-    private boolean get_mesajRequestUpdate = false;
+    private RequestDelete requestDelete = null;
+    private TokenTest requestTestToken = null;
+    private boolean get_mesajRequestUpdate = false, get_mesajRequestDelete = false;
     private Integer get_id = 0;
     private Integer get_selectedProductID = 0;
 
@@ -85,6 +87,8 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         back.setOnClickListener(this);
         guncelle = findViewById(R.id.btn_dis_detail_update);
         guncelle.setOnClickListener(this);
+        sil = findViewById(R.id.btn_dis_detail_delete);
+        sil.setOnClickListener(this);
 
         topic.setText(get_topic);
         description.setText(get_description);
@@ -99,6 +103,10 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         progressDialogAdd_update = new ProgressDialog(DisServisDetail.this);
         progressDialogAdd_update.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialogAdd_update.setIndeterminate(true);
+
+        progressDialogAdd_delete = new ProgressDialog(DisServisDetail.this);
+        progressDialogAdd_delete.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialogAdd_delete.setIndeterminate(true);
 
         //ProductUnit Service
         productUnitTask = new ProductUnit();
@@ -130,6 +138,23 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
 
                 requestUpdate = new RequestUpdate(get_id,Integer.parseInt(getUserID),get_amount,get_topic,get_description,get_selectedProductID);
                 requestUpdate.execute((Void) null);
+
+                break;
+
+            case R.id.btn_dis_detail_delete:
+
+/*             //Token Test process
+                String get_token = Paper.book().read("token");
+                requestTestToken = new TokenTest(get_token);
+                requestTestToken.execute((Void) null);*/
+
+                get_description = description.getText().toString();
+                get_topic = topic.getText().toString();
+                String miktar2 = amount.getText().toString();
+                get_amount = Integer.parseInt(miktar2);
+
+                requestDelete = new RequestDelete(get_id,get_topic,get_description,0,get_amount);
+                requestDelete.execute((Void) null);
 
                 break;
         }
@@ -265,16 +290,16 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
 
     public class RequestUpdate extends AsyncTask<Void,Void,Boolean>{
 
-        private Integer workOrder_id;
+        private Integer _id;
         private Integer update_id;
         private String description;
         private Integer unit_id;
         private Integer amount;
         private String subject;
 
-        RequestUpdate(Integer workOrder_id,Integer update_id,Integer amount,String subject,String description,Integer unit_id){
+        RequestUpdate(Integer _id,Integer update_id,Integer amount,String subject,String description,Integer unit_id){
 
-            this.workOrder_id = workOrder_id;
+            this._id = _id;
             this.update_id = update_id;
             this.amount = amount;
             this.subject = subject;
@@ -295,7 +320,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         protected Boolean doInBackground(Void... voids) {
 
             try {
-                String getRequestAdd_result = Server.RequestUpdate(workOrder_id,update_id,amount,subject,description,unit_id);
+                String getRequestAdd_result = Server.RequestUpdate(_id,update_id,amount,subject,description,unit_id);
                 if(!getRequestAdd_result.trim().equalsIgnoreCase("false")){
 
                     try{
@@ -325,6 +350,19 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
             if(get_mesajRequestUpdate == true){
                 progressDialogAdd_update.dismiss();
 
+                new SweetAlertDialog(DisServisDetail.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("İşlem Mesajı")
+                        .setContentText("İşlem Başarılı,Güncelleme Yapılmıştır")
+                        .setConfirmText("Tamam")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                finish();
+                            }
+                        })
+                        .show();
+
 
             }else{
                 progressDialogAdd_update.dismiss();
@@ -335,6 +373,146 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         protected void onCancelled() {
             requestUpdate = null;
             progressDialogAdd_update.dismiss();
+        }
+    }
+
+    public class RequestDelete extends AsyncTask<Void,Void,Boolean>{
+
+        private Integer _id;
+        private String description;
+        private Integer unit_id;
+        private Integer amount;
+        private String subject;
+
+        RequestDelete(Integer _id,String subject,String description,Integer unit_id,Integer amount){
+
+            this._id = _id;
+            this.subject = subject;
+            this.description = description;
+            this.unit_id = unit_id;
+            this.amount = amount;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialogAdd_delete.setMessage("\tLoading...");
+            progressDialogAdd_delete.setCancelable(false);
+            progressDialogAdd_delete.show();
+            progressDialogAdd_delete.setContentView(R.layout.custom_progress);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            try {
+                String getRequestDelete_result = Server.RequestDelete(_id,subject,description,unit_id,amount);
+                if(!getRequestDelete_result.trim().equalsIgnoreCase("false")){
+
+                    try{
+
+                        JSONObject jObject = new JSONObject(getRequestDelete_result);
+                        get_mesajRequestDelete = jObject.getBoolean("Successful");
+                        Log.i("mesajRequestAdd",""+get_mesajRequestDelete);
+
+                    }catch(Exception e){
+                        Log.i("Exception: ",e.getMessage());
+                    }
+
+                }else{
+                    get_mesajRequestDelete = false;
+                }
+
+            }catch(Exception e){
+                Log.i("Exception: ",e.getMessage());
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(get_mesajRequestUpdate == true){
+                progressDialogAdd_delete.dismiss();
+
+                new SweetAlertDialog(DisServisDetail.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("İşlem Mesajı")
+                        .setContentText("İşlem Başarılı,Silme İşlemi Yapılmıştır")
+                        .setConfirmText("Tamam")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                finish();
+                            }
+                        })
+                        .show();
+
+
+            }else{
+                progressDialogAdd_delete.dismiss();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            requestDelete = null;
+            progressDialogAdd_delete.dismiss();
+        }
+    }
+
+    public class TokenTest extends AsyncTask<Void,Void,Boolean>{
+
+        private String token;
+
+        TokenTest(String token){
+
+            this.token = token;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            try {
+                String getRequestDelete_result = Server.TestToken(token);
+                if(!getRequestDelete_result.trim().equalsIgnoreCase("false")){
+
+                    try{
+
+
+                    }catch(Exception e){
+                        Log.i("Exception: ",e.getMessage());
+                    }
+
+                }else{
+
+                }
+
+            }catch(Exception e){
+                Log.i("Exception: ",e.getMessage());
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            requestTestToken = null;
+
         }
     }
 
