@@ -1005,6 +1005,131 @@ public class Server {
 
     }
 
+    public static String MaterialUpdate(Integer id, Integer updateUser_id, Integer amount){
+
+        String method_Login = "MaterialService/MaterialUpdate";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", id);
+            jsonObject.put("UpdateUserID", updateUser_id);
+            jsonObject.put("Amount", amount);
+            jsonObject.put("ManagerConfirm",false);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
+    public static String MaterialDelete(Integer id, Integer updateUser_id){
+
+        String method_Login = "MaterialService/MaterialDelete";
+
+        try {
+
+            URL url = new URL(Main_URL + method_Login); // here is your URL path
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", id);
+            jsonObject.put("UpdateUserID",updateUser_id);
+
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(jsonObject));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                                conn.getInputStream()));
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+
+                    sb.append(line);
+                    break;
+                }
+
+                in.close();
+                return sb.toString();
+            } else {
+                //User Info issue
+                //return new String("false : "+responseCode);
+                Log.i("Exception: ", "" + responseCode);
+                return "false";
+            }
+
+        } catch (Exception e) {
+            //Connection issue
+            //return new String("Exception: " + e.getMessage());
+            Log.i("Exception: ", e.getMessage());
+            return "false";
+        }
+
+    }
+
     public static String GetHistoryDevice(Integer code){
 
         String method_Projects = "HelperService/GetHistoryOfDevice";
@@ -1316,7 +1441,7 @@ public class Server {
 
     }
 
-    public static String RequestDelete(Integer id, String subject,String description,Integer unit_id,Integer amount){
+    public static String RequestDelete(Integer id, Integer updateUser_id){
 
         String method_Login = "RequestService/RequestDelete";
 
@@ -1325,12 +1450,8 @@ public class Server {
             URL url = new URL(Main_URL + method_Login); // here is your URL path
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("RequestID", id);
-            jsonObject.put("ProductAndService",subject);
-            jsonObject.put("Description",description);
-            jsonObject.put("UnitID",unit_id);
-            jsonObject.put("Amount",amount);
-            jsonObject.put("Derivative", "");
+            jsonObject.put("ID", id);
+            jsonObject.put("UpdateUserID",updateUser_id);
 
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -1545,6 +1666,8 @@ public class Server {
         return result;
 
     }
+
+
 
 
 }

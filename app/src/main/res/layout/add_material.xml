@@ -35,6 +35,7 @@
             android:id="@+id/toolbar_title_malzeme"
             android:textColor="@android:color/white"
             android:textSize="22sp"
+            android:layout_margin="5dp"
             />
 
         <LinearLayout

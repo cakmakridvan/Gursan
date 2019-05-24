@@ -13,9 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rotamobile.gursan.R;
-import com.rotamobile.gursan.model.disServisTalepList.ModelDisServiTalep;
 import com.rotamobile.gursan.model.icServisTalepList.ModelIcServiTalep;
-import com.rotamobile.gursan.ui.details.DisServisDetail;
 import com.rotamobile.gursan.ui.details.IcServisDetail;
 
 import java.util.List;
@@ -65,6 +63,7 @@ public class IcServisAdapter extends RecyclerView.Adapter<IcServisAdapter.ViewHo
                 Intent go_detailIcServis = new Intent(context,IcServisDetail.class);
                 go_detailIcServis.putExtra("ProductName",modelIcServiTalep.getProductName_ic());
                 go_detailIcServis.putExtra("amount",modelIcServiTalep.getAmount_ic());
+                go_detailIcServis.putExtra("id",modelIcServiTalep.getID_ic());
                 context.startActivity(go_detailIcServis);
 
             }

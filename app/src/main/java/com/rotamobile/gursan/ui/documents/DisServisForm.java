@@ -61,6 +61,7 @@ public class DisServisForm extends AppCompatActivity {
     private Integer get_Selected_amount = 0;
 
     private ImageButton check,delete;
+    private TextView empty_list;
 
 
     @Override
@@ -84,6 +85,8 @@ public class DisServisForm extends AppCompatActivity {
 
         title = findViewById(R.id.toolbar_title_dis_servis);
         title.setText("Dış Servis Talep Formu");
+
+        empty_list = findViewById(R.id.empty_talep_dis_servis_form);
 
         back_dis_Servis = findViewById(R.id.back_button_dis_servis);
         back_dis_Servis.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +223,9 @@ public class DisServisForm extends AppCompatActivity {
 
                         product_cinsi.add(defined_productUnit.get(i).getName());
                     }
+                }else{
+
+                    empty_list.setVisibility(View.VISIBLE);
                 }
 
             }else{

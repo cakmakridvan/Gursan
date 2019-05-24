@@ -148,12 +148,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
                 requestTestToken = new TokenTest(get_token);
                 requestTestToken.execute((Void) null);*/
 
-                get_description = description.getText().toString();
-                get_topic = topic.getText().toString();
-                String miktar2 = amount.getText().toString();
-                get_amount = Integer.parseInt(miktar2);
-
-                requestDelete = new RequestDelete(get_id,get_topic,get_description,0,get_amount);
+                requestDelete = new RequestDelete(get_id,Integer.parseInt(getUserID));
                 requestDelete.execute((Void) null);
 
                 break;
@@ -379,18 +374,12 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
     public class RequestDelete extends AsyncTask<Void,Void,Boolean>{
 
         private Integer _id;
-        private String description;
-        private Integer unit_id;
-        private Integer amount;
-        private String subject;
+        private Integer updateUser_id;
 
-        RequestDelete(Integer _id,String subject,String description,Integer unit_id,Integer amount){
+        RequestDelete(Integer _id,Integer updateUser_id){
 
             this._id = _id;
-            this.subject = subject;
-            this.description = description;
-            this.unit_id = unit_id;
-            this.amount = amount;
+            this.updateUser_id = updateUser_id;
 
         }
 
@@ -407,7 +396,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         protected Boolean doInBackground(Void... voids) {
 
             try {
-                String getRequestDelete_result = Server.RequestDelete(_id,subject,description,unit_id,amount);
+                String getRequestDelete_result = Server.RequestDelete(_id,updateUser_id);
                 if(!getRequestDelete_result.trim().equalsIgnoreCase("false")){
 
                     try{
@@ -434,7 +423,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if(get_mesajRequestUpdate == true){
+            if(get_mesajRequestDelete == true){
                 progressDialogAdd_delete.dismiss();
 
                 new SweetAlertDialog(DisServisDetail.this, SweetAlertDialog.SUCCESS_TYPE)
