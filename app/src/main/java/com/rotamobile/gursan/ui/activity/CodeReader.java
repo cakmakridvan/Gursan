@@ -226,6 +226,14 @@ public class CodeReader extends AppCompatActivity {
                 codeListe_bos.setVisibility(View.VISIBLE);
             }
         }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            codeReaderTask = null;
+
+        }
     }
 
 }

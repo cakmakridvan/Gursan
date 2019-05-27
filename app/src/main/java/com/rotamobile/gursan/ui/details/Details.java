@@ -77,7 +77,7 @@ public class Details extends AppCompatActivity {
 
     private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
-    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id;
+    private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id,get_workOrderService_id;
     private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
     private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_aciklama,update_user;
@@ -204,6 +204,7 @@ public class Details extends AppCompatActivity {
         get_workCategory_id = extras.getInt("workOrderCategory_id");
         get_workOrderType_id = extras.getInt("workOrderType_id");
         get_workImportance_id = extras.getInt("WorkImportance_id");
+        get_workOrderService_id = extras.getInt("WorkOrderService_id");
 
         Log.i("get_proje_id",""+get_proje_id);
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
@@ -461,11 +462,43 @@ public class Details extends AppCompatActivity {
         }
 
         //Service Tip Spinner
-        list_service = new ArrayList<String>();
-        list_service.add("Servis Tipini Seçiniz");
-        list_service.add("İç Servis");
-        list_service.add("Dış Servis");
-        serviceTipSpinner();
+
+        if(get_workOrderService_id == 1501){
+            list_service = new ArrayList<String>();
+            list_service.add("İç Servis");
+            list_service.add("İç Servis");
+            list_service.add("Dış Servis");
+            serviceTipSpinner();
+
+            //İç Servis Selected
+            workOrderServiceID = Enums.ic_Servis;
+            definedJobTask = new DefinedJobTask();
+            definedJobTask.execute((Void) null);
+            tanimli_lyt.setVisibility(View.VISIBLE);
+
+        }else if(get_workOrderService_id == 1502){
+            list_service = new ArrayList<String>();
+            list_service.add("Dış Servis");
+            list_service.add("İç Servis");
+            list_service.add("Dış Servis");
+            serviceTipSpinner();
+
+            //Dış Servis Selected
+            workOrderServiceID = Enums.dis_Servis;
+            tanimli_lyt.setVisibility(View.GONE);
+
+            if(girilen_lyt.getVisibility() == View.VISIBLE){
+
+                girilen_lyt.setVisibility(View.GONE);
+            }
+
+        }else{
+            list_service = new ArrayList<String>();
+            list_service.add("Servis Tipini Seçiniz");
+            list_service.add("İç Servis");
+            list_service.add("Dış Servis");
+            serviceTipSpinner();
+        }
 
         /**
          * Search MultiSelection Spinner (With Search/Filter Functionality)
@@ -486,9 +519,6 @@ public class Details extends AppCompatActivity {
             h.setSelected(false);
             listArray0.add(h);
         }*/
-
-
-
 
     }
 

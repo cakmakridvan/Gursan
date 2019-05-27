@@ -451,8 +451,6 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         }
     }
 
-
-
     private void showToasty(String mesaj) {
 
         Toasty.info(getActivity(), "Lütfen " + mesaj, Toast.LENGTH_SHORT, true).show();
@@ -479,7 +477,6 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.custom_progress);
-
 
         }
 
@@ -535,6 +532,13 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 projeSpinnerAction();
             }
 
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            projectsTask = null;
         }
 
         private void projeSpinnerAction() {
@@ -699,7 +703,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            territoryTask = null;
+        }
     }
 
     private void territorySpinnerAction() {
@@ -850,7 +859,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            buildingTask = null;
+        }
     }
 
     private void buildingSpinnerAction() {
@@ -993,7 +1007,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            areaTask = null;
+        }
     }
 
     private void areaSpinnerAction() {
@@ -1120,7 +1139,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            deviceTask = null;
+        }
     }
 
     private void deviceSpinnerAction() {
@@ -1241,7 +1265,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            userListTask = null;
+        }
     }
 
     private void userListSpinnerAction() {
@@ -1355,7 +1384,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            subjectTask = null;
+        }
     }
 
     private void deviceSubjectAction(){
@@ -1498,7 +1532,6 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             if(get_mesaj_todoAdd.equals("true")) {
 
                 progressDialog_todo.dismiss();
-
                 new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText("İşlem Mesajı")
                         .setContentText("İşlem Başarılı,İş Emri Oluşturulmuştur")
@@ -1513,18 +1546,20 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                             }
                         })
                         .show();
-
             }
             else{
-
                 progressDialog_todo.dismiss();
-
                 Toasty.error(getActivity(), "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
-
             }
+        }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            todoAdd = null;
+            progressDialog_todo.dismiss();
         }
     }
-
 
 }

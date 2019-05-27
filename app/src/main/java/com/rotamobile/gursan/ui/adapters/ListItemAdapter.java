@@ -133,6 +133,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 goDetails.putExtra("workOrderCategory_id", listItemAllMessages.getWorkOrderCategoryID());
                 goDetails.putExtra("workOrderType_id",listItemAllMessages.getWorkOrderTypeID());
                 goDetails.putExtra("WorkImportance_id",listItemAllMessages.getWorkImportanceID());
+                goDetails.putExtra("WorkOrderService_id",listItemAllMessages.getWorkOrderServiceID());
 
                 context.startActivity(goDetails);
 
@@ -373,6 +374,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 Toast.makeText(context,"Başarısız",Toast.LENGTH_LONG).show();
             }
 
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            workStatusClose = null;
+            progressDialog.dismiss();
         }
     }
 }

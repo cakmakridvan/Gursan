@@ -180,7 +180,13 @@ public class FlagMessages extends Fragment {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            todoListTask = null;
+            progressDialog.dismiss();
+        }
     }
 
     @Override

@@ -155,6 +155,9 @@ public class IcServisTalepList extends AppCompatActivity {
                 }else{
                     progressDialog.dismiss();
                     emptyList.setVisibility(View.VISIBLE);
+
+                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this);
+                    recyclerView.setAdapter(icServisAdapter);
                 }
             }else{
 

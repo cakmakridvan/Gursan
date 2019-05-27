@@ -186,7 +186,14 @@ public class AllMessages extends Fragment {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            todoListTask = null;
+            progressDialog.dismiss();
+
+        }
     }
   //for SearchView in RecyclerView
     @Override

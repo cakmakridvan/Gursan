@@ -45,7 +45,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
     private ProductUnit productUnitTask = null;
     private ProgressDialog progressDialog,progressDialogAdd_update,progressDialogAdd_delete;
     private Spinner spinner;
-    private Integer get_cinsiCode;
+    private Integer get_cinsiCode = 0;
     private ImageButton back;
     private TextView title;
     private Button guncelle,sil;
@@ -204,11 +204,13 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
 
                         product_cinsi.add(defined_productUnit.get(i).getName());
 
-                        if(get_cinsi.equals(defined_productUnit.get(i).getName())){
 
-                            get_cinsiCode = i+1;
-                            get_selectedProductID = defined_productUnit.get(i).getCode();
-                        }
+                      if(get_cinsi != null) {
+                          if (get_cinsi.equals(defined_productUnit.get(i).getName())) {
+                              get_cinsiCode = i + 1;
+                              get_selectedProductID = defined_productUnit.get(i).getCode();
+                          }
+                      }
                     }
 
                     productCinsi();

@@ -317,8 +317,14 @@ public class CaptureImage extends AppCompatActivity {
             }
 
         }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            documentADD_task = null;
+            progressDialog_document.dismiss();
+        }
     }
-
-
 
 }

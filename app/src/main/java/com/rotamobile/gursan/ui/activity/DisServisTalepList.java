@@ -154,11 +154,15 @@ public class DisServisTalepList extends AppCompatActivity {
                 }else{
                     progressDialog.dismiss();
                     emptyList.setVisibility(View.VISIBLE);
+
+                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this);
+                    recyclerView.setAdapter(disServisAdapter);
                 }
             }else{
 
                 progressDialog.dismiss();
                 emptyList.setVisibility(View.VISIBLE);
+
             }
         }
 

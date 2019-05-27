@@ -179,7 +179,13 @@ public class Home extends Fragment {
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
 
+            todoListTask = null;
+            progressDialog.dismiss();
+        }
     }
 
   //For Search RecyclerView Button for Message

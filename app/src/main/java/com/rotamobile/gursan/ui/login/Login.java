@@ -109,7 +109,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             .make(coordinatorLayout, getResources().getString(R.string.bilgiler_eksik), Snackbar.LENGTH_LONG);
                     snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
                     snackbar.show();
-
                 }
 
                 break;
@@ -125,7 +124,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         private final String name;
         private final String password;
-
 
         UserLogin(String name,String password){
 
@@ -243,7 +241,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
                 snackbar.show();
             }
+        }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            userLogin = null;
+            progressDialog.dismiss();
         }
     }
 }

@@ -124,9 +124,6 @@ public class OpenGalery extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     @Override
@@ -312,7 +309,14 @@ public class OpenGalery extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
 
             }
+        }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            documentOpenGalery_task = null;
+            progressDialog_galeri.dismiss();
         }
     }
 
