@@ -83,8 +83,12 @@ public class ListItemAllMessages {
     @SerializedName("MoveTypeID")
     @Expose
     private Integer MoveTypeID;
-
-
+    @SerializedName("FirmName")
+    @Expose
+    private String FirmName;
+    @SerializedName("FirmPhone")
+    @Expose
+    private String FirmPhone;
 
     public ListItemAllMessages(Integer id, String projectName, String subjectText, String buildingName, String deviceName, String startDate, String endDate, String workUser
             , String territoryName, String areaName, Integer project_id, Integer teritory_id, Integer building_id, Integer area_id, Integer device_id, Integer subject_id
@@ -327,6 +331,22 @@ public class ListItemAllMessages {
 
     public void setMoveTypeID(Integer moveTypeID) {
         MoveTypeID = moveTypeID;
+    }
+
+    public String getFirmName() {
+        return FirmName;
+    }
+
+    public void setFirmName(String firmName) {
+        FirmName = firmName;
+    }
+
+    public String getFirmPhone() {
+        return FirmPhone;
+    }
+
+    public void setFirmPhone(String firmPhone) {
+        FirmPhone = firmPhone;
     }
 
 }

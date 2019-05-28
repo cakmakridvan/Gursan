@@ -75,17 +75,17 @@ import static com.rotamobile.gursan.data.Server.PostDefinedList;
 
 public class Details extends AppCompatActivity {
 
-    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user;
+    private Spinner project_name,territory_name,building_name,area_name,device_name,subject_name,servis_name,assigned_user,workOrdertype_name;
     private String get_project_name,get_territory_name,get_building_name,get_area_name,get_device_name,get_subject_name,get_start_date,get_end_date,get_kullanici_adi,get_descriptionUpdate;
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id,get_workOrderService_id;
     private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
-    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_aciklama,update_user;
+    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_isEmriTipi,detail_aciklama,update_user;
     private EditText aciklama;
 
     Bundle extras;
     private ImageButton back_imagebutton;
-    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service,list_definedJob,list_assignedUSer;
+    private List<String> list_proje,list_territory,list_building,list_area,list_device,list_subject,list_service,list_definedJob,list_assignedUSer,list_workOrderTypeID;
     private ProgressDialog progressDialog,progressDialog_todoListUpdate;
     private String get_userID;
 
@@ -107,6 +107,7 @@ public class Details extends AppCompatActivity {
     ArrayAdapter<String> dataAdapter_device;
     ArrayAdapter<String> dataAdapter_subject;
     ArrayAdapter<String> dataAdapter_service;
+    ArrayAdapter<String> dataAdapter_workOrderTypeSpinner;
 
     //Proje
     private Integer projectID = 0;
@@ -166,7 +167,8 @@ public class Details extends AppCompatActivity {
     private ArrayList<ModelUserType> dataUSerType;
     private String get_mesaj_dataUserType = "";
     private Integer get_assgnedID = 0;
-    private TextView is_ata;
+    private TextView is_ata,txt_servis_Tipi;
+    private LinearLayout lyt_servis_Tipi;
 
 
     @Override
@@ -283,6 +285,13 @@ public class Details extends AppCompatActivity {
         servis_name = findViewById(R.id.txt_name_servis_tipi);
         update_user = findViewById(R.id.update_userName);
         assigned_user = findViewById(R.id.txt_assing_user);
+        workOrdertype_name = findViewById(R.id.txt_workOrderType_id);
+        lyt_servis_Tipi = findViewById(R.id.lyt_servisTipi);
+        txt_servis_Tipi = findViewById(R.id.txt_servisTipi);
+
+        //Visible Servis Tipi
+        txt_servis_Tipi.setVisibility(View.VISIBLE);
+        lyt_servis_Tipi.setVisibility(View.VISIBLE);
 
         //set UserName
         update_user.setText(get_kullanici_adi);
@@ -463,7 +472,7 @@ public class Details extends AppCompatActivity {
 
         //Service Tip Spinner
 
-        if(get_workOrderService_id == 1501){
+        if(get_workOrderService_id.equals(Enums.ic_Servis)){
             list_service = new ArrayList<String>();
             list_service.add("İç Servis");
             list_service.add("İç Servis");
@@ -476,7 +485,7 @@ public class Details extends AppCompatActivity {
             definedJobTask.execute((Void) null);
             tanimli_lyt.setVisibility(View.VISIBLE);
 
-        }else if(get_workOrderService_id == 1502){
+        }else if(get_workOrderService_id.equals(Enums.dis_Servis)){
             list_service = new ArrayList<String>();
             list_service.add("Dış Servis");
             list_service.add("İç Servis");
@@ -499,6 +508,33 @@ public class Details extends AppCompatActivity {
             list_service.add("Dış Servis");
             serviceTipSpinner();
         }
+
+        //WorkOrderTypeId Spinner
+        if(get_workOrderType_id.equals(Enums.talep)){
+            list_workOrderTypeID = new ArrayList<String>();
+            list_workOrderTypeID.add("Talep");
+            list_workOrderTypeID.add("Talep");
+            list_workOrderTypeID.add("Arıza");
+            orderTypeSpinner();
+        }else if(get_workOrderType_id.equals(Enums.ariza)){
+            list_workOrderTypeID = new ArrayList<String>();
+            list_workOrderTypeID.add("Arıza");
+            list_workOrderTypeID.add("Talep");
+            list_workOrderTypeID.add("Arıza");
+            orderTypeSpinner();
+        }else if(get_workOrderType_id.equals(Enums.periyodik)){
+            list_workOrderTypeID = new ArrayList<String>();
+            list_workOrderTypeID.add("Periyodik");
+            //orderTypeSpinner();
+            dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.detail_spinner_text_color, list_workOrderTypeID);
+            dataAdapter_workOrderTypeSpinner.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
+            workOrdertype_name.setAdapter(dataAdapter_workOrderTypeSpinner);
+
+            txt_servis_Tipi.setVisibility(View.GONE);
+            lyt_servis_Tipi.setVisibility(View.GONE);
+        }
+
 
         /**
          * Search MultiSelection Spinner (With Search/Filter Functionality)
@@ -533,6 +569,7 @@ public class Details extends AppCompatActivity {
         detail_area = findViewById(R.id.txt_areaName);
         detail_device = findViewById(R.id.txt_deviceName);
         detail_subject = findViewById(R.id.txt_subjectName);
+        detail_isEmriTipi = findViewById(R.id.txt_workOrder_type_id);
         detail_aciklama = findViewById(R.id.txt_aciklama);
 
         detail_user.setText(get_kullanici_adi);
@@ -540,6 +577,14 @@ public class Details extends AppCompatActivity {
         detail_teritory.setText(get_territory_name);
         detail_building.setText(get_building_name);
         detail_area.setText(get_area_name);
+
+        if(get_workOrderType_id.equals(Enums.talep)){
+            detail_isEmriTipi.setText("Talep");
+        }else if(get_workOrderType_id.equals(Enums.ariza)){
+            detail_isEmriTipi.setText("Arıza");
+        }else if(get_workOrderType_id.equals(Enums.periyodik)){
+            detail_isEmriTipi.setText("Periyodik");
+        }
 
         if(get_device_name != null && !get_device_name.isEmpty()) {
             detail_device.setText(get_device_name);
@@ -659,7 +704,6 @@ public class Details extends AppCompatActivity {
         }
 
         private void projeSpinnerAction() {
-
 
             dataAdapter_proje.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             project_name.setAdapter(dataAdapter_proje);
@@ -1536,6 +1580,66 @@ public class Details extends AppCompatActivity {
                     }
 
 
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void orderTypeSpinner(){
+
+        dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.detail_spinner_text_color, list_workOrderTypeID) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+
+        };
+        dataAdapter_workOrderTypeSpinner.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
+        workOrdertype_name.setAdapter(dataAdapter_workOrderTypeSpinner);
+        workOrdertype_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if (position > 0) {
+
+                    if(position == 1){
+                        //Talep Selected
+                        get_workOrderType_id = Enums.talep;
+                    }else if(position == 2){
+                        //Arıza Selected
+                        get_workOrderType_id = Enums.ariza;
+                    }
                 }
             }
 

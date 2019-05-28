@@ -118,6 +118,11 @@
             android:label=""
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.documents.DetailDocument"
+            android:theme="@style/AppThemeLight"
+            android:label=""
+            android:screenOrientation="portrait"/>
+
 
     </application>
 

@@ -50,13 +50,13 @@
                     >
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/dot_icon"
                     android:background="@null"
                     android:id="@+id/txt_option_item"
                     android:layout_gravity="right"
-                    android:visibility="gone"
+
                     />
                 </LinearLayout>
 

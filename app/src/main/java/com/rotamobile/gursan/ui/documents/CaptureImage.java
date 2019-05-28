@@ -116,9 +116,6 @@ public class CaptureImage extends AppCompatActivity {
             }
         });
 
-
-
-
         EnableRuntimePermission();
 
         //Progress Diaolog initialize

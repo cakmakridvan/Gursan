@@ -290,13 +290,12 @@
         </LinearLayout>
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
-                android:text="Servis Tipi:       "
+                android:text="İş Emri Tipi:       "
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:paddingLeft="12dp"
@@ -307,6 +306,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/details_margin_padding"
+                >
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_workOrderType_id"
+                    android:padding="@dimen/edt_pad_size"
+                    android:background="@drawable/effect_spinner"
+                    android:spinnerMode="dialog"
+                    />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:lineSpacingExtra="8dp"
+                android:text="Servis Tipi:       "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                android:visibility="gone"
+                android:id="@+id/txt_servisTipi"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                android:visibility="gone"
+                android:id="@+id/lyt_servisTipi"
                 >
 
                 <Spinner
@@ -670,6 +703,35 @@
                     android:text="..."
                     android:textColor="@color/black"
                     android:id="@+id/txt_subjectName"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="İş Emri Tipi: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_workOrder_type_id"
                     />
 
             </LinearLayout>
