@@ -216,7 +216,7 @@ public class OpenGalery extends AppCompatActivity {
 
     private void showToasty(String mesaj) {
 
-        Toasty.error(getApplicationContext(), mesaj, Toast.LENGTH_SHORT, true).show();
+        Toasty.error(OpenGalery.this, mesaj, Toast.LENGTH_SHORT, true).show();
     }
 
     public class DocomentOpenGalery extends AsyncTask<Void, Void, Boolean>{
@@ -306,7 +306,7 @@ public class OpenGalery extends AppCompatActivity {
 
                 progressDialog_galeri.dismiss();
 
-                Toasty.error(getApplicationContext(), "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
+                Toasty.error(OpenGalery.this, "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
 
             }
         }

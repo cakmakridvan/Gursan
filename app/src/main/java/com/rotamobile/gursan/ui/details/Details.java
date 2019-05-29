@@ -49,6 +49,7 @@ import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
 import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.dialog_customize.CustomDialogClass;
+import com.rotamobile.gursan.ui.documents.DetailDocument;
 import com.rotamobile.gursan.utils.enums.Enums;
 
 
@@ -169,7 +170,7 @@ public class Details extends AppCompatActivity {
     private Integer get_assgnedID = 0;
     private TextView is_ata,txt_servis_Tipi;
     private LinearLayout lyt_servis_Tipi;
-
+    private ImageButton imglist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,6 +289,18 @@ public class Details extends AppCompatActivity {
         workOrdertype_name = findViewById(R.id.txt_workOrderType_id);
         lyt_servis_Tipi = findViewById(R.id.lyt_servisTipi);
         txt_servis_Tipi = findViewById(R.id.txt_servisTipi);
+        imglist = findViewById(R.id.update_imagelist);
+
+        imglist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent go_detailDocument = new Intent(Details.this,DetailDocument.class);
+                go_detailDocument.putExtra("workOrder_id",get_id); //Send WorkOrderId
+                startActivity(go_detailDocument);
+
+            }
+        });
 
         //Visible Servis Tipi
         txt_servis_Tipi.setVisibility(View.VISIBLE);
@@ -361,7 +374,7 @@ public class Details extends AppCompatActivity {
         if(get_project_name != null && !get_project_name.isEmpty()) {
             list_proje = new ArrayList<String>();
             list_proje.add(get_project_name);
-            dataAdapter_proje = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_proje = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_proje){
 
                 @Override
@@ -401,7 +414,7 @@ public class Details extends AppCompatActivity {
             list_territory.add(get_territory_name);
             territory_name.setEnabled(false);
             //territorySpinnerAction();
-            dataAdapter_territory = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_territory = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_territory);
             dataAdapter_territory.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             territory_name.setAdapter(dataAdapter_territory);
@@ -412,7 +425,7 @@ public class Details extends AppCompatActivity {
             list_building.add(get_building_name);
             building_name.setEnabled(false);
             //buildingSpinnerAction();
-            dataAdapter_building = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_building = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_building);
             dataAdapter_building.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             building_name.setAdapter(dataAdapter_building);
@@ -424,7 +437,7 @@ public class Details extends AppCompatActivity {
             list_area.add(get_area_name);
             area_name.setEnabled(false);
             //areaSpinnerAction();
-            dataAdapter_area = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_area = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_area);
             dataAdapter_area.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             area_name.setAdapter(dataAdapter_area);
@@ -435,7 +448,7 @@ public class Details extends AppCompatActivity {
             list_device.add(get_device_name);
             //deviceSpinnerAction();
             device_name.setEnabled(false);
-            dataAdapter_device = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_device = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_device);
             dataAdapter_device.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             device_name.setAdapter(dataAdapter_device);
@@ -445,7 +458,7 @@ public class Details extends AppCompatActivity {
             list_device.add(get_device_name);
             //deviceSpinnerAction();
             device_name.setEnabled(false);
-            dataAdapter_device = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_device = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_device);
             dataAdapter_device.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             device_name.setAdapter(dataAdapter_device);
@@ -456,7 +469,7 @@ public class Details extends AppCompatActivity {
             list_subject = new ArrayList<String>();
             list_subject.add(get_subject_name);
             //subjectSpinnerAction();
-            dataAdapter_subject = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_subject = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_subject);
             dataAdapter_subject.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             subject_name.setAdapter(dataAdapter_subject);
@@ -526,7 +539,7 @@ public class Details extends AppCompatActivity {
             list_workOrderTypeID = new ArrayList<String>();
             list_workOrderTypeID.add("Periyodik");
             //orderTypeSpinner();
-            dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(getApplicationContext(),
+            dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(Details.this,
                     R.layout.detail_spinner_text_color, list_workOrderTypeID);
             dataAdapter_workOrderTypeSpinner.setDropDownViewResource(R.layout.detail_spinner_text_clicked);
             workOrdertype_name.setAdapter(dataAdapter_workOrderTypeSpinner);
@@ -598,7 +611,7 @@ public class Details extends AppCompatActivity {
 
     private void showToasty(String mesaj) {
 
-        Toasty.info(getApplicationContext(), "Lütfen " + mesaj, Toast.LENGTH_SHORT, true).show();
+        Toasty.info(Details.this, "Lütfen " + mesaj, Toast.LENGTH_SHORT, true).show();
     }
 
     public class ProjectsTask extends AsyncTask<Void, Void, Boolean> {
@@ -821,7 +834,7 @@ public class Details extends AppCompatActivity {
 
     private void territorySpinnerAction() {
 
-        dataAdapter_territory = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_territory = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_territory){
 
             @Override
@@ -962,7 +975,7 @@ public class Details extends AppCompatActivity {
 
     private void buildingSpinnerAction(){
 
-        dataAdapter_building = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_building = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_building){
 
             @Override
@@ -1098,7 +1111,7 @@ public class Details extends AppCompatActivity {
 
     private void areaSpinnerAction(){
 
-        dataAdapter_area = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_area = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_area){
 
             @Override
@@ -1229,7 +1242,7 @@ public class Details extends AppCompatActivity {
 
     private void deviceSpinnerAction(){
 
-        dataAdapter_device = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_device = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_device){
 
             @Override
@@ -1347,7 +1360,7 @@ public class Details extends AppCompatActivity {
 
     private void subjectSpinnerAction(){
 
-        dataAdapter_subject = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_subject = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_subject){
 
             @Override
@@ -1511,7 +1524,7 @@ public class Details extends AppCompatActivity {
 
                 progressDialog_todoListUpdate.dismiss();
 
-                Toasty.error(getApplicationContext(), "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
+                Toasty.error(Details.this, "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
 
             }
 
@@ -1520,7 +1533,7 @@ public class Details extends AppCompatActivity {
 
     private void serviceTipSpinner(){
 
-        dataAdapter_service = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_service = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_service) {
 
             @Override
@@ -1592,7 +1605,7 @@ public class Details extends AppCompatActivity {
 
     private void orderTypeSpinner(){
 
-        dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(getApplicationContext(),
+        dataAdapter_workOrderTypeSpinner = new ArrayAdapter<String>(Details.this,
                 R.layout.detail_spinner_text_color, list_workOrderTypeID) {
 
             @Override

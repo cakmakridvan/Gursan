@@ -64,7 +64,7 @@ public class CodeReader extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_codeReader);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(CodeReader.this));
         //icerik = findViewById(R.id.txt_icerik);
         title = findViewById(R.id.toolbar_title);
         title.setText("QR Code Okuyucu");
@@ -73,7 +73,7 @@ public class CodeReader extends AppCompatActivity {
         list_history = new ArrayList<>();
 
         //Progress Diaolog initialize
-        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog = new ProgressDialog(CodeReader.this);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setIndeterminate(true);
 
@@ -214,7 +214,7 @@ public class CodeReader extends AppCompatActivity {
                 ModelHistory modelHistory = new ModelHistory(history_list.get(i).getSubjectText(),history_list.get(i).getDescription(),history_list.get(i).getInsertDateString());
                 list_history.add(modelHistory);
               }
-                 code_adapter = new CodeAdapter(list_history,getApplicationContext());
+                 code_adapter = new CodeAdapter(list_history,CodeReader.this);
                  recyclerView.setAdapter(code_adapter);
              }else{
                  //progressDialog.dismiss();

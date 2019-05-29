@@ -49,7 +49,7 @@ public class MainBottomNavigation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent go_main = new Intent(getApplicationContext(),Main.class);
+                Intent go_main = new Intent(MainBottomNavigation.this,Main.class);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(go_main);
@@ -121,7 +121,7 @@ public class MainBottomNavigation extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent go_main = new Intent(getApplicationContext(),Main.class);
+        Intent go_main = new Intent(MainBottomNavigation.this,Main.class);
         go_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(go_main);

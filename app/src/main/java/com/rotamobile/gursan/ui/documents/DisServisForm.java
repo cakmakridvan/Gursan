@@ -242,7 +242,7 @@ public class DisServisForm extends AppCompatActivity {
 
     private void productCinsi() {
 
-        ArrayAdapter<String> dataAdapter_alan = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> dataAdapter_alan = new ArrayAdapter<String>(DisServisForm.this,
                 R.layout.detail_spinner_text_color, product_cinsi) {
 
             @Override

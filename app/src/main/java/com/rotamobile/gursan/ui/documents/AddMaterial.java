@@ -252,7 +252,7 @@ public class AddMaterial extends AppCompatActivity {
              }
          }else if(get_SelectedName.getSelectedItem() == null){
 
-             Toast.makeText(getApplicationContext(),"Malzeme Seçiniz",Toast.LENGTH_LONG).show();
+             Toast.makeText(AddMaterial.this,"Malzeme Seçiniz",Toast.LENGTH_LONG).show();
          }
 
             //Toast.makeText(getApplicationContext(),""+selectedID + edittext_var.getText().toString(),Toast.LENGTH_LONG).show();

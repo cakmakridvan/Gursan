@@ -11,10 +11,14 @@ public class ModelDocument {
     @SerializedName("CommentText")
     @Expose
     private String CommentText;
+    @SerializedName("InsetDateDocumentString")
+    @Expose
+    private String InsetDateDocumentString;
 
-    public ModelDocument(String documentContent, String commentText) {
+    public ModelDocument(String documentContent, String commentText, String insetDateDocumentString) {
         DocumentContent = documentContent;
         CommentText = commentText;
+        InsetDateDocumentString = insetDateDocumentString;
     }
 
     public String getDocumentContent() {
@@ -32,4 +36,13 @@ public class ModelDocument {
     public void setCommentText(String commentText) {
         CommentText = commentText;
     }
+
+    public String getInsetDateDocumentString() {
+        return InsetDateDocumentString;
+    }
+
+    public void setInsetDateDocumentString(String insetDateDocumentString) {
+        InsetDateDocumentString = insetDateDocumentString;
+    }
+
 }

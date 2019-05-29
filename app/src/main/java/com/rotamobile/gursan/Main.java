@@ -325,7 +325,7 @@ public class Main extends AppCompatActivity {
 /*                        navItemIndex = 2;
                         CURRENT_TAG = TAG_MOVIES;*/
 
-                        Intent go_home = new Intent(getApplicationContext(),MainBottomNavigation.class);
+                        Intent go_home = new Intent(Main.this,MainBottomNavigation.class);
                         startActivity(go_home);
 
                         break;
@@ -334,7 +334,7 @@ public class Main extends AppCompatActivity {
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_ayarlar:
-                        Intent go_scanner = new Intent(getApplicationContext(),CodeReader.class);
+                        Intent go_scanner = new Intent(Main.this,CodeReader.class);
                         startActivity(go_scanner);
 
                         break;
@@ -499,7 +499,7 @@ public class Main extends AppCompatActivity {
         String get_saved_language = Paper.book().read("language");
        //Notification icon in ToolBar
         if (id == R.id.action_notification) {
-            Toast.makeText(getApplicationContext(), "Bildirim comes!", Toast.LENGTH_LONG).show();
+            Toast.makeText(Main.this, "Bildirim comes!", Toast.LENGTH_LONG).show();
             setCount(this, x++);
             return true;
         }

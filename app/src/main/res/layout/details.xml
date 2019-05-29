@@ -88,7 +88,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/details_margin_padding"
-                android:gravity="center"
                 >
 
                 <TextView
@@ -110,6 +109,21 @@
                     android:id="@+id/update_userName"
                     android:textColor="@color/black"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/imagelist"
+                        android:id="@+id/update_imagelist"
+                        android:background="@null"
+                        />
+
+                </LinearLayout>
 
             </LinearLayout>
 

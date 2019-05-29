@@ -11,7 +11,7 @@
         >
 
         <LinearLayout
-            android:id="@+id/linearLayoutCode"
+            android:id="@+id/linearLayoutDocument"
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,14 +22,60 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/imgview_document"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Tarih:"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:textStyle="bold"
+                      android:paddingLeft="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/document_list_tarih"
+                    android:layout_gravity="center"
+                    android:text="....."
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:paddingLeft="5dp"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yorum:"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:paddingLeft="12dp" />
 
                 <TextView
                     android:text="Heading"
@@ -39,8 +85,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="12dp"
+                    android:paddingLeft="5dp"
                     />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }else{
                     Snackbar snackbar = Snackbar
                             .make(coordinatorLayout, getResources().getString(R.string.bilgiler_eksik), Snackbar.LENGTH_LONG);
-                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(Login.this,R.color.colorAccent));
                     snackbar.show();
                 }
 
@@ -196,7 +196,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 progressDialog.dismiss();
 
-                Intent go_main = new Intent(getApplicationContext(), Main.class);
+                Intent go_main = new Intent(Login.this, Main.class);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 go_main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 /*                go_main.putExtra("name",get_name);
@@ -220,7 +220,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, getResources().getString(R.string.user_autorization), Snackbar.LENGTH_LONG);
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(Login.this,R.color.colorAccent));
                 snackbar.show();
             }
             else if(get_mesaj.equals("internet_error")){
@@ -229,7 +229,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, getResources().getString(R.string.connection), Snackbar.LENGTH_LONG);
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(Login.this,R.color.colorAccent));
                 snackbar.show();
             }
             else if(get_mesaj.equals("user_error")){
@@ -238,7 +238,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, getResources().getString(R.string.user_info_error), Snackbar.LENGTH_LONG);
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(Login.this,R.color.colorAccent));
                 snackbar.show();
             }
         }

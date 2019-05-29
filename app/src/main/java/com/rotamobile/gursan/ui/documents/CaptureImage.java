@@ -218,7 +218,7 @@ public class CaptureImage extends AppCompatActivity {
 
     private void showToasty(String mesaj) {
 
-        Toasty.error(getApplicationContext(), mesaj, Toast.LENGTH_SHORT, true).show();
+        Toasty.error(CaptureImage.this, mesaj, Toast.LENGTH_SHORT, true).show();
     }
 
     public class DocumentADD extends AsyncTask<Void, Void, Boolean> {
@@ -309,7 +309,7 @@ public class CaptureImage extends AppCompatActivity {
 
                 progressDialog_document.dismiss();
 
-                Toasty.error(getApplicationContext(), "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
+                Toasty.error(CaptureImage.this, "İşlem Başarısız,tekrar deneyiniz", Toast.LENGTH_SHORT, true).show();
 
             }
 
