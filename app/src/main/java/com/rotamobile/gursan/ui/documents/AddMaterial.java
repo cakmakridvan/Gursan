@@ -45,6 +45,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 import static com.rotamobile.gursan.data.Server.GetAllMaterial;
 import static com.rotamobile.gursan.data.Server.MaterialAdd;
 
@@ -72,7 +74,7 @@ public class AddMaterial extends AppCompatActivity {
     ArrayList arrayName;
     private Boolean get_mesaj_addMaterial;
     private Integer get_workerID = 0;
-    private Integer get_insertUserID = 0;
+    private String get_insertUserID;
     Bundle extras;
     private Integer get_amount = 0;
     private Integer get_Selected_id = 0;
@@ -92,6 +94,10 @@ public class AddMaterial extends AppCompatActivity {
     //ToolBar init
         toolbar_material = findViewById(R.id.toolbar_material);
         setSupportActionBar(toolbar_material);
+        Paper.init(AddMaterial.this);
+
+        //get UserID from Login
+        get_insertUserID = Paper.book().read("user_id");
 
         textView_title = findViewById(R.id.toolbar_title_malzeme);
         textView_title.setText("Malzeme Ekle");
@@ -127,7 +133,7 @@ public class AddMaterial extends AppCompatActivity {
         extras = getIntent().getExtras();
         if(extras != null) {
             get_workerID = extras.getInt("id"); //get WorkID
-            get_insertUserID = extras.getInt("insert_user_id"); //get InsertUserID
+            //get_insertUserID = extras.getInt("insert_user_id"); //get InsertUserID
         }
 
         malzeme_listele = findViewById(R.id.imgbtn_ic_servis_listeleme);
@@ -246,7 +252,7 @@ public class AddMaterial extends AppCompatActivity {
 
                      selectedID = definedMaterials.get(i).getID();
                   //Send AddMaterial
-                     addMaterialTask = new AddMaterials(get_amount,get_workerID,selectedID,get_insertUserID);
+                     addMaterialTask = new AddMaterials(get_amount,get_workerID,selectedID,Integer.parseInt(get_insertUserID));
                      addMaterialTask.execute((Void) null);
                  }
              }

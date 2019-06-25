@@ -207,7 +207,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
                             case R.id.menu_item_is_kapat:
 
-                                workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.kapali,get_LoginID,listItemAllMessages.getInsertUserID());// WorkOrder ID, Kapalı, User ID , Insert User ID
+                                workStatusClose = new WorkStatusClose(listItemAllMessages.getID(),Enums.onay,get_LoginID,listItemAllMessages.getInsertUserID());// WorkOrder ID, Kapalı, User ID , Insert User ID
                                 workStatusClose.execute((Void) null);
                                 break;
 

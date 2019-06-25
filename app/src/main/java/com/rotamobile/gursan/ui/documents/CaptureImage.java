@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
+import io.paperdb.Paper;
 
 public class CaptureImage extends AppCompatActivity {
 
@@ -59,17 +60,19 @@ public class CaptureImage extends AppCompatActivity {
     private DocumentADD documentADD_task = null;
     Bundle extras;
     private Integer get_workerID = 0;
-    private Integer get_userID = 0;
+    private String get_userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_capture);
+        Paper.init(CaptureImage.this);
 
      //get Values from ListItemAdapter
         extras = getIntent().getExtras();
         get_workerID = extras.getInt("id");
-        get_userID = extras.getInt("insert_user_id");
+        //get UserID from Login
+        get_userID = Paper.book().read("user_id");
 
         imageView = findViewById(R.id.imageView);
         comment = findViewById(R.id.edt_imgCapture_yorum);
@@ -108,7 +111,7 @@ public class CaptureImage extends AppCompatActivity {
                     showToasty("Resim Dönüştürme Başarısız");
                 }else{
 
-                    documentADD_task = new DocumentADD(get_workerID,Enums.resim,true,encoded,get_comment,get_userID,get_userID);
+                    documentADD_task = new DocumentADD(get_workerID,Enums.resim,true,encoded,get_comment,Integer.parseInt(get_userID),Integer.parseInt(get_userID));
                     documentADD_task.execute((Void)null);
 
                 }

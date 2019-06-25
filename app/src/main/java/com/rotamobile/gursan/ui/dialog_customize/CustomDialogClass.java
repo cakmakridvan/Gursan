@@ -88,7 +88,7 @@ public class CustomDialogClass extends Dialog {
 
                 if(get_assigned_user_id != 0){
 
-                    workStatusAdd= new WorkStatusAdd(workOrder_id, Enums.onay,get_assigned_user_id,insert_userID);
+                    workStatusAdd= new WorkStatusAdd(workOrder_id, Enums.is_acik,get_assigned_user_id,insert_userID);
                     workStatusAdd.execute((Void) null);
                 }else{
 

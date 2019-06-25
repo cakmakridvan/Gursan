@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         String get_password = Paper.book().read("password");
         Boolean get_checked = Paper.book().read("checked");
 
-        if(!TextUtils.isEmpty(get_name) && !TextUtils.isEmpty(get_name) && get_checked.equals(true)){
+        if(!TextUtils.isEmpty(get_name) && !TextUtils.isEmpty(get_password) && get_checked.equals(true)){
 
             name.setText(get_name);
             password.setText(get_password);
@@ -86,13 +86,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btn_login:
 
-                if(!TextUtils.isEmpty(name.getText().toString()) && !TextUtils.isEmpty(password.getText().toString())){
+                if(!TextUtils.isEmpty(name.getText().toString().trim()) && !TextUtils.isEmpty(password.getText().toString().trim())){
 
                     if(remember_me.isChecked()){
 
                         Boolean boolChecked = remember_me.isChecked();
-                        Paper.book().write("username",name.getText().toString());
-                        Paper.book().write("password",password.getText().toString());
+                        Paper.book().write("username",name.getText().toString().trim());
+                        Paper.book().write("password",password.getText().toString().trim());
                         Paper.book().write("checked",boolChecked);
 
                     }else{

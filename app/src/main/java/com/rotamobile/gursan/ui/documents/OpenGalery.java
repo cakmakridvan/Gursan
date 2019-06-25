@@ -42,6 +42,7 @@ import java.io.OutputStreamWriter;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
+import io.paperdb.Paper;
 
 
 public class OpenGalery extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class OpenGalery extends AppCompatActivity {
     private String encoded_galery = "";
     Bundle extras;
     private Integer get_workerID = 0;
-    private Integer get_userID = 0;
+    private String get_userID;
     private DocomentOpenGalery documentOpenGalery_task = null;
     private ProgressDialog progressDialog_galeri;
     private String get_mesaj_galeri = "";
@@ -68,11 +69,14 @@ public class OpenGalery extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_galery);
+        Paper.init(OpenGalery.this);
 
         //get Values from ListItemAdapter
         extras = getIntent().getExtras();
         get_workerID = extras.getInt("id");
-        get_userID = extras.getInt("insert_user_id");
+        //get_userID = extras.getInt("insert_user_id");
+        //get UserID from Login
+        get_userID = Paper.book().read("user_id");
 
         galeri_yorum = findViewById(R.id.edt_imgGalery_yorum);
         txt_toolbar_galeri = findViewById(R.id.toolbar_title_open_galery);
@@ -117,7 +121,7 @@ public class OpenGalery extends AppCompatActivity {
                 }else{
 
 
-                    documentOpenGalery_task = new DocomentOpenGalery(get_workerID, Enums.resim,true,encoded_galery,get_comment_galery,get_userID,get_userID);
+                    documentOpenGalery_task = new DocomentOpenGalery(get_workerID, Enums.resim,true,encoded_galery,get_comment_galery,Integer.parseInt(get_userID),Integer.parseInt(get_userID));
                     documentOpenGalery_task.execute((Void)null);
 
                 }

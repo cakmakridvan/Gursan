@@ -191,7 +191,7 @@ public class Server {
         String method_Projects = "BuildingService/BuildingOfTerritory";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(Main_URL + method_Projects + "?" + "TerritoryId=" + territoryID);
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "TerritoryId=" + territoryID);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 
@@ -231,7 +231,7 @@ public class Server {
         String method_Projects = "AreaService/AreaOfBuilding";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(Main_URL + method_Projects + "?" + "BuildingId=" + buildingID);
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "BuildingId=" + buildingID);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 
@@ -271,7 +271,7 @@ public class Server {
         String method_Projects = "DeviceService/DeviceOfArea";
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(Main_URL + method_Projects + "?" + "AreaId=" + areaID);
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "AreaId=" + areaID);
 // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
 
@@ -598,7 +598,7 @@ public class Server {
             jsonObject.put("InsertDate", "2019-03-28T12:46:04.135Z");
             jsonObject.put("UpdateUserID", updateUserID);
             jsonObject.put("UpdateDate", "2019-03-28T12:46:04.135Z");
-            jsonObject.put("UserID", 0);
+            jsonObject.put("UserID", insertUserID);
             jsonObject.put("CommentText", commentText);
 
 
@@ -1707,7 +1707,45 @@ public class Server {
         return result;
     }
 
+    public static String CommentService(Integer workOrder_id){
 
+        String method_Projects = "CommentServis/CommentGet";
+
+        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+        HttpGet httppost = new HttpGet(Main_URL + method_Projects + "?" + "taskID=" + workOrder_id);
+// Depends on your web service
+        httppost.setHeader("Content-type", "application/json");
+
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            inputStream = entity.getContent();
+            // json is UTF-8 by default
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            // Oops
+            return "false";
+        } finally {
+            try {
+
+                if (inputStream != null) inputStream.close();
+
+            } catch (Exception squish) {
+                return "false";
+            }
+        }
+        return result;
+    }
 
 
 }

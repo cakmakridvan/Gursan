@@ -90,6 +90,33 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Oluşturan:"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:paddingLeft="12dp" />
+
+                        <TextView
+                            android:text="Heading"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:id="@+id/txt_document_created"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:paddingLeft="5dp"
+                            />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>

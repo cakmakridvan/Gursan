@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
+import com.rotamobile.gursan.model.commentGet.DataComment;
+import com.rotamobile.gursan.model.commentGet.ModelComment;
 import com.rotamobile.gursan.model.documentList.DataDocument;
 import com.rotamobile.gursan.model.documentList.ModelDocument;
 import com.rotamobile.gursan.ui.adapters.DocumentAdapter;
@@ -32,10 +34,10 @@ public class DetailDocument extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageButton back_btn;
     private TextView codeListe_bos;
-    private List<ModelDocument> list_document;
+    private List<ModelComment> list_document;
 
-    private DataDocument response_dataDocument;
-    private ArrayList<ModelDocument> document_list;
+    private DataComment response_dataDocument;
+    private ArrayList<ModelComment> document_list;
     private String get_mesaj_document_list;
     private DocumentAdapter document_adapter;
     private DocumentListTask documentListTask = null;
@@ -106,10 +108,10 @@ public class DetailDocument extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
 
             try {
-                String codeResult = Server.GetByWorkOrder(code);
+                String codeResult = Server.CommentService(code);
                 if(!codeResult.trim().equalsIgnoreCase("false")){
 
-                    response_dataDocument = new Gson().fromJson(codeResult, DataDocument.class);
+                    response_dataDocument = new Gson().fromJson(codeResult, DataComment.class);
                     document_list = response_dataDocument.getData_list();
                     Log.i("Tag:DeviceHistoryList",""+document_list);
                     get_mesaj_document_list = "true";
@@ -132,7 +134,7 @@ public class DetailDocument extends AppCompatActivity {
                 if(document_list.size() > 0){
                     for(int i=0; i<document_list.size(); i++){
 
-                        ModelDocument modeldocument = new ModelDocument(document_list.get(i).getDocumentContent(),document_list.get(i).getCommentText(),document_list.get(i).getInsetDateDocumentString());
+                        ModelComment modeldocument = new ModelComment(document_list.get(i).getCommentText(),document_list.get(i).getInsertDateString(),document_list.get(i).getAddUserName(),document_list.get(i).getID());
                         list_document.add(modeldocument);
                     }
                     document_adapter = new DocumentAdapter(list_document,DetailDocument.this);
