@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.disServisTalepList.DataDisServisTalep;
@@ -23,6 +25,8 @@ import com.rotamobile.gursan.ui.adapters.DisServisAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class DisServisTalepList extends AppCompatActivity {
 
@@ -44,6 +48,7 @@ public class DisServisTalepList extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(DisServisTalepList.this, new Crashlytics());
         setContentView(R.layout.dis_talep_list);
 
         emptyList = findViewById(R.id.empty_talep_dis_servis_talep_list);

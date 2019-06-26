@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
@@ -42,6 +44,7 @@ import java.io.OutputStreamWriter;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 
@@ -68,6 +71,7 @@ public class OpenGalery extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(OpenGalery.this, new Crashlytics());
         setContentView(R.layout.open_galery);
         Paper.init(OpenGalery.this);
 

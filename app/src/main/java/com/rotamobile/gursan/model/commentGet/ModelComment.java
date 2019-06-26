@@ -21,6 +21,13 @@ public class ModelComment {
     @Expose
     private boolean DocumentExists;
 
+    public boolean isDocumentExists() {
+        return DocumentExists;
+    }
+
+    public void setDocumentExists(boolean documentExists) {
+        DocumentExists = documentExists;
+    }
 
     public String getCommentText() {
         return CommentText;
@@ -54,11 +61,12 @@ public class ModelComment {
         this.ID = ID;
     }
 
-    public ModelComment(String commentText, String insertDateString, String addUserName, Integer id) {
+    public ModelComment(String commentText, String insertDateString, String addUserName, Integer id, boolean documentExists) {
         CommentText = commentText;
         InsertDateString = insertDateString;
         AddUserName = addUserName;
         ID = id;
+        DocumentExists = documentExists;
     }
 
 

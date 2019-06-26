@@ -123,6 +123,11 @@
             android:label=""
             android:screenOrientation="portrait"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="cd87ce793343ffdba19700610e2d9d3343a68e6f"
+            />
+
 
     </application>
 

@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -32,6 +33,8 @@ import com.rotamobile.gursan.ui.adapters.CodeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
@@ -57,6 +60,7 @@ public class CodeReader extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(CodeReader.this, new Crashlytics());
         setContentView(R.layout.code_reader);
 
         toolbar = findViewById(R.id.toolbar_top);

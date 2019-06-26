@@ -27,7 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.allWithStock.DataStock;
@@ -45,6 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 import static com.rotamobile.gursan.data.Server.GetAllMaterial;
@@ -90,6 +93,7 @@ public class AddMaterial extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(AddMaterial.this, new Crashlytics());
         setContentView(R.layout.add_material);
     //ToolBar init
         toolbar_material = findViewById(R.id.toolbar_material);

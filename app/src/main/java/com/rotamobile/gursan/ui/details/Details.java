@@ -28,7 +28,9 @@ import android.widget.Toast;
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.androidbuts.multispinnerfilter.SpinnerListener;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.areaSpinner.DataArea;
@@ -63,6 +65,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 import static com.rotamobile.gursan.data.Server.GetArea;
@@ -175,6 +178,7 @@ public class Details extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(Details.this, new Crashlytics());
         setContentView(R.layout.details);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);

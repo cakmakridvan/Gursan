@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 
@@ -43,6 +46,7 @@ public class IcServisDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(IcServisDetail.this, new Crashlytics());
         setContentView(R.layout.detail_ic_servis);
 
         Paper.init(IcServisDetail.this);

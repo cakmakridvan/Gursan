@@ -17,12 +17,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.crashlytics.android.Crashlytics;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 import static com.rotamobile.gursan.data.Server.GetToken;
@@ -44,6 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(Login.this, new Crashlytics());
         setContentView(R.layout.login);
 
         Paper.init(this);

@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.icServisTalepList.DataIcServisTalep;
@@ -23,6 +25,8 @@ import com.rotamobile.gursan.ui.adapters.IcServisAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class IcServisTalepList extends AppCompatActivity {
@@ -45,6 +49,7 @@ public class IcServisTalepList extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(IcServisTalepList.this, new Crashlytics());
         setContentView(R.layout.ic_talep_list);
 
         emptyList = findViewById(R.id.empty_talep_ic_servis_talep_list);

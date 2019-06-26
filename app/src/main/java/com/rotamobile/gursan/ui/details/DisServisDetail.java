@@ -18,7 +18,9 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.productUnitSpinner.DataProductUnit;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 public class DisServisDetail extends AppCompatActivity implements View.OnClickListener {
@@ -60,6 +63,7 @@ public class DisServisDetail extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(DisServisDetail.this, new Crashlytics());
         setContentView(R.layout.detail_dis_servis);
         Paper.init(DisServisDetail.this);
 

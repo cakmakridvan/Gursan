@@ -20,7 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 
@@ -78,6 +81,7 @@ public class CustomDialogClass extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(c, new Crashlytics());
         setContentView(R.layout.custom_dialog);
 
         list_workStatus = new ArrayList<>();

@@ -1,4 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 28
@@ -45,4 +51,7 @@ dependencies {
     implementation project(path: ':sweetalert')
     implementation project(path: ':multiselectspinner')
 
+    compile('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
+        transitive = true;
+    }
 }

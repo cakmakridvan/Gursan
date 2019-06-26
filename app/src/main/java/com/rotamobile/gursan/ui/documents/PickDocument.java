@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 
 import java.io.BufferedInputStream;
@@ -17,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import io.fabric.sdk.android.Fabric;
 
 public class PickDocument extends AppCompatActivity {
 
@@ -30,6 +34,7 @@ public class PickDocument extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(PickDocument.this, new Crashlytics());
         setContentView(R.layout.pick_document);
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.commentGet.DataComment;
@@ -25,6 +27,8 @@ import com.rotamobile.gursan.ui.adapters.DocumentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class DetailDocument extends AppCompatActivity {
 
@@ -47,6 +51,7 @@ public class DetailDocument extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(DetailDocument.this, new Crashlytics());
         setContentView(R.layout.detail_document);
 
         extras = getIntent().getExtras();
@@ -134,7 +139,7 @@ public class DetailDocument extends AppCompatActivity {
                 if(document_list.size() > 0){
                     for(int i=0; i<document_list.size(); i++){
 
-                        ModelComment modeldocument = new ModelComment(document_list.get(i).getCommentText(),document_list.get(i).getInsertDateString(),document_list.get(i).getAddUserName(),document_list.get(i).getID());
+                        ModelComment modeldocument = new ModelComment(document_list.get(i).getCommentText(),document_list.get(i).getInsertDateString(),document_list.get(i).getAddUserName(),document_list.get(i).getID(),document_list.get(i).isDocumentExists());
                         list_document.add(modeldocument);
                     }
                     document_adapter = new DocumentAdapter(list_document,DetailDocument.this);

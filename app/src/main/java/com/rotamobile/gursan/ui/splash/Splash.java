@@ -8,10 +8,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.ui.login.Login;
 
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 public class Splash extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(Splash.this, new Crashlytics());
         setContentView(R.layout.main_splash);
         Paper.init(Splash.this);
 

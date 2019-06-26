@@ -48,6 +48,13 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHo
         viewHolder.txt_tarih.setText(modelComment.getInsertDateString());
         viewHolder.txt_created.setText(modelComment.getAddUserName());
 
+        if(modelComment.isDocumentExists() == true){
+            viewHolder.img_documen.setImageResource(R.drawable.imagelist);
+        }else{
+            viewHolder.img_documen.setImageResource(R.drawable.no_image);
+        }
+
+
 /*        viewHolder.lyt_document.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

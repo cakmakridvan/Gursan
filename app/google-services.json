@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "750022750390",
+    "firebase_url": "https://gursan-3a5bc.firebaseio.com",
+    "project_id": "gursan-3a5bc",
+    "storage_bucket": "gursan-3a5bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750022750390:android:ec7a38fc6420940a",
+        "android_client_info": {
+          "package_name": "com.rotamobile.gursan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750022750390-jbfva85u5apb86ehe3lvkvq0gs50ou7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rotamobile.gursan",
+            "certificate_hash": "9d504a7d5b1a6e0a081dc25ef1014a52ebee4df5"
+          }
+        },
+        {
+          "client_id": "750022750390-usfpg9qt46ekgfv43og1hl1tl1836krc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuiWpYEm-LDZjMc-WSkyEzF0pIOMsXL9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750022750390-usfpg9qt46ekgfv43og1hl1tl1836krc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

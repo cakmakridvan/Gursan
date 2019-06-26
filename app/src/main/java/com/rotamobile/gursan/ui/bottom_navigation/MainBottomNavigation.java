@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainBottomNavigation extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class MainBottomNavigation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(MainBottomNavigation.this, new Crashlytics());
         setContentView(R.layout.activity_bottom_navigation_home);
 
         txt_toolbar = findViewById(R.id.toolbar_title);

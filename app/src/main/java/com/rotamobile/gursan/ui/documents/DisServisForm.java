@@ -25,7 +25,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.productUnitSpinner.DataProductUnit;
@@ -35,6 +38,8 @@ import com.rotamobile.gursan.ui.activity.DisServisTalepList;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class DisServisForm extends AppCompatActivity {
 
@@ -67,6 +72,7 @@ public class DisServisForm extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(DisServisForm.this, new Crashlytics());
         setContentView(R.layout.dis_servis_form);
 
         //Progress Diaolog initialize

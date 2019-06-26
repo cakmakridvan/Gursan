@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
@@ -40,6 +42,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 public class CaptureImage extends AppCompatActivity {
@@ -65,6 +68,7 @@ public class CaptureImage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(CaptureImage.this, new Crashlytics());
         setContentView(R.layout.image_capture);
         Paper.init(CaptureImage.this);
 

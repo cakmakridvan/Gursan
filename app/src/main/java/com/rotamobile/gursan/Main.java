@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.crashlytics.android.Crashlytics;
 import com.rotamobile.gursan.ui.activity.CodeReader;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.fragment.Exit;
@@ -43,6 +44,7 @@ import com.rotamobile.gursan.utils.CountDrawable;
 import com.rotamobile.gursan.data.prefs.LocaleHelper;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
 public class Main extends AppCompatActivity {
@@ -91,7 +93,9 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(Main.this, new Crashlytics());
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
