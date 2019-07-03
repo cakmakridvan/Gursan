@@ -181,6 +181,9 @@ public class Details extends AppCompatActivity {
         Fabric.with(Details.this, new Crashlytics());
         setContentView(R.layout.details);
 
+     //Paper initialize
+        Paper.init(Details.this);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
 
         //get Data From All Message
