@@ -1,51 +1,64 @@
 package com.rotamobile.gursan;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.view.menu.MenuBuilder;
-import android.view.MenuInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.rotamobile.gursan.data.prefs.LocaleHelper;
+import com.rotamobile.gursan.model.bildirim.BildirimModel;
+import com.rotamobile.gursan.ui.activity.Bildirimler;
 import com.rotamobile.gursan.ui.activity.CodeReader;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.fragment.Exit;
 import com.rotamobile.gursan.ui.fragment.Home;
-import com.rotamobile.gursan.ui.fragment.IncomingJobOrder;
 import com.rotamobile.gursan.ui.fragment.JobOrder;
 import com.rotamobile.gursan.ui.fragment.Notifications;
 import com.rotamobile.gursan.ui.fragment.Settings;
 import com.rotamobile.gursan.ui.login.Login;
 import com.rotamobile.gursan.utils.CircleTransform;
 import com.rotamobile.gursan.utils.CountDrawable;
-import com.rotamobile.gursan.data.prefs.LocaleHelper;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
+import io.realm.Realm;
 
 public class Main extends AppCompatActivity {
     @Override
@@ -89,6 +102,14 @@ public class Main extends AppCompatActivity {
 
     private String get_name;
     private String get_surname;
+    private String get_userID;
+
+    private DatabaseReference mDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+
+    private String getInserTime = "",getSubject = "",getText = "",getWorkId = "";
+    private int getType = 0,getUserId = 0;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +117,83 @@ public class Main extends AppCompatActivity {
         Fabric.with(Main.this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
+    // Get a Realm instance for this thread
+        realm = Realm.getDefaultInstance();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        get_userID =  Paper.book().read("user_id");
+    //FireBase RealTime Database initialize
+        mDatabase = FirebaseDatabase.getInstance().getReference(get_userID);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Tag:", "App title updated");
+
+                for (DataSnapshot node : dataSnapshot.getChildren()) {
+
+                    String get_node_tip = node.getKey();
+                    if(get_node_tip.equals("InsertTime")){
+                        getInserTime = node.getValue().toString();
+                        Log.i("InserTime",getInserTime);
+                    }else if(get_node_tip.equals("SubjectText")){
+                        getSubject = node.getValue().toString();
+                        Log.i("Subject",getSubject);
+                    }else if(get_node_tip.equals("Text")){
+                        getText = node.getValue().toString();
+                        Log.i("Text",getText);
+                    }else if(get_node_tip.equals("Type")){
+                        getType = node.getValue(Integer.class);
+                        Log.i("Type",""+getType);
+                    }else if(get_node_tip.equals("UserID")){
+                        getUserId = (int) node.getValue(Integer.class);
+                        Log.i("UserId",""+getUserId);
+                    }else if(get_node_tip.equals("WorkID")){
+                        getWorkId = (String) node.getValue();
+                        Log.i("WorkId",getWorkId);
+                    }
+
+                }
+
+                if(dataSnapshot.getValue() != null) {
+
+                    //show notification
+                    sendNotification(getSubject, getText);
+
+                    //Remove value at FireBase RealDatabase
+                    //mDatabase.removeValue();
+                    //Insert value in Realm Database
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            //creating auto increment of primary key
+                            Number maxId = realm.where(BildirimModel.class).max("id");
+                            int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
+
+                            BildirimModel bildirim = realm.createObject(BildirimModel.class, nextId);
+                            bildirim.setInsertTime(getInserTime);
+                            bildirim.setSubjectText(getSubject);
+                            bildirim.setText(getText);
+                            bildirim.setType(getType);
+                            bildirim.setUserId(getUserId);
+                            bildirim.setWorkId(getWorkId);
+
+                            //commit transaction
+                            realm.copyToRealm(bildirim);
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e("TAG", "Failed to read app title value.", error.toException());
+            }
+        });
 
         //getting User information from Login
 /*        Bundle get_datas = new Bundle();
@@ -110,6 +206,7 @@ public class Main extends AppCompatActivity {
 //getting User information from Login
         get_name = Paper.book().read("name");
         get_surname = Paper.book().read("last_name");
+
 
         mHandler = new Handler();
 
@@ -503,9 +600,13 @@ public class Main extends AppCompatActivity {
         String get_saved_language = Paper.book().read("language");
        //Notification icon in ToolBar
         if (id == R.id.action_notification) {
-            Toast.makeText(Main.this, "Bildirim comes!", Toast.LENGTH_LONG).show();
+
+            Intent go_bildirim = new Intent(Main.this,Bildirimler.class);
+            startActivity(go_bildirim);
+
+/*            Toast.makeText(Main.this, "Bildirim comes!", Toast.LENGTH_LONG).show();
             setCount(this, x++);
-            return true;
+            return true;*/
         }
 
        //Turkish item selected in ToolBar
@@ -601,5 +702,37 @@ public class Main extends AppCompatActivity {
     }
 
 
+    private void sendNotification(String messageTitle,String messageBody) {
+
+    //When Click Notification
+        Intent intent = new Intent(this, Bildirimler.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        long[] pattern = {500,500,500,500};//Titreşim ayarı
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.splash_icon1)
+                .setContentTitle(messageTitle)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setVibrate(pattern)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        try {
+            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + this.getPackageName() + "/raw/notification");
+            Ringtone r = RingtoneManager.getRingtone(this, alarmSound);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
 
 }

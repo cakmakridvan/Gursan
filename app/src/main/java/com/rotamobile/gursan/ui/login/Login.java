@@ -20,12 +20,20 @@ import android.widget.EditText;
 import com.crashlytics.android.Crashlytics;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
+import com.rotamobile.gursan.data.retrofitservice.APIClient;
+import com.rotamobile.gursan.data.retrofitservice.APIService;
+import com.rotamobile.gursan.model.deviceId.ModelDeviceId;
+import com.rotamobile.gursan.model.deviceSpinner.ModelDevice;
+import com.rotamobile.gursan.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.rotamobile.gursan.data.Server.GetToken;
 import static com.rotamobile.gursan.data.Server.GetUsers;
@@ -42,6 +50,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private ProgressDialog progressDialog;
 
     private String get_mesaj,get_name,get_surname,get_userID,get_userTypeID,get_projectID,get_token;
+    private String getRandom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         getRemember_meData();
 
         giris.setOnClickListener(this);
+
+        getRandom = Utility.random();
 
         progressDialog = new ProgressDialog(Login.this);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
