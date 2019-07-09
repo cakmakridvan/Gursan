@@ -86,6 +86,11 @@
 
     <string name="msj_status_order">Empty List</string>
 
+    <string name="bildirim_silme">Bildirim Silme</string>
+    <string name="bildirim_icerik">Bildirimlerinizin tümünü silmek istediğinize emin misiniz?</string>
+    <string name="bildirim_silme_cancel">İptal</string>
+    <string name="bildirim_silme_onay">Evet</string>
+
 
 
 </resources>

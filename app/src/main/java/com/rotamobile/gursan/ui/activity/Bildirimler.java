@@ -18,19 +18,21 @@ import com.rotamobile.gursan.ui.adapters.BildiriAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
-public class Bildirimler extends AppCompatActivity {
+public class Bildirimler extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private TextView title,talep_list;
-    private ImageButton back_btn;
+    private ImageButton back_btn,clearMsj;
     private Realm realm;
     private RecyclerView recyclerView;
     private List<BildirimModel> list_bildirim;
     private BildiriAdapter bildiriAdapter;
-
+    private RealmResults<BildirimModel> is_emri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,13 +66,16 @@ public class Bildirimler extends AppCompatActivity {
 
         list_bildirim = new ArrayList<>();
 
+        clearMsj = findViewById(R.id.btn_clearmsj);
+        clearMsj.setOnClickListener(this);
+
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
 
             //getting all data from realm DB
-                RealmResults<BildirimModel> is_emri = realm.where(BildirimModel.class).findAll();
+                is_emri = realm.where(BildirimModel.class).sort("id", Sort.DESCENDING).findAll();
                 Log.i("İş Emirleri:", "ds" + is_emri);
 
                 for (int i = 0; i < is_emri.size(); i++) {
@@ -91,5 +96,49 @@ public class Bildirimler extends AppCompatActivity {
                 recyclerView.setAdapter(bildiriAdapter);
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.btn_clearmsj:
+
+                is_emri = realm.where(BildirimModel.class).findAll();
+                if(is_emri.size() > 0) {
+
+                    new SweetAlertDialog(Bildirimler.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getString(R.string.bildirim_silme))
+                            .setContentText(getString(R.string.bildirim_icerik))
+                            .setCancelText(getString(R.string.bildirim_silme_cancel))
+                            .setConfirmText(getString(R.string.bildirim_silme_onay))
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.cancel();
+                                }
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            realm.deleteAll();
+                                            finish();
+                                            startActivity(getIntent());
+                                        }
+                                    });
+
+                                }
+                            })
+                            .show();
+                }
+
+            break;
+        }
     }
 }

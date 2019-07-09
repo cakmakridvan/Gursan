@@ -5,13 +5,10 @@
     android:layout_height="wrap_content"
     >
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+
 
         <LinearLayout
-            android:id="@+id/linearLayoutCode"
+            android:id="@+id/linearLayoutBildiri"
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +91,5 @@
 
 
 
-
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>

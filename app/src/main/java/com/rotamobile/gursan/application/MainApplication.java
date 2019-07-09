@@ -2,8 +2,10 @@ package com.rotamobile.gursan.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.rotamobile.gursan.data.prefs.LocaleHelper;
+import com.rotamobile.gursan.service.FireBaseService;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

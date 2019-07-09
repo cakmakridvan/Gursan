@@ -133,6 +133,10 @@
             android:value="cd87ce793343ffdba19700610e2d9d3343a68e6f"
             />
 
+        <service android:enabled="true"
+            android:name="com.rotamobile.gursan.service.FireBaseService">
+        </service>
+
 <!--
 
          [START firebase_service]
