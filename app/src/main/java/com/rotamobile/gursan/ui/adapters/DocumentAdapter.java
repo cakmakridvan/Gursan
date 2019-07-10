@@ -65,7 +65,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
         modelComment = modelCommentList.get(i);
 /*      //Decode image from Base64 to Bitmap
@@ -88,8 +88,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHo
             public void onClick(View v) {
 
                 // get position
-                int pos = viewHolder.getAdapterPosition();
-                modelComment = modelCommentList.get(pos);
+                int pos = i;
+                modelComment = modelCommentList.get(i);
 
                 documentService = new DocumentService(modelComment.getID());
                 documentService.execute((Void) null);
@@ -168,7 +168,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHo
                 }
 
             } catch (Exception e) {
-
+                e.printStackTrace();
+                imageData ="";
             }
             return false;
         }

@@ -545,6 +545,21 @@
                 android:id="@+id/txt_userName"
                 />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/imagelist"
+                        android:id="@+id/detail_imagelist"
+                        android:background="@null"
+                        />
+
+                </LinearLayout>
+
         </LinearLayout>
 
             <LinearLayout

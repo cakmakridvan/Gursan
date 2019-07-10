@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -85,7 +86,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         listItemAllMessages = list_allmesaj.get(position);
 
-        viewHolder.textViewHead.setText(listItemAllMessages.getProjectName());
+        viewHolder.textViewHead.setText(""+listItemAllMessages.getID());
         viewHolder.textViewDesc.setText(listItemAllMessages.getSubjectText());
 
         Integer i = listItemAllMessages.getWorkOrderServiceID();
@@ -283,7 +284,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView textViewHead;
+        public EditText textViewHead;
         public TextView textViewDesc;
         public ImageButton dot_icon;
         public LinearLayout linear;

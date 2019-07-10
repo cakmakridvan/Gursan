@@ -173,7 +173,7 @@ public class Details extends AppCompatActivity {
     private Integer get_assgnedID = 0;
     private TextView is_ata,txt_servis_Tipi;
     private LinearLayout lyt_servis_Tipi;
-    private ImageButton imglist;
+    private ImageButton imglist,detail_imglist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -591,6 +591,18 @@ public class Details extends AppCompatActivity {
         detail_subject = findViewById(R.id.txt_subjectName);
         detail_isEmriTipi = findViewById(R.id.txt_workOrder_type_id);
         detail_aciklama = findViewById(R.id.txt_aciklama);
+        detail_imglist = findViewById(R.id.detail_imagelist);
+
+        detail_imglist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent go_detailDocument = new Intent(Details.this,DetailDocument.class);
+                go_detailDocument.putExtra("workOrder_id",get_id); //Send WorkOrderId
+                startActivity(go_detailDocument);
+
+            }
+        });
 
         detail_user.setText(get_kullanici_adi);
         detail_proje.setText(get_project_name);

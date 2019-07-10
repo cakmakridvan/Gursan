@@ -23,10 +23,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="6"
+                android:weightSum="2"
                 >
 
-                <ImageView
+                <EditText
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/rounded_workid"
+                    android:id="@+id/txt_head"
+                    android:padding="5dip"
+                    android:focusable="false"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    />
+
+<!--                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/project"
@@ -43,14 +56,14 @@
                     android:layout_gravity="center"
                     android:paddingLeft="12dp"
                     android:layout_weight="5"
-                    />
+                    />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="right"
-                    android:layout_weight="1"
+                    android:layout_weight="1.6"
                     >
 
                 <ImageButton
@@ -59,9 +72,8 @@
                     android:src="@drawable/dot_icon"
                     android:background="@null"
                     android:id="@+id/txt_option_item"
-
-
                     />
+
                 </LinearLayout>
 
             </LinearLayout>
