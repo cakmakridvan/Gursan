@@ -67,6 +67,7 @@ import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class Main extends AppCompatActivity {
     @Override
@@ -332,8 +333,6 @@ public class Main extends AppCompatActivity {
               Home home = new Home();
               return home;
 
-
-
             case 1:
                 // iş emri oluştur
                 JobOrder jobOrder = new JobOrder();
@@ -349,11 +348,14 @@ public class Main extends AppCompatActivity {
 
             case 3:
                 // bildirimler
-                Notifications notifications = new Notifications();
-                return notifications;
+/*                Notifications notifications = new Notifications();
+                return notifications;*/
+
+/*                Intent go_bildirim = new Intent(Main.this,Bildirimler.class);
+                startActivity(go_bildirim);*/
 
             case 4:
-                // setting
+                // iletisim
                 Settings settings = new Settings();
                 return settings;
 
@@ -402,8 +404,12 @@ public class Main extends AppCompatActivity {
 
                         break;
                     case R.id.nav_bildirimler:
-                        navItemIndex = 3;
-                        CURRENT_TAG = TAG_NOTIFICATIONS;
+/*                        navItemIndex = 3;
+                        CURRENT_TAG = TAG_NOTIFICATIONS;*/
+
+                        Intent go_bildirim = new Intent(Main.this,Bildirimler.class);
+                        startActivity(go_bildirim);
+
                         break;
                     case R.id.nav_ayarlar:
                         Intent go_scanner = new Intent(Main.this,CodeReader.class);

@@ -32,6 +32,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHolder>{
 
     private List<ModelComment> modelCommentList;
@@ -208,7 +210,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.ViewHo
             }else{
 
                 progressDialog.dismiss();
-                Toast.makeText(context,"Başarısız",Toast.LENGTH_LONG).show();
+                Toasty.error(context, "Başarısız", Toast.LENGTH_SHORT, true).show();
             }
 
         }

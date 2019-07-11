@@ -50,4 +50,14 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/msj_status_order"
+        android:textSize="30sp"
+        android:id="@+id/empty_bildirim"
+        android:visibility="gone"
+        />
+
 </LinearLayout>

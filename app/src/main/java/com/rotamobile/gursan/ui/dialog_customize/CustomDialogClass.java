@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import es.dmoral.toasty.Toasty;
 import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
@@ -96,7 +97,7 @@ public class CustomDialogClass extends Dialog {
                     workStatusAdd.execute((Void) null);
                 }else{
 
-                    Toast.makeText(c,"Kişiyi Seçiniz",Toast.LENGTH_LONG).show();
+                    Toasty.info(c, "Kişiyi Seçiniz", Toast.LENGTH_SHORT, true).show();
                 }
 
             }
@@ -405,7 +406,7 @@ public class CustomDialogClass extends Dialog {
             }else{
 
                 progressDialog_workStatusAdd.dismiss();
-                Toast.makeText(c,"Gönderme Başarısız",Toast.LENGTH_LONG).show();
+                Toasty.error(c, "Gönderme Başarısız", Toast.LENGTH_SHORT, true).show();
             }
 
         }

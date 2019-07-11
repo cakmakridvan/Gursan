@@ -36,6 +36,7 @@ import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class FireBaseService extends Service {
 
@@ -123,12 +124,14 @@ public class FireBaseService extends Service {
                         }
                     });
 
-                    //getting all data from realm DB
+                 //getting all data from realm DB
                     is_emri = realm.where(BildirimModel.class).findAll();
                     Log.i("İş Emirleri:", "ds" + is_emri);
 
-                    //Post Value with EventBus
+                 //Post Value with EventBus
                     EventBus.getDefault().post(new MessageEvent(is_emri.size()));
+                 //Change count of badger of app icon
+                    ShortcutBadger.applyCount(FireBaseService.this, is_emri.size());
 
                     //Remove value at FireBase RealDatabase
                     mDatabase.removeValue();

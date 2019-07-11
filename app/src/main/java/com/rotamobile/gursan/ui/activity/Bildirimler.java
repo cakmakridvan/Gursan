@@ -22,11 +22,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class Bildirimler extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private TextView title,talep_list;
+    private TextView title,talep_list,bildirim_bos;
     private ImageButton back_btn,clearMsj;
     private Realm realm;
     private RecyclerView recyclerView;
@@ -48,6 +49,8 @@ public class Bildirimler extends AppCompatActivity implements View.OnClickListen
 
         title = findViewById(R.id.toolbar_title_bildirimler);
         title.setText("Bildirimler");
+
+        bildirim_bos = findViewById(R.id.empty_bildirim);
 
         back_btn = findViewById(R.id.back_button_bildirimler);
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -78,22 +81,27 @@ public class Bildirimler extends AppCompatActivity implements View.OnClickListen
                 is_emri = realm.where(BildirimModel.class).sort("id", Sort.DESCENDING).findAll();
                 Log.i("İş Emirleri:", "ds" + is_emri);
 
-                for (int i = 0; i < is_emri.size(); i++) {
+                if(is_emri.size() > 0) {
 
-                    String getTime = is_emri.get(i).getInsertTime();
-                    String getSubject = is_emri.get(i).getSubjectText();
-                    String getText = is_emri.get(i).getText();
-                    int getType =is_emri.get(i).getType();
-                    int getUserID = is_emri.get(i).getUserId();
-                    String getWorkID = is_emri.get(i).getWorkId();
+                    for (int i = 0; i < is_emri.size(); i++) {
 
-                    BildirimModel bildirimModel = new BildirimModel(getTime,getSubject,getText,getType,getUserID,getWorkID);
-                    list_bildirim.add(bildirimModel);
+                        String getTime = is_emri.get(i).getInsertTime();
+                        String getSubject = is_emri.get(i).getSubjectText();
+                        String getText = is_emri.get(i).getText();
+                        int getType = is_emri.get(i).getType();
+                        int getUserID = is_emri.get(i).getUserId();
+                        String getWorkID = is_emri.get(i).getWorkId();
 
+                        BildirimModel bildirimModel = new BildirimModel(getTime, getSubject, getText, getType, getUserID, getWorkID);
+                        list_bildirim.add(bildirimModel);
+
+                    }
+
+                    bildiriAdapter = new BildiriAdapter(list_bildirim, Bildirimler.this);
+                    recyclerView.setAdapter(bildiriAdapter);
+                }else{
+                    bildirim_bos.setVisibility(View.VISIBLE);
                 }
-
-                bildiriAdapter = new BildiriAdapter(list_bildirim,Bildirimler.this);
-                recyclerView.setAdapter(bildiriAdapter);
             }
         });
     }
@@ -128,6 +136,8 @@ public class Bildirimler extends AppCompatActivity implements View.OnClickListen
                                         @Override
                                         public void execute(Realm realm) {
                                             realm.deleteAll();
+                                         //Set zero of app badgeCount
+                                            ShortcutBadger.applyCount(Bildirimler.this, 0);
                                             finish();
                                             startActivity(getIntent());
                                         }

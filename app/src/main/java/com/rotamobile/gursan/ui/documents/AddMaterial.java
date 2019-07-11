@@ -47,6 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 
@@ -262,7 +263,8 @@ public class AddMaterial extends AppCompatActivity {
              }
          }else if(get_SelectedName.getSelectedItem() == null){
 
-             Toast.makeText(AddMaterial.this,"Malzeme Seçiniz",Toast.LENGTH_LONG).show();
+
+                Toasty.info(AddMaterial.this, "Malzeme Seçiniz", Toast.LENGTH_SHORT, true).show();
          }
 
             //Toast.makeText(getApplicationContext(),""+selectedID + edittext_var.getText().toString(),Toast.LENGTH_LONG).show();

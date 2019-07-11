@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import es.dmoral.toasty.Toasty;
 import io.paperdb.Paper;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> implements Filterable {
@@ -372,7 +373,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
             }else{
 
                 progressDialog.dismiss();
-                Toast.makeText(context,"Başarısız",Toast.LENGTH_LONG).show();
+                Toasty.error(context, "Başarısız", Toast.LENGTH_SHORT, true).show();
             }
 
         }

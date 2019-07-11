@@ -26,7 +26,7 @@
         <item>İş Emri Oluştur</item>
         <item>Gelen İş Emirleri</item>
         <item>Bildirimler</item>
-        <item>Ayarlar</item>
+        <item>İletişim</item>
     </string-array>
 
     <!-- Toolbar titles when navigation menu item is selected -->
@@ -87,6 +87,10 @@
     <string name="bildirim_silme_onay">Evet</string>
 
     <string name="msj_status_order">Liste Boş</string>
+    <string name="address">İnönü Caddesi Marmara Apt. 45/4 Gümüşsuyu, Taksim, Beyoglu 34437 İSTANBUL</string>
+    <string name="tel">+90 (212) 292 57 50 PBX</string>
+    <string name="faks">+90 (212) 292 57 51</string>
+    <string name="mail">gursan@gursanteknik.com</string>
 
     <string-array name="sports_array">
 

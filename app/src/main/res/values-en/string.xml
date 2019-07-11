@@ -28,7 +28,7 @@
         <item>Create Work Order</item>
         <item>Incoming Business Orders</item>
         <item>Notifications</item>
-        <item>Settings</item>
+        <item>Contact</item>
     </string-array>
 
     <!-- Toolbar titles when navigation menu item is selected -->
@@ -79,18 +79,21 @@
 
     <!--Navigation View Item in HomePage-->
     <string name="app_name_navi">Bottom Navigation</string>
-    <string name="title_tumu">Tümü</string>
-    <string name="title_acil">Açık</string>
-    <string name="title_yildizli">Kapalı</string>
-    <string name="title_zamanli">Zamanlı</string>
+    <string name="title_tumu">All</string>
+    <string name="title_acil">Open</string>
+    <string name="title_yildizli">Closed</string>
+    <string name="title_zamanli">Timed</string>
 
     <string name="msj_status_order">Empty List</string>
 
-    <string name="bildirim_silme">Bildirim Silme</string>
-    <string name="bildirim_icerik">Bildirimlerinizin tümünü silmek istediğinize emin misiniz?</string>
-    <string name="bildirim_silme_cancel">İptal</string>
-    <string name="bildirim_silme_onay">Evet</string>
-
+    <string name="bildirim_silme">Deleting Notification</string>
+    <string name="bildirim_icerik">Are you sure you want to delete all of your notifications?</string>
+    <string name="bildirim_silme_cancel">Cancel</string>
+    <string name="bildirim_silme_onay">Yes</string>
+    <string name="address">İnönü Caddesi Marmara Apt. 45/4 Gümüşsuyu, Taksim, Beyoglu 34437 İSTANBUL</string>
+    <string name="tel">+90 (212) 292 57 50 PBX</string>
+    <string name="faks">+90 (212) 292 57 51</string>
+    <string name="mail">gursan@gursanteknik.com</string>
 
 
 </resources>
