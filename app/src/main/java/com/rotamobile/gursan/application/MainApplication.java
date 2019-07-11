@@ -3,6 +3,7 @@ package com.rotamobile.gursan.application;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.rotamobile.gursan.data.prefs.LocaleHelper;
 import com.rotamobile.gursan.service.FireBaseService;
@@ -15,6 +16,7 @@ public class MainApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base,"tr"));
+        MultiDex.install(this);
 
     }
 
