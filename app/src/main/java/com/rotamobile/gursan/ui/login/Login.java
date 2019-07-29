@@ -24,6 +24,7 @@ import com.rotamobile.gursan.data.retrofitservice.APIClient;
 import com.rotamobile.gursan.data.retrofitservice.APIService;
 import com.rotamobile.gursan.model.deviceId.ModelDeviceId;
 import com.rotamobile.gursan.model.deviceSpinner.ModelDevice;
+import com.rotamobile.gursan.service.FireBaseService;
 import com.rotamobile.gursan.utils.Utility;
 
 import org.json.JSONException;
@@ -228,6 +229,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 startActivity(go_main);
                 finish();
+
+             //Start Service
+                //startService(new Intent(Login.this, FireBaseService.class));
             }
             else if(get_mesaj.equalsIgnoreCase("false")){
 

@@ -642,7 +642,7 @@ public class Details extends AppCompatActivity {
 
         private final String id;
         private DataProject response;
-        private ArrayList<ModelProject> projectList;
+        private List<ModelProject> projectList;
         private String get_mesaj = "";
 
         ProjectsTask(String id) {
@@ -658,6 +658,8 @@ public class Details extends AppCompatActivity {
             progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.custom_progress);
+
+            projectList = new ArrayList<ModelProject>();
 
 
         }

@@ -80,7 +80,7 @@
     <!--Navigation View Item in HomePage-->
     <string name="app_name_navi">Bottom Navigation</string>
     <string name="title_tumu">All</string>
-    <string name="title_acil">Open</string>
+    <string name="title_acil">Active</string>
     <string name="title_yildizli">Closed</string>
     <string name="title_zamanli">Timed</string>
 

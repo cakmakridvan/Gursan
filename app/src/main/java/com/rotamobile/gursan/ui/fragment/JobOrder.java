@@ -150,6 +150,15 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private Button send_jobOrder;
     private String get_mesaj_todoAdd = "";
 
+    private ArrayAdapter<String> dataAdapter_kisiler;
+    private ArrayAdapter<String> dataAdapter_subject;
+    private ArrayAdapter<String> dataAdapter_proje;
+    private ArrayAdapter<String> dataAdapter_bolge;
+    private ArrayAdapter<String> dataAdapter_bina;
+    private ArrayAdapter<String> dataAdapter_alan;
+    private ArrayAdapter<String> dataAdapter_cihaz;
+    private ArrayAdapter<String> dataAdapter_isEmriTalebi;
+    private ArrayAdapter<String> dataAdapter_isEmriTipi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -237,7 +246,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         list_isEmriTipi.add("İş Emri Tipini Seçiniz");
         list_isEmriTipi.add("Talep");
         list_isEmriTipi.add("Arıza");
-        ArrayAdapter<String> dataAdapter_isEmriTipi = new ArrayAdapter<String>(getActivity(),
+        dataAdapter_isEmriTipi = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, list_isEmriTipi) {
 
             @Override
@@ -304,7 +313,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         list_isEmriTalebi.add("Elektirik");
         list_isEmriTalebi.add("Mekanik");
         list_isEmriTalebi.add("İnşaat");
-        ArrayAdapter<String> dataAdapter_isEmriTalebi = new ArrayAdapter<String>(getActivity(),
+        dataAdapter_isEmriTalebi = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, list_isEmriTalebi) {
 
             @Override
@@ -543,64 +552,66 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
         private void projeSpinnerAction() {
 
-            ArrayAdapter<String> dataAdapter_proje = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_item, list_proje) {
+            if (getActivity() != null) {
 
-                @Override
-                public boolean isEnabled(int position) {
-                    if (position == 0) {
+                dataAdapter_proje = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_spinner_item, list_proje) {
 
-                        // Disable the first item from Spinner
-                        // First item will be use for hint
-                        return false;
-                    } else {
-                        return true;
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
-                }
 
-                @Override
-                public View getDropDownView(int position, View convertView,
-                                            ViewGroup parent) {
-                    View view = super.getDropDownView(position, convertView, parent);
-                    TextView tv = (TextView) view;
-                    if (position == 0) {
-                        // Set the hint text color gray
-                        tv.setTextColor(Color.GRAY);
-                    } else {
-                        tv.setTextColor(Color.BLACK);
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
                     }
-                    return view;
-                }
 
 
-            };
-            dataAdapter_proje.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spin_proje.setAdapter(dataAdapter_proje);
+                };
+                dataAdapter_proje.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_proje.setAdapter(dataAdapter_proje);
 
-            spin_proje.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedItemText = (String) parent.getItemAtPosition(position);
-                    if (position > 0) {
+                spin_proje.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedItemText = (String) parent.getItemAtPosition(position);
+                        if (position > 0) {
 
-                        //Getting Project ID
-                        projectID = projectList.get(position-1).getID();
-                        Log.i("Tag:ProjectID:",""+projectID);
+                            //Getting Project ID
+                            projectID = projectList.get(position - 1).getID();
+                            Log.i("Tag:ProjectID:", "" + projectID);
 
-                      //Territory Service Running
-                        territoryTask= new TerritoryTask(projectID);
-                        territoryTask.execute((Void) null);
+                            //Territory Service Running
+                            territoryTask = new TerritoryTask(projectID);
+                            territoryTask.execute((Void) null);
 
 
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
+                });
+            }
         }
     }
 
@@ -713,62 +724,65 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void territorySpinnerAction() {
 
-        ArrayAdapter<String> dataAdapter_bolge = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_bolge) {
+        if(getActivity() != null) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            dataAdapter_bolge = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_bolge) {
 
-                    return false;
-                } else {
-                    return true;
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
 
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+
+                    }
+                    return view;
+                }
+            };
+            dataAdapter_bolge.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_bolge.setAdapter(dataAdapter_bolge);
+
+            spin_bolge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+
+                    if (position > 0) {
+
+                        //Getting TerritoryID
+                        territoryID = territoryList.get(position - 1).getID();
+                        Log.i("Tag:ProjectID:", "" + projectID);
+
+                        //Building Service Running
+                        buildingTask = new BuildingTask(territoryID);
+                        buildingTask.execute((Void) null);
+
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-                return view;
-            }
-        };
-        dataAdapter_bolge.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_bolge.setAdapter(dataAdapter_bolge);
-
-        spin_bolge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-
-                if (position > 0) {
-
-                    //Getting TerritoryID
-                    territoryID = territoryList.get(position-1).getID();
-                    Log.i("Tag:ProjectID:",""+projectID);
-
-                    //Building Service Running
-                    buildingTask = new BuildingTask(territoryID);
-                    buildingTask.execute((Void) null);
-
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            });
+        }
     }
 
     public class BuildingTask extends AsyncTask<Void, Void, Boolean>{
@@ -869,65 +883,67 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void buildingSpinnerAction() {
 
+        if(getActivity() != null) {
 
-        ArrayAdapter<String> dataAdapter_bina = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_bina) {
+            dataAdapter_bina = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_bina) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
                 }
-                return view;
-            }
 
 
-        };
-        dataAdapter_bina.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_bina.setAdapter(dataAdapter_bina);
+            };
+            dataAdapter_bina.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_bina.setAdapter(dataAdapter_bina);
 
-        spin_bina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
+            spin_bina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+                    // If user change the default selection
+                    // First item is disable and it is used for hint
+                    if (position > 0) {
 
-                    //Getting BuildingID to get data from Area
-                    buildingID = buildingList.get(position-1).getID();
-                    Log.i("Tag:ProjectID:",""+buildingID);
+                        //Getting BuildingID to get data from Area
+                        buildingID = buildingList.get(position - 1).getID();
+                        Log.i("Tag:ProjectID:", "" + buildingID);
 
-                    //Area Service Running
-                    areaTask = new AreaTask(buildingID);
-                    areaTask.execute((Void) null);
+                        //Area Service Running
+                        areaTask = new AreaTask(buildingID);
+                        areaTask.execute((Void) null);
 
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            });
+        }
 
     }
 
@@ -1017,62 +1033,65 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void areaSpinnerAction() {
 
-        ArrayAdapter<String> dataAdapter_alan = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_alan) {
+        if(getActivity() != null) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
+            dataAdapter_alan = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_alan) {
+
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
                 }
-                return view;
-            }
 
-        };
-        dataAdapter_alan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_alan.setAdapter(dataAdapter_alan);
-        spin_alan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
+            };
+            dataAdapter_alan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_alan.setAdapter(dataAdapter_alan);
+            spin_alan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+                    // If user change the default selection
+                    // First item is disable and it is used for hint
+                    if (position > 0) {
 
-                    //Getting AreaID to get data from Device
-                    areaID = areaList.get(position-1).getID();
-                    Log.i("Tag:AreaID:",""+areaID);
+                        //Getting AreaID to get data from Device
+                        areaID = areaList.get(position - 1).getID();
+                        Log.i("Tag:AreaID:", "" + areaID);
 
-                    //Area Service Running
-                    deviceTask = new DeviceTask(areaID);
-                    deviceTask.execute((Void) null);
+                        //Area Service Running
+                        deviceTask = new DeviceTask(areaID);
+                        deviceTask.execute((Void) null);
 
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            });
+        }
     }
 
     public class DeviceTask extends AsyncTask<Void, Void, Boolean>{
@@ -1149,61 +1168,63 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void deviceSpinnerAction() {
 
-        ArrayAdapter<String> dataAdapter_cihaz = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_cihaz) {
+        if(getActivity() != null) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            dataAdapter_cihaz = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_cihaz) {
 
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
                 }
-                return view;
-            }
 
 
-        };
-        dataAdapter_cihaz.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_cihaz.setAdapter(dataAdapter_cihaz);
-        spin_cihaz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
-                    // Notify the selected item text
+            };
+            dataAdapter_cihaz.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_cihaz.setAdapter(dataAdapter_cihaz);
+            spin_cihaz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+                    // If user change the default selection
+                    // First item is disable and it is used for hint
+                    if (position > 0) {
+                        // Notify the selected item text
 
-                    //Getting DeviceID to get data from Device
-                    deviceID = deviceList.get(position-1).getID();
-                    Log.i("Tag:DeviceID:",""+deviceID);
+                        //Getting DeviceID to get data from Device
+                        deviceID = deviceList.get(position - 1).getID();
+                        Log.i("Tag:DeviceID:", "" + deviceID);
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+            });
+        }
     }
 
     public class UserListTask extends AsyncTask<Void, Void, Boolean>{
@@ -1275,59 +1296,62 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void userListSpinnerAction() {
 
-        ArrayAdapter<String> dataAdapter_kisiler = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_kisiler) {
+        if(getActivity() != null) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            dataAdapter_kisiler = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_kisiler) {
 
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
                 }
-                return view;
-            }
 
 
-        };
-        dataAdapter_kisiler.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_kisiler.setAdapter(dataAdapter_kisiler);
-        spin_kisiler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
+            };
+            dataAdapter_kisiler.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_kisiler.setAdapter(dataAdapter_kisiler);
+            spin_kisiler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+                    // If user change the default selection
+                    // First item is disable and it is used for hint
+                    if (position > 0) {
 
-                    //Getting userID to get data from UserGet
-                    userID = userList.get(position-1).getID();
-                    Log.i("Tag:UserID:",""+userID);
+                        //Getting userID to get data from UserGet
+                        userID = userList.get(position - 1).getID();
+                        Log.i("Tag:UserID:", "" + userID);
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            });
+        }
 
     }
 
@@ -1394,59 +1418,62 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     private void deviceSubjectAction(){
 
-        ArrayAdapter<String> dataAdapter_subject = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list_konu) {
+        if(getActivity() != null) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            dataAdapter_subject = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, list_konu) {
 
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
+                @Override
+                public boolean isEnabled(int position) {
+                    if (position == 0) {
+
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if (position == 0) {
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
                 }
-                return view;
-            }
 
 
-        };
-        dataAdapter_subject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_iskonu.setAdapter(dataAdapter_subject);
-        spin_iskonu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
-                if (position > 0) {
+            };
+            dataAdapter_subject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spin_iskonu.setAdapter(dataAdapter_subject);
+            spin_iskonu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItemText = (String) parent.getItemAtPosition(position);
+                    // If user change the default selection
+                    // First item is disable and it is used for hint
+                    if (position > 0) {
 
-                    //Getting userID to get data from UserGet
-                    subjectID = subjectList.get(position-1).getID();
-                    Log.i("Tag:UserID:",""+subjectID);
+                        //Getting userID to get data from UserGet
+                        subjectID = subjectList.get(position - 1).getID();
+                        Log.i("Tag:UserID:", "" + subjectID);
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            });
+        }
 
     }
 

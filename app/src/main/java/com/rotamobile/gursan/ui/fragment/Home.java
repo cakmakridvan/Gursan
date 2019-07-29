@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -48,8 +49,7 @@ public class Home extends Fragment {
     private String get_userID,get_userTypeID,get_projectID;
     private ProgressDialog progressDialog;
     private TextView liste_bos;
-
-
+    private SwipeRefreshLayout refreshLayout;
 
 
     @Override
@@ -66,6 +66,11 @@ public class Home extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_home_allmesaj);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        //initialize SwipeRefreshLayout
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        //set colors for loading progressbar
+        refreshLayout.setColorSchemeColors(0xFFFF0000, 0xFF00FF00);
 
         listItems = new ArrayList<>();
 
@@ -86,6 +91,14 @@ public class Home extends Fragment {
         //TodoList Service Running
         todoListTask = new TodoListTask(Integer.parseInt(get_userID),Integer.parseInt(get_projectID),Integer.parseInt(get_userTypeID), Enums.msj_acik);
         todoListTask.execute((Void) null);
+
+        //OnRefreshListener executes when layout is pull down to perform a refresh
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startRefresh();
+            }
+        });
 
 
         return view;
@@ -150,6 +163,10 @@ public class Home extends Fragment {
 
                 if(todoList.size() > 0){
 
+                    if(liste_bos.getVisibility() == View.VISIBLE){
+                        liste_bos.setVisibility(View.GONE);
+                    }
+
                     for(int i = 0;i<todoList.size(); i++) {
 
                         ListItemAllMessages listItemAllMessages = new ListItemAllMessages(todoList.get(i).getID(),todoList.get(i).getProjectName(),todoList.get(i).getSubjectText(),
@@ -166,9 +183,13 @@ public class Home extends Fragment {
                     adap = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);
                     /*recyclerView.setAdapter(adapter);*/
                     recyclerView.setAdapter(adap);
+
+                    refreshLayout.setRefreshing(false);
                 }else{
                     progressDialog.dismiss();
                     liste_bos.setVisibility(View.VISIBLE);
+
+                    refreshLayout.setRefreshing(false);
                 }
 
             }else{
@@ -176,6 +197,7 @@ public class Home extends Fragment {
                 liste_bos.setVisibility(View.VISIBLE);
                 liste_bos.setText("Hata!! Tekrar Deneyiniz ");
 
+                refreshLayout.setRefreshing(false);
             }
         }
 
@@ -222,6 +244,24 @@ public class Home extends Fragment {
         }
         return true;
     }
+
+    //method to add content to listview while refresh
+    private void startRefresh() {
+
+        listItems.clear();
+        adapter = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);
+        //for SearchView in RecyclerView
+        adap = new ListItemAdapter(listItems,getActivity(),Enums.msj_acik);
+        /*recyclerView.setAdapter(adapter);*/
+        recyclerView.setAdapter(adap);
+
+        //TodoList Service Running
+        todoListTask = new TodoListTask(Integer.parseInt(get_userID),Integer.parseInt(get_projectID),Integer.parseInt(get_userTypeID), Enums.msj_acik);
+        todoListTask.execute((Void) null);
+
+
+    }
+
 
 
 

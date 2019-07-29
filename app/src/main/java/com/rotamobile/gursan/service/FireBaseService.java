@@ -202,4 +202,5 @@ public class FireBaseService extends Service {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
 }

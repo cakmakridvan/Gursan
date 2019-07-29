@@ -126,6 +126,9 @@ public class Main extends AppCompatActivity {
         Fabric.with(Main.this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
+        //Init Paper first (Paper is a fast NoSQL-like storage for Java)
+        Paper.init(Main.this);
+
         realm = Realm.getDefaultInstance();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,7 +137,7 @@ public class Main extends AppCompatActivity {
 
 
      //start FireBase Service
-        startService(new Intent(this, FireBaseService.class));
+       startService(new Intent(this, FireBaseService.class));
 
         //getting User information from Login
 /*        Bundle get_datas = new Bundle();
@@ -233,9 +236,6 @@ public class Main extends AppCompatActivity {
     }
 
     private void existingLanguage() {
-        //Init Paper first (Paper is a fast NoSQL-like storage for Java)
-        Paper.init(this);
-
         //Get Selected Language,Default Language is Turkish
         String get_language = Paper.book().read("language");
         if(get_language == null)
@@ -446,6 +446,9 @@ public class Main extends AppCompatActivity {
 
                                      //Delete existing token
                                         Paper.book().delete("token");
+
+                                     //Stop Service
+                                        //stopService(new Intent(Main.this, FireBaseService.class));
 
                                     }
                                 })
