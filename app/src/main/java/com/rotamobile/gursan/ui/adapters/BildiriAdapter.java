@@ -47,6 +47,7 @@ public class BildiriAdapter extends RecyclerView.Adapter<BildiriAdapter.ViewHold
         bildirimModel = bildirimModelList.get(i);
         viewHolder.subj.setText(bildirimModel.getSubjectText());
         viewHolder.txt.setText(bildirimModel.getText());
+        viewHolder.txtTime.setText(bildirimModel.getWorkId());
 
         viewHolder.linear_bildiri.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +69,7 @@ public class BildiriAdapter extends RecyclerView.Adapter<BildiriAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView subj;
-        public TextView txt;
+        public TextView txt,txtTime;
         public LinearLayout linear_bildiri;
 
 
@@ -77,6 +78,7 @@ public class BildiriAdapter extends RecyclerView.Adapter<BildiriAdapter.ViewHold
 
             subj = itemView.findViewById(R.id.txt_bildiriSubject);
             txt = itemView.findViewById(R.id.txt_bildiriText);
+            txtTime = itemView.findViewById(R.id.bildiri_code);
             linear_bildiri = itemView.findViewById(R.id.linearLayoutBildiri);
         }
     }

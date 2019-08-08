@@ -89,6 +89,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         viewHolder.textViewHead.setText(""+listItemAllMessages.getID());
         viewHolder.textViewDesc.setText(listItemAllMessages.getSubjectText());
+        viewHolder.textTime.setText(listItemAllMessages.getStartDate());
 
         Integer i = listItemAllMessages.getWorkOrderServiceID();
 
@@ -252,6 +253,8 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
+
+
             List<ListItemAllMessages> filteredList = new ArrayList<>();
 
             if(constraint == null || constraint.length() == 0){
@@ -263,7 +266,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
                 for (ListItemAllMessages item : list_allmesajFull ){
 
-                    if(item.getSubjectText().toLowerCase().contains(filterPattern)){
+                    if(item != null && item.getSubjectText().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }
@@ -277,16 +280,18 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            list_allmesaj.clear();
-            list_allmesaj.addAll((List) results.values);
-            notifyDataSetChanged();
+            if(results.values != null) {
+                list_allmesaj.clear();
+                list_allmesaj.addAll((List<ListItemAllMessages>) results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public EditText textViewHead;
-        public TextView textViewDesc;
+        public TextView textViewDesc,textTime;
         public ImageButton dot_icon;
         public LinearLayout linear;
 
@@ -295,6 +300,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
             textViewHead = itemView.findViewById(R.id.txt_head);
             textViewDesc = itemView.findViewById(R.id.txt_desc);
+            textTime = itemView.findViewById(R.id.txt_time);
             dot_icon = itemView.findViewById(R.id.txt_option_item);
             linear = itemView.findViewById(R.id.linearLayout);
         }

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.JobOrder"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    >
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -82,9 +82,8 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:id="@+id/spinner_proje"
-            android:padding="@dimen/edt_pad_size"
             android:background="@drawable/effect_spinner"
             android:spinnerMode="dialog"
             />
@@ -102,9 +101,8 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:id="@+id/spinner_bolge"
-                android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
                 />
@@ -123,9 +121,8 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:id="@+id/spinner_bina"
-                android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
                 />
@@ -138,17 +135,24 @@
             android:paddingTop="20dp"
             android:paddingLeft="@dimen/edt_pad_leftright"
             android:paddingRight="@dimen/edt_pad_leftright"
-            android:gravity="left"
-            >
+            android:gravity="left">
 
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_alan"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="right"
+                app:hintText="Alan Seçiniz"
+                android:background="@drawable/effect_spinner"/>
+
+<!--            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_alan"
                 android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
-                />
+                />-->
 
         </LinearLayout>
 
@@ -163,9 +167,8 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:id="@+id/spinner_cihaz"
-                android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
                 />
@@ -183,9 +186,8 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:id="@+id/spinner_isemritipi"
-                android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
                 />
@@ -204,9 +206,8 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:id="@+id/spinner_isemritalebi"
-                android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
                 />
@@ -219,17 +220,24 @@
             android:paddingTop="20dp"
             android:paddingLeft="@dimen/edt_pad_leftright"
             android:paddingRight="@dimen/edt_pad_leftright"
-            android:gravity="left"
-            >
+            android:gravity="left">
 
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_iskonusu"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="right"
+                app:hintText="Konu Seçiniz"
+                android:background="@drawable/effect_spinner"/>
+
+<!--            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_iskonusu"
                 android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
-                />
+                />-->
 
         </LinearLayout>
 
@@ -240,17 +248,24 @@
             android:paddingTop="20dp"
             android:paddingLeft="@dimen/edt_pad_leftright"
             android:paddingRight="@dimen/edt_pad_leftright"
-            android:gravity="left"
-            >
+            android:gravity="left">
 
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_kisiler"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="right"
+                app:hintText="Kişileri Seçiniz"
+                android:background="@drawable/effect_spinner"/>
+
+<!--            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_kisiler"
                 android:padding="@dimen/edt_pad_size"
                 android:background="@drawable/effect_spinner"
                 android:spinnerMode="dialog"
-                />
+                />-->
 
         </LinearLayout>
 

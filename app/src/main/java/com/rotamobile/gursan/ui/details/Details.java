@@ -610,7 +610,10 @@ public class Details extends AppCompatActivity {
         });
 
         detail_user.setText(get_kullanici_adi);
-        detail_proje.setText(get_project_name);
+      //Get First 25 characters from String
+        String upToNCharacters = get_project_name.substring(0, Math.min(get_project_name.length(), 25));
+        detail_proje.setText(upToNCharacters + "-");
+
         detail_teritory.setText(get_territory_name);
         detail_building.setText(get_building_name);
         detail_area.setText(get_area_name);

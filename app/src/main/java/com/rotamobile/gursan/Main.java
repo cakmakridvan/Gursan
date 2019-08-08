@@ -1,6 +1,7 @@
 package com.rotamobile.gursan;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -137,8 +138,9 @@ public class Main extends AppCompatActivity {
 
 
      //start FireBase Service
-       startService(new Intent(this, FireBaseService.class));
-
+        if(!isMyServiceRunning(FireBaseService.class)) {
+            startService(new Intent(this, FireBaseService.class));
+        }
         //getting User information from Login
 /*        Bundle get_datas = new Bundle();
         get_datas = getIntent().getExtras();
@@ -446,6 +448,9 @@ public class Main extends AppCompatActivity {
 
                                      //Delete existing token
                                         Paper.book().delete("token");
+                                        Paper.book().delete("user_id");
+
+                                        stopService(new Intent(Main.this,FireBaseService.class));
 
                                      //Stop Service
                                         //stopService(new Intent(Main.this, FireBaseService.class));
@@ -681,6 +686,16 @@ public class Main extends AppCompatActivity {
             fab.show();
         else
             fab.hide();
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) Main.this.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

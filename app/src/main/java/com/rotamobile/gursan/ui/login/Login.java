@@ -1,6 +1,8 @@
 package com.rotamobile.gursan.ui.login;
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -231,7 +233,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 finish();
 
              //Start Service
-                //startService(new Intent(Login.this, FireBaseService.class));
+                //start FireBase Service
+                if(!isMyServiceRunning(FireBaseService.class)) {
+                    startService(new Intent(Login.this, FireBaseService.class));
+                }
             }
             else if(get_mesaj.equalsIgnoreCase("false")){
 
@@ -269,5 +274,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             userLogin = null;
             progressDialog.dismiss();
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) Login.this.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

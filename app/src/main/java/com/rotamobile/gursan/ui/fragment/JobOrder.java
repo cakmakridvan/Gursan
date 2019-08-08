@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.google.gson.Gson;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
@@ -42,7 +43,9 @@ import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 import com.rotamobile.gursan.model.userSpinner.DataUser;
 import com.rotamobile.gursan.model.userSpinner.ModelUser;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.ui.documents.AddMaterial;
 import com.rotamobile.gursan.utils.enums.Enums;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +71,9 @@ import static java.lang.Integer.parseInt;
 public class JobOrder extends Fragment implements View.OnClickListener {
 
 
-    private Spinner spin_proje, spin_bolge, spin_alan, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi, spin_kisiler, spin_iskonu;
+    private Spinner spin_proje, spin_bolge, spin_bina, spin_cihaz, spin_isemriTipi, spin_isemriTalebi;
+    private SearchableSpinner spin_kisiler,spin_iskonu,spin_alan;
+    ArrayAdapter adapter;
     private String get_userID;
     private EditText aciklama;
     View view;
@@ -112,6 +117,9 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private ArrayList<ModelArea> areaList;
     private String get_mesaj_area = "";
     private Integer areaID = 0;
+    private ArrayList arrayName_alan;
+    private ArrayAdapter adapter_alan;
+    private List<KeyPairBoolData> listArray_alan;
 
     //Device
     private DataDevice response_device;
@@ -139,6 +147,14 @@ public class JobOrder extends Fragment implements View.OnClickListener {
     private ArrayList<ModelUser> userList;
     private String get_mesaj_userList = "";
     private Integer userID = 0;
+    private List<KeyPairBoolData> listArray_userList;
+    private ArrayAdapter adapter_kisiler;
+    private ArrayList arrayName_kisiler;
+
+    //Konu
+    private ArrayList arrayName_konu;
+    private ArrayAdapter adapter_isKonu;
+    private List<KeyPairBoolData> listArray_konu;
 
     //Açıklama
     private String get_aciklama = "";
@@ -217,12 +233,21 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
 
 
-        //Alan
+/*        //Alan
         spin_alan = view.findViewById(R.id.spinner_alan);
         list_alan = new ArrayList<String>();
         list_alan.add("Alan Seçiniz");
         spin_alan.setEnabled(false);
-        areaSpinnerAction();
+        areaSpinnerAction();*/
+
+        list_alan = new ArrayList<String>();
+        arrayName_alan = new ArrayList<String>();
+        spin_alan = (SearchableSpinner) view.findViewById(R.id.spinner_alan);
+        spin_alan.setEnabled(false);
+        adapter_alan = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_alan);
+        spin_alan.setAdapter(adapter_alan);
+        spin_alan.setTitle("Alan Seçiniz");
+        spin_alan.setPositiveButton("Kapat");
 
 
 
@@ -234,10 +259,18 @@ public class JobOrder extends Fragment implements View.OnClickListener {
         deviceSpinnerAction();
 
         //Subjects
-        spin_iskonu = view.findViewById(R.id.spinner_iskonusu);
+/*        spin_iskonu = view.findViewById(R.id.spinner_iskonusu);
         list_konu = new ArrayList<String>();
         list_konu.add("Konu Seçiniz");
-        deviceSubjectAction();
+        deviceSubjectAction();*/
+
+        list_konu = new ArrayList<String>();
+        arrayName_konu = new ArrayList<String>();
+        spin_iskonu = (SearchableSpinner) view.findViewById(R.id.spinner_iskonusu);
+        adapter_isKonu = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_konu);
+        spin_iskonu.setAdapter(adapter_isKonu);
+        spin_iskonu.setTitle("Konu Seçiniz");
+        spin_iskonu.setPositiveButton("Kapat");
 
 
         //İş Emri Tipi
@@ -378,10 +411,20 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
 
         //Kişiler
-        spin_kisiler = view.findViewById(R.id.spinner_kisiler);
+/*        spin_kisiler = view.findViewById(R.id.spinner_kisiler);
         list_kisiler = new ArrayList<String>();
         list_kisiler.add("Kişi Seçiniz");
-        userListSpinnerAction();
+        userListSpinnerAction();*/
+
+        list_kisiler = new ArrayList<String>();
+        //list_kisiler.add("Kişi Seçiniz");
+
+        arrayName_kisiler = new ArrayList<String>();
+        spin_kisiler = (SearchableSpinner) view.findViewById(R.id.spinner_kisiler);
+        adapter_kisiler = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_kisiler);
+        spin_kisiler.setAdapter(adapter_kisiler);
+        spin_kisiler.setTitle("Kişileri Seçiniz");
+        spin_kisiler.setPositiveButton("Kapat");
 
         //Button
         send_jobOrder = view.findViewById(R.id.btn_jobOrder);
@@ -421,12 +464,12 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                String get_Project = spin_proje.getSelectedItem().toString();
                String get_Bolge = spin_bolge.getSelectedItem().toString();
                String get_Bina = spin_bina.getSelectedItem().toString();
-               String get_Alan = spin_alan.getSelectedItem().toString();
+               //String get_Alan = spin_alan.getSelectedItem().toString();
                String get_Cihaz = spin_cihaz.getSelectedItem().toString();
                String get_isEmriTipi = spin_isemriTipi.getSelectedItem().toString();
-               String get_isKonusu = spin_iskonu.getSelectedItem().toString();
+               //String get_isKonusu = spin_iskonu.getSelectedItem().toString();
                String get_isModeli = spin_isemriTalebi.getSelectedItem().toString();
-               String get_kisiler = spin_kisiler.getSelectedItem().toString();
+               //String get_kisiler = (String) spin_kisiler.getSelectedItem();
                get_aciklama = aciklama.getText().toString();
                user_id = Integer.parseInt(get_userID);
 
@@ -437,17 +480,47 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                    showToasty("Bölge Seçiniz");
                }else if(get_Bina.equals("Bina Seçiniz")){
                    showToasty("Bina Seçiniz");
-               }else if(get_Alan.equals("Alan Seçiniz")){
+               }else if(spin_alan.getSelectedItem() == null){
                    showToasty("Alan Seçiniz");
                }else if(get_isEmriTipi.equals("İş Emri Tipini Seçiniz")){
                    showToasty("İş Emri Tipini Seçiniz");
                }else if(get_isModeli.equals("İş Modelini Seçiniz")){
                    showToasty("İş Modelini Seçiniz");
-               }else if(get_isKonusu.equals("Konu Seçiniz")){
+               }else if(spin_iskonu.getSelectedItem() == null){
                    showToasty("Konu Seçiniz");
-               }else if(get_kisiler.equals("Kişileri Seçiniz")){
+               }else if(spin_kisiler.getSelectedItem() == null){
                    showToasty("Kişileri Seçiniz");
                }else {
+
+                   //Getting ID according to the Selected Materials Name
+                   if(spin_kisiler.getSelectedItem() != null) {
+                       for (int i = 0; i < userList.size(); i++) {
+                           //Check if material Select or not
+                           if (userList.get(i).getName().equals(spin_kisiler.getSelectedItem().toString())) {
+
+                               userID = userList.get(i).getID();
+
+                           }
+                       }
+                   }if(spin_iskonu.getSelectedItem() != null){
+                       for (int i = 0; i < subjectList.size(); i++) {
+                           //Check if material Select or not
+                           if (subjectList.get(i).getSubjectText().equals(spin_iskonu.getSelectedItem().toString())) {
+
+                               subjectID = subjectList.get(i).getID();
+
+                           }
+                       }
+                   }if(spin_alan.getSelectedItem() != null){
+                       for (int i = 0; i < areaList.size(); i++) {
+                           //Check if material Select or not
+                           if (areaList.get(i).getName().equals(spin_alan.getSelectedItem().toString())) {
+
+                               areaID = areaList.get(i).getID();
+
+                           }
+                       }
+                   }
 
                    //TodoAdd Service Running
                    todoAdd = new TodoAdd(projectID,territoryID,buildingID,areaID,deviceID,workOrderType,workImportance,workCategoryModel,subjectID,userID,get_aciklama,user_id,user_id);
@@ -669,7 +742,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 buildingSpinnerAction();
               //Clear List Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 areaSpinnerAction();
               //Clear List Cihaz
@@ -703,7 +776,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 buildingSpinnerAction();
                 //Clear List Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
@@ -834,7 +907,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 spin_bina.setEnabled(false);
               //Clear Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
@@ -862,7 +935,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 buildingSpinnerAction();
               //Clear Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 areaSpinnerAction();
                 //Clear List Cihaz
@@ -949,6 +1022,8 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     public class AreaTask extends AsyncTask<Void, Void, Boolean>{
 
+        KeyPairBoolData h_alan;
+
         private Integer building_id;
 
         AreaTask(Integer building_id){
@@ -991,7 +1066,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
             if(!get_mesaj_area.equals("false")){
               //Clear List Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 //Clear List Cihaz
                 list_cihaz.clear();
@@ -999,20 +1074,32 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                 spin_cihaz.setEnabled(false);
                 deviceSpinnerAction();
                 if (areaList.size() > 0) {
+
+                    listArray_alan = new ArrayList<>();
+
                     for (int i = 0; i < areaList.size(); i++) {
 
-                        //Getting Project Name
-                        spin_alan.setEnabled(true);
                         list_alan.add(areaList.get(i).getName());
 
+                        h_alan = new KeyPairBoolData();
+                        h_alan.setId(areaList.get(i).getID());
+                        h_alan.setName(areaList.get(i).getName());
+                        h_alan.setSelected(false);
+                        arrayName_alan.add(areaList.get(i).getName());
+
+                        //Getting Subject Name
+                        listArray_alan.add(h_alan);
+
+                        spin_alan.setEnabled(true);
 
                     }
+                    adapter_alan= new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_alan);
                 }
                 areaSpinnerAction();
             }else{
               //Clear List Alan
                 list_alan.clear();
-                list_alan.add("Alan Seçiniz");
+                //list_alan.add("Alan Seçiniz");
                 spin_alan.setEnabled(false);
                 areaSpinnerAction();
               //Clear List Cihaz
@@ -1229,6 +1316,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     public class UserListTask extends AsyncTask<Void, Void, Boolean>{
 
+        KeyPairBoolData h;
 
         @Override
         protected void onPreExecute() {
@@ -1263,25 +1351,38 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
             if(!get_mesaj_userList.equals("false")){
                 list_kisiler.clear();
-                list_kisiler.add("Kişileri Seçiniz");
+                //list_kisiler.add("Kişileri Seçiniz");
 
                 //Subject Service Running
                 subjectTask = new SubjectTask();
                 subjectTask.execute((Void) null);
 
                 if (userList.size() > 0) {
+
+                    listArray_userList = new ArrayList<>();
                     for (int i = 0; i < userList.size(); i++) {
 
                         //Getting Users' Name
 
                         list_kisiler.add(userList.get(i).getName());
 
+                        h = new KeyPairBoolData();
+                        h.setId(userList.get(i).getID());
+                        h.setName(userList.get(i).getName());
+                        h.setSelected(false);
+                        arrayName_kisiler.add(userList.get(i).getName());
+
+                        listArray_userList.add(h);
+
                     }
+
+                    adapter_kisiler = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_kisiler);
+
                 }
                 userListSpinnerAction();
             }else{
                 list_kisiler.clear();
-                list_kisiler.add("Kişileri Seçiniz");
+                //list_kisiler.add("Kişileri Seçiniz");
                 userListSpinnerAction();
             }
         }
@@ -1357,6 +1458,7 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
     public class SubjectTask extends AsyncTask<Void, Void, Boolean>{
 
+        KeyPairBoolData h_konu;
 
         @Override
         protected void onPreExecute() {
@@ -1391,16 +1493,29 @@ public class JobOrder extends Fragment implements View.OnClickListener {
 
             if(!get_mesaj_subject.equals("false")){
                 list_konu.clear();
-                list_konu.add("Konu Seçiniz");
+                //list_konu.add("Konu Seçiniz");
                 if (subjectList.size() > 0) {
+
+                    listArray_konu = new ArrayList<>();
+
                     for (int i = 0; i < subjectList.size(); i++) {
 
-                        //Getting Subject Name
                         list_konu.add(subjectList.get(i).getSubjectText());
 
+                        h_konu = new KeyPairBoolData();
+                        h_konu.setId(subjectList.get(i).getID());
+                        h_konu.setName(subjectList.get(i).getSubjectText());
+                        h_konu.setSelected(false);
+                        arrayName_konu.add(subjectList.get(i).getSubjectText());
+
+                        //Getting Subject Name
+                        listArray_konu.add(h_konu);
+
                     }
+
+                    adapter_isKonu = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,arrayName_konu);
                 }
-                deviceSpinnerAction();
+                deviceSubjectAction();
             }else{
                 list_cihaz.clear();
                 list_cihaz.add("Cihaz Seçiniz");

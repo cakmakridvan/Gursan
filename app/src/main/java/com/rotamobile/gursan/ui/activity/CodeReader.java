@@ -24,13 +24,11 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
 import com.rotamobile.gursan.model.devicehistory.DataHistory;
 import com.rotamobile.gursan.model.devicehistory.ModelHistory;
 import com.rotamobile.gursan.ui.adapters.CodeAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 

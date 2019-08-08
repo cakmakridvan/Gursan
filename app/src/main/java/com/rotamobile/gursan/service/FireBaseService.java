@@ -13,12 +13,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +49,7 @@ public class FireBaseService extends Service {
     private int getType = 0,getUserId = 0;
     private BildirimModel bildirim;
     private RealmResults<BildirimModel> is_emri;
+    ValueEventListener valueEventListener;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -66,7 +69,7 @@ public class FireBaseService extends Service {
         //FireBase RealTime Database initialize
         mDatabase = FirebaseDatabase.getInstance().getReference(get_userID);
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        valueEventListener =  mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Tag:", "App title updated");
@@ -99,7 +102,7 @@ public class FireBaseService extends Service {
                 if(dataSnapshot.getValue() != null) {
 
                     //send notification
-                    sendNotification(getSubject, getText);
+                    sendNotification(getWorkId, getText);
 
                     //Insert value in Realm Database
                     realm.executeTransaction(new Realm.Transaction() {
@@ -203,4 +206,9 @@ public class FireBaseService extends Service {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDatabase.removeEventListener(valueEventListener);
+    }
 }
