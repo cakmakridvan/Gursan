@@ -31,7 +31,6 @@ import com.rotamobile.gursan.model.workStatus.DataWorkStatus;
 import com.rotamobile.gursan.model.workStatus.ModelWorkStatus;
 import com.rotamobile.gursan.ui.adapters.WorkStatusAdapter;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
-import com.rotamobile.gursan.ui.details.Details;
 import com.rotamobile.gursan.utils.enums.Enums;
 
 import org.json.JSONObject;

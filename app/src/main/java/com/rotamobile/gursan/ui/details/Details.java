@@ -51,6 +51,7 @@ import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
 import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
+import com.rotamobile.gursan.ui.dialog_customize.CustomDialogAssigns;
 import com.rotamobile.gursan.ui.dialog_customize.CustomDialogClass;
 import com.rotamobile.gursan.ui.documents.DetailDocument;
 import com.rotamobile.gursan.utils.enums.Enums;
@@ -172,7 +173,7 @@ public class Details extends AppCompatActivity {
     private ArrayList<ModelUserType> dataUSerType;
     private String get_mesaj_dataUserType = "";
     private Integer get_assgnedID = 0;
-    private TextView is_ata,txt_servis_Tipi;
+    private TextView is_ata,is_atamalari_gor,txt_servis_Tipi;
     private LinearLayout lyt_servis_Tipi;
     private ImageButton imglist,detail_imglist;
 
@@ -221,7 +222,7 @@ public class Details extends AppCompatActivity {
         Log.i("get_authorizaUpdate",""+get_authorizaUpdate);
         Log.i("get_description",""+get_descriptionUpdate);
 
-        //İş Atama Action
+      //İş Atama Action
         is_ata = findViewById(R.id.is_atama);
         is_ata.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +234,21 @@ public class Details extends AppCompatActivity {
                 window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+            }
+        });
+
+      //İş Atamaları Gör Action
+        is_atamalari_gor = findViewById(R.id.visible_is_atama);
+        is_atamalari_gor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CustomDialogAssigns cdd = new CustomDialogAssigns(Details.this,get_proje_id,get_id,get_insert_user_id);
+                //cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cdd.show();
+                Window window = cdd.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
         });
 
@@ -273,6 +289,7 @@ public class Details extends AppCompatActivity {
         }else{
 
             lyt_detail.setVisibility(View.VISIBLE);
+            is_atamalari_gor.setVisibility(View.VISIBLE);
             initialize_detail();
         }
 
@@ -1431,7 +1448,6 @@ public class Details extends AppCompatActivity {
                     //Getting Teritory ID
                     subjectID = subjectList.get(position-1).getID();
                     Log.i("Tag:SubjectID:", "" + subjectID);
-
 
                 }
             }

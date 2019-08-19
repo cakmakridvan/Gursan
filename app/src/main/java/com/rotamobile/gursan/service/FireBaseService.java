@@ -30,6 +30,7 @@ import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.model.bildirim.BildirimModel;
 import com.rotamobile.gursan.model.eventBus.MessageEvent;
+import com.rotamobile.gursan.model.homeItemClick.ItemClickCheck;
 import com.rotamobile.gursan.ui.activity.Bildirimler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +51,8 @@ public class FireBaseService extends Service {
     private BildirimModel bildirim;
     private RealmResults<BildirimModel> is_emri;
     ValueEventListener valueEventListener;
+    private RealmResults<ItemClickCheck> realmResults;
+    private ItemClickCheck itemClickCheck;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -126,6 +129,29 @@ public class FireBaseService extends Service {
 
                         }
                     });
+
+                 //Save item is new and its not opened
+/*                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            realmResults = realm.where(ItemClickCheck.class).findAll();
+                            Log.i("Items Count:", "" + realmResults);
+
+                                    //creating auto increment of primary key
+                                    Number maxId = realm.where(ItemClickCheck.class).max("id");
+                                    int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
+                                    //Saving process to Realm Databse
+                                    itemClickCheck = realm.createObject(ItemClickCheck.class, nextId);
+                                    itemClickCheck.setWorkID(getWorkId);
+                                    itemClickCheck.setChecable(false);
+
+
+
+
+
+                        }
+                    });*/
 
                  //getting all data from realm DB
                     is_emri = realm.where(BildirimModel.class).findAll();

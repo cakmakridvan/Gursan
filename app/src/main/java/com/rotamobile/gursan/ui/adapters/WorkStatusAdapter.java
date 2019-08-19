@@ -39,8 +39,8 @@ public class WorkStatusAdapter extends RecyclerView.Adapter<WorkStatusAdapter.Vi
 
         modelWorkStatus = list_workStatus.get(i);
 
-        viewHolder.assigned.setText(modelWorkStatus.getAssignedName());
-        viewHolder.assigns.setText(modelWorkStatus.getAssignsName());
+        viewHolder.assigned.setText(modelWorkStatus.getAssignsName());
+        viewHolder.assigns.setText(modelWorkStatus.getAssignedName());
     }
 
     @Override

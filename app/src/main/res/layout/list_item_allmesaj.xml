@@ -130,6 +130,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/txt_tag_bildiirm"
+                android:layout_width="324dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingLeft="12dp"
+                android:text="....."
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+                />
+
         </LinearLayout>
 
 

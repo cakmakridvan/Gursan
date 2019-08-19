@@ -11,6 +11,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.data.Server;
+import com.rotamobile.gursan.model.bildirim.BildirimModel;
+import com.rotamobile.gursan.model.homeItemClick.ItemClickCheck;
 import com.rotamobile.gursan.model.todoList.ListItemAllMessages;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.details.Details;
@@ -43,6 +46,8 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 import io.paperdb.Paper;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> implements Filterable {
 
@@ -56,6 +61,9 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     private WorkStatusClose workStatusClose = null;
     private Integer get_LoginID = 0;
     private Integer getStatus_id = 0;
+    private Realm realm;
+    private RealmResults<ItemClickCheck> realmResults;
+    private ItemClickCheck itemClickCheck;
 
     public ListItemAdapter(List<ListItemAllMessages> list_allmesaj, Context context, Integer getStatus_id) {
         this.list_allmesaj = list_allmesaj;
@@ -71,6 +79,9 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         //Progress Diaolog initialize
         progressDialog = new ProgressDialog(context);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+     //Realm initialize
+        realm = Realm.getDefaultInstance();
 
      //get UserID from Login
         String get_userID = Paper.book().read("user_id");
@@ -92,6 +103,30 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         viewHolder.textTime.setText(listItemAllMessages.getStartDate());
 
         Integer i = listItemAllMessages.getWorkOrderServiceID();
+
+      //Check item is opened or not
+/*        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                realmResults = realm.where(ItemClickCheck.class).findAll();
+                Log.i("Items Count:", "" + realmResults);
+
+                 for (int i = 0; i < realmResults.size(); i++) {
+                     Integer item = 0;
+                     try {
+                         item = Integer.valueOf(realmResults.get(i).getWorkID());
+                     }catch (NumberFormatException e){
+                         e.printStackTrace();
+                     }
+                     if(realmResults.get(i).isChecable() == false &&  item == list_allmesaj.get(position).getID()){
+                         viewHolder.tag.setVisibility(View.VISIBLE);
+                     }else{
+                         viewHolder.tag.setVisibility(View.GONE);
+                     }
+                 }
+            }
+        });*/
 
     //Check MoveTypeID is equal or not Enums.kapali
         if(!(listItemAllMessages.getMoveTypeID().equals(Enums.kapali)) && (listItemAllMessages.getAuthorizationUpdate())){
@@ -262,11 +297,12 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 filteredList.addAll(list_allmesajFull);
             }else{
 
-                String filterPattern = constraint.toString().toLowerCase().trim();
+                String filterPattern = constraint.toString().trim();
+//                String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (ListItemAllMessages item : list_allmesajFull ){
 
-                    if(item != null && item.getSubjectText().toLowerCase().contains(filterPattern)){
+                    if(item != null && item.getID().toString().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }
@@ -291,7 +327,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public EditText textViewHead;
-        public TextView textViewDesc,textTime;
+        public TextView textViewDesc,textTime,tag;
         public ImageButton dot_icon;
         public LinearLayout linear;
 
@@ -301,6 +337,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
             textViewHead = itemView.findViewById(R.id.txt_head);
             textViewDesc = itemView.findViewById(R.id.txt_desc);
             textTime = itemView.findViewById(R.id.txt_time);
+            tag = itemView.findViewById(R.id.txt_tag_bildiirm);
             dot_icon = itemView.findViewById(R.id.txt_option_item);
             linear = itemView.findViewById(R.id.linearLayout);
         }
