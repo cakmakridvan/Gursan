@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
+import com.rampo.updatechecker.UpdateChecker;
 import com.rotamobile.gursan.Main;
 import com.rotamobile.gursan.R;
 import com.rotamobile.gursan.ui.login.Login;
@@ -57,5 +58,11 @@ public class Splash extends AppCompatActivity {
         },SPLASH_TIME_OUT);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        UpdateChecker checker = new UpdateChecker(Splash.this);
+        checker.start();
+    }
 }

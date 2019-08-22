@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -235,7 +236,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
              //Start Service
                 //start FireBase Service
                 if(!isMyServiceRunning(FireBaseService.class)) {
-                    startService(new Intent(Login.this, FireBaseService.class));
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        startService(new Intent(Login.this, FireBaseService.class));
+                    }else{
+                        startForegroundService(new Intent(Login.this, FireBaseService.class));
+                    }
                 }
             }
             else if(get_mesaj.equalsIgnoreCase("false")){

@@ -1,15 +1,22 @@
 package com.rotamobile.gursan.service;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -53,6 +60,8 @@ public class FireBaseService extends Service {
     ValueEventListener valueEventListener;
     private RealmResults<ItemClickCheck> realmResults;
     private ItemClickCheck itemClickCheck;
+    private static final String NOTIFICATION_CHANNEL = "me.leolin.shortcutbadger.example";
+    private NotificationManager notificationManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -68,6 +77,24 @@ public class FireBaseService extends Service {
         realm = Realm.getDefaultInstance();
         Paper.init(FireBaseService.this);
         get_userID =  Paper.book().read("user_id");
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            String CHANNEL_ID = "my_channel_02";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("")
+                    .setContentText("").build();
+
+            startForeground(1, notification);
+
+        }
 
         //FireBase RealTime Database initialize
         mDatabase = FirebaseDatabase.getInstance().getReference(get_userID);
@@ -157,9 +184,8 @@ public class FireBaseService extends Service {
                     is_emri = realm.where(BildirimModel.class).findAll();
                     Log.i("İş Emirleri:", "ds" + is_emri);
 
-                 //Post Value with EventBus
                     EventBus.getDefault().post(new MessageEvent(is_emri.size()));
-                 //Change count of badger of app icon
+                    //Change count of badger of app icon
                     ShortcutBadger.applyCount(FireBaseService.this, is_emri.size());
 
                     //Remove value at FireBase RealDatabase
@@ -217,19 +243,42 @@ public class FireBaseService extends Service {
                 .setVibrate(pattern)
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setupNotificationChannel();
 
-        try {
+            notificationBuilder.setChannelId(NOTIFICATION_CHANNEL);
+        }
+
+
+/*        try {
             Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                     + "://" + this.getPackageName() + "/raw/notification");
             Ringtone r = RingtoneManager.getRingtone(this, alarmSound);
             r.play();
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+        //getting all data from realm DB
+/*        is_emri = realm.where(BildirimModel.class).findAll();
+        Log.i("İş Emirleri:", "ds" + is_emri);*/
+        if(is_emri != null) {
+            //Post Value with EventBus
+
+            Notification notification = notificationBuilder.build();
+            ShortcutBadger.applyNotification(getApplicationContext(), notification, is_emri.size());
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void setupNotificationChannel() {
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, "ShortcutBadger Sample",
+                NotificationManager.IMPORTANCE_LOW);
+
+        channel.setLightColor(Color.RED);
+
+        notificationManager.createNotificationChannel(channel);
     }
 
     @Override

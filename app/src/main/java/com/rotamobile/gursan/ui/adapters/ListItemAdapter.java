@@ -40,8 +40,12 @@ import com.rotamobile.gursan.utils.enums.Enums;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
@@ -64,6 +68,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     private Realm realm;
     private RealmResults<ItemClickCheck> realmResults;
     private ItemClickCheck itemClickCheck;
+    SimpleDateFormat format;
 
     public ListItemAdapter(List<ListItemAllMessages> list_allmesaj, Context context, Integer getStatus_id) {
         this.list_allmesaj = list_allmesaj;
@@ -87,6 +92,9 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
         String get_userID = Paper.book().read("user_id");
         get_LoginID = Integer.parseInt(get_userID);
 
+        format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S",Locale.getDefault());
+
+
         progressDialog.setIndeterminate(true);
 
         return new ViewHolder(v);
@@ -95,12 +103,24 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        Date date = null;
+        String getDate = "";
 
         listItemAllMessages = list_allmesaj.get(position);
 
         viewHolder.textViewHead.setText(""+listItemAllMessages.getID());
         viewHolder.textViewDesc.setText(listItemAllMessages.getSubjectText());
-        viewHolder.textTime.setText(listItemAllMessages.getStartDate());
+
+        try {
+            date = format.parse(listItemAllMessages.getStartDate());
+            getDate = date.toString();
+            getDate = getDate.substring(0, getDate.indexOf('.') + 20);
+            //System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        viewHolder.textTime.setText(getDate);
 
         Integer i = listItemAllMessages.getWorkOrderServiceID();
 

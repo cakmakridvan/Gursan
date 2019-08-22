@@ -13,6 +13,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -139,7 +140,12 @@ public class Main extends AppCompatActivity {
 
      //start FireBase Service
         if(!isMyServiceRunning(FireBaseService.class)) {
-            startService(new Intent(this, FireBaseService.class));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                startService(new Intent(this, FireBaseService.class));
+            }else{
+                startForegroundService(new Intent(this, FireBaseService.class));
+
+            }
         }
         //getting User information from Login
 /*        Bundle get_datas = new Bundle();

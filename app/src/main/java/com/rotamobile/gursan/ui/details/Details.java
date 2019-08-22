@@ -186,6 +186,10 @@ public class Details extends AppCompatActivity {
      //Paper initialize
         Paper.init(Details.this);
 
+        //get UserID from Login
+        get_userID = Paper.book().read("user_id");
+        get_LoginID = Integer.parseInt(get_userID);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
 
         //get Data From All Message
@@ -227,7 +231,7 @@ public class Details extends AppCompatActivity {
         is_ata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogClass cdd = new CustomDialogClass(Details.this,get_proje_id,get_id,get_insert_user_id);
+                CustomDialogClass cdd = new CustomDialogClass(Details.this,get_proje_id,get_id,Integer.parseInt(get_userID));
                 //cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.show();
                 Window window = cdd.getWindow();
@@ -263,7 +267,7 @@ public class Details extends AppCompatActivity {
     //Layouts Define
         lyt_update = findViewById(R.id.layout_update);
         lyt_detail = findViewById(R.id.layout_detail);
-        tanimli_lyt = findViewById(R.id.lyt_tanimli_isler);
+        //tanimli_lyt = findViewById(R.id.lyt_tanimli_isler);
         girilen_lyt = findViewById(R.id.lyt_girilen_isler);
 
         //BackButton Action
@@ -276,9 +280,6 @@ public class Details extends AppCompatActivity {
             }
         });
 
-        //get UserID from Login
-        get_userID = Paper.book().read("user_id");
-        get_LoginID = Integer.parseInt(get_userID);
 
      //Check workOrder is Detail or Uptade
         if(get_authorizaUpdate && !(get_MoveTyoe_id.equals(Enums.msj_kapali))){
@@ -523,9 +524,9 @@ public class Details extends AppCompatActivity {
 
             //İç Servis Selected
             workOrderServiceID = Enums.ic_Servis;
-            definedJobTask = new DefinedJobTask();
+/*            definedJobTask = new DefinedJobTask();
             definedJobTask.execute((Void) null);
-            tanimli_lyt.setVisibility(View.VISIBLE);
+            tanimli_lyt.setVisibility(View.VISIBLE);*/
 
         }else if(get_workOrderService_id.equals(Enums.dis_Servis)){
             list_service = new ArrayList<String>();
@@ -536,7 +537,7 @@ public class Details extends AppCompatActivity {
 
             //Dış Servis Selected
             workOrderServiceID = Enums.dis_Servis;
-            tanimli_lyt.setVisibility(View.GONE);
+            //tanimli_lyt.setVisibility(View.GONE);
 
             if(girilen_lyt.getVisibility() == View.VISIBLE){
 
@@ -1622,14 +1623,14 @@ public class Details extends AppCompatActivity {
                     if(position == 1){
                     //İç Servis Selected
                         workOrderServiceID = Enums.ic_Servis;
-                        definedJobTask = new DefinedJobTask();
+/*                        definedJobTask = new DefinedJobTask();
                         definedJobTask.execute((Void) null);
-                        tanimli_lyt.setVisibility(View.VISIBLE);
+                        tanimli_lyt.setVisibility(View.VISIBLE);*/
 
                     }else if(position == 2){
                     //Dış Servis Selected
                         workOrderServiceID = Enums.dis_Servis;
-                        tanimli_lyt.setVisibility(View.GONE);
+                        //tanimli_lyt.setVisibility(View.GONE);
 
                         if(girilen_lyt.getVisibility() == View.VISIBLE){
 
