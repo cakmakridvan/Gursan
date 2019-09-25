@@ -7,10 +7,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.media.Ringtone;
@@ -94,7 +96,17 @@ public class FireBaseService extends Service {
 
             startForeground(1, notification);
 
+
+
         }
+
+        //for Running application at Startup
+        ComponentName receiver = new ComponentName(this, StartMyServiceAtBootReceiver.class);
+        PackageManager pm = this.getPackageManager();
+
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
 
         //FireBase RealTime Database initialize
         mDatabase = FirebaseDatabase.getInstance().getReference(get_userID);
@@ -246,21 +258,28 @@ public class FireBaseService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupNotificationChannel();
 
-            notificationBuilder.setChannelId(NOTIFICATION_CHANNEL);
-        }
-
-
-/*        try {
+        try {
             Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                     + "://" + this.getPackageName() + "/raw/notification");
             Ringtone r = RingtoneManager.getRingtone(this, alarmSound);
             r.play();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
+
+            notificationBuilder.setChannelId(NOTIFICATION_CHANNEL);
+        }
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            notificationBuilder.setSound(alarmSound);
+        }
+
+
+
         //getting all data from realm DB
-/*        is_emri = realm.where(BildirimModel.class).findAll();
-        Log.i("İş Emirleri:", "ds" + is_emri);*/
+        is_emri = realm.where(BildirimModel.class).findAll();
+        Log.i("İş Emirleri:", "ds" + is_emri);
         if(is_emri != null) {
             //Post Value with EventBus
 
