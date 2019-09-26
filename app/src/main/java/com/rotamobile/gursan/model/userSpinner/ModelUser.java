@@ -8,6 +8,9 @@ public class ModelUser {
     @SerializedName("Name")
     @Expose
     private String Name;
+    @SerializedName("LastName")
+    @Expose
+    private String LastName;
     @SerializedName("Password")
     @Expose
     private String Password;
@@ -22,12 +25,6 @@ public class ModelUser {
     public void setID(Integer ID) {
         this.ID = ID;
     }
-
-
-
-
-
-
 
     public String getName() {
         return Name;
@@ -46,9 +43,13 @@ public class ModelUser {
     }
 
 
+    public String getLastName() {
+        return LastName;
+    }
 
-
-
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
 
 
 }

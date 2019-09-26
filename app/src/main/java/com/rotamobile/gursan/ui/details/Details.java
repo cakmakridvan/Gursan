@@ -50,10 +50,14 @@ import com.rotamobile.gursan.model.territorySpinner.DataTerritory;
 import com.rotamobile.gursan.model.territorySpinner.ModelTerritory;
 import com.rotamobile.gursan.model.userTypeWithProject.DataUserType;
 import com.rotamobile.gursan.model.userTypeWithProject.ModelUserType;
+import com.rotamobile.gursan.ui.activity.DisServisTalepList;
+import com.rotamobile.gursan.ui.activity.IcServisTalepList;
 import com.rotamobile.gursan.ui.bottom_navigation.MainBottomNavigation;
 import com.rotamobile.gursan.ui.dialog_customize.CustomDialogAssigns;
 import com.rotamobile.gursan.ui.dialog_customize.CustomDialogClass;
+import com.rotamobile.gursan.ui.documents.AddMaterial;
 import com.rotamobile.gursan.ui.documents.DetailDocument;
+import com.rotamobile.gursan.ui.documents.DisServisForm;
 import com.rotamobile.gursan.utils.enums.Enums;
 
 
@@ -86,7 +90,7 @@ public class Details extends AppCompatActivity {
     private Integer get_proje_id,get_territory_id,get_building_id,get_area_id,get_device_id,get_subject_id,get_insert_user_id,get_id,get_assigned_user_id,get_work_id,get_status,get_MoveTyoe_id,get_workOrderService_id;
     private Integer get_workCategory_id,get_workOrderType_id,get_workImportance_id;
     private Boolean get_authorizaUpdate;
-    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_isEmriTipi,detail_aciklama,update_user;
+    private TextView detail_user,detail_proje,detail_teritory,detail_building,detail_area,detail_device,detail_subject,detail_isEmriTipi,detail_aciklama,detail_servisTipi,update_user;
     private EditText aciklama;
 
     Bundle extras;
@@ -175,7 +179,7 @@ public class Details extends AppCompatActivity {
     private Integer get_assgnedID = 0;
     private TextView is_ata,is_atamalari_gor,txt_servis_Tipi;
     private LinearLayout lyt_servis_Tipi;
-    private ImageButton imglist,detail_imglist;
+    private ImageButton imglist,detail_imglist,detail_MalzemeGor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -613,8 +617,10 @@ public class Details extends AppCompatActivity {
         detail_device = findViewById(R.id.txt_deviceName);
         detail_subject = findViewById(R.id.txt_subjectName);
         detail_isEmriTipi = findViewById(R.id.txt_workOrder_type_id);
+        detail_servisTipi = findViewById(R.id.txt_servis_type_id);
         detail_aciklama = findViewById(R.id.txt_aciklama);
         detail_imglist = findViewById(R.id.detail_imagelist);
+        detail_MalzemeGor = findViewById(R.id.detail_malzemeleriGor);
 
         detail_imglist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -635,6 +641,36 @@ public class Details extends AppCompatActivity {
         detail_teritory.setText(get_territory_name);
         detail_building.setText(get_building_name);
         detail_area.setText(get_area_name);
+
+        if(get_workOrderService_id.equals(Enums.ic_Servis)){
+            detail_servisTipi.setText("İç Servis");
+
+          //iç Servis Eklenen Malzemeleri gör
+            detail_MalzemeGor.setVisibility(View.VISIBLE);
+            detail_MalzemeGor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent go_icServisTalep = new Intent(Details.this, IcServisTalepList.class);
+                    go_icServisTalep.putExtra("workerID",get_id);
+                    startActivity(go_icServisTalep);
+                }
+            });
+
+        }else if(get_workOrderService_id.equals(Enums.dis_Servis)){
+            detail_servisTipi.setText("Dış Servis");
+            //Dış Servis Eklenen Malzemeleri gör
+            detail_MalzemeGor.setVisibility(View.VISIBLE);
+            detail_MalzemeGor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent go_disServisTalep = new Intent(Details.this, DisServisTalepList.class);
+                    go_disServisTalep.putExtra("workerID",get_id);
+                    startActivity(go_disServisTalep);
+                }
+            });
+        }else{
+            detail_servisTipi.setText("...");
+        }
 
         if(get_workOrderType_id.equals(Enums.talep)){
             detail_isEmriTipi.setText("Talep");

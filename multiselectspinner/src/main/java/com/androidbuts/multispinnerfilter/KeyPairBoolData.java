@@ -4,8 +4,8 @@ public class KeyPairBoolData {
 
     long id;
     String name;
+    String lastName;
     boolean isSelected;
-
     Object object;
 
     public Object getObject() {
@@ -42,6 +42,14 @@ public class KeyPairBoolData {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**

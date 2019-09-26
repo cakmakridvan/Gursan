@@ -14,12 +14,10 @@ android {
         applicationId "com.rotamobile.gursan"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.8"
+        versionCode 10
+        versionName "1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
-
-
     }
     buildTypes {
         release {

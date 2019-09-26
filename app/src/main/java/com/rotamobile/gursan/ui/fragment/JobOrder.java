@@ -1363,14 +1363,14 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                     for (int i = 0; i < userList.size(); i++) {
 
                         //Getting Users' Name
-
-                        list_kisiler.add(userList.get(i).getName());
+                        list_kisiler.add(userList.get(i).getName() + " " + userList.get(i).getLastName());
 
                         h = new KeyPairBoolData();
                         h.setId(userList.get(i).getID());
                         h.setName(userList.get(i).getName());
+                        h.setLastName(userList.get(i).getLastName());
                         h.setSelected(false);
-                        arrayName_kisiler.add(userList.get(i).getName());
+                        arrayName_kisiler.add(userList.get(i).getName() + " " + userList.get(i).getLastName());
 
                         listArray_userList.add(h);
 
@@ -1438,13 +1438,13 @@ public class JobOrder extends Fragment implements View.OnClickListener {
                     String selectedItemText = (String) parent.getItemAtPosition(position);
                     // If user change the default selection
                     // First item is disable and it is used for hint
-                    if (position > 0) {
+
 
                         //Getting userID to get data from UserGet
-                        userID = userList.get(position - 1).getID();
+                        userID = userList.get(position).getID();
                         Log.i("Tag:UserID:", "" + userID);
 
-                    }
+
                 }
 
                 @Override
