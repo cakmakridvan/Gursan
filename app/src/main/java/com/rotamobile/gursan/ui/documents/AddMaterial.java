@@ -148,6 +148,7 @@ public class AddMaterial extends AppCompatActivity {
 
                 Intent go_icServisTalep = new Intent(AddMaterial.this,IcServisTalepList.class);
                 go_icServisTalep.putExtra("workerID",get_workerID);
+                go_icServisTalep.putExtra("operation","editable");
                 startActivity(go_icServisTalep);
             }
         });

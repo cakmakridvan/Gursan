@@ -540,7 +540,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_detail"
-android:visibility="gone"
+        android:visibility="gone"
         >
 
         <!--Detail View-->
@@ -594,6 +594,51 @@ android:visibility="gone"
                 </LinearLayout>
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/details_margin_padding"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="Servis Tipi: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="..."
+                    android:textColor="@color/black"
+                    android:id="@+id/txt_servis_type_id"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/material_visible"
+                        android:id="@+id/detail_malzemeleriGor"
+                        android:background="@null"
+                        android:visibility="gone"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -795,51 +840,6 @@ android:visibility="gone"
                     android:textColor="@color/black"
                     android:id="@+id/txt_workOrder_type_id"
                     />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/details_margin_padding"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:lineSpacingExtra="8dp"
-                    android:text="Servis Tipi: "
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:lineSpacingExtra="8dp"
-                    android:text="..."
-                    android:textColor="@color/black"
-                    android:id="@+id/txt_servis_type_id"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/imagelist"
-                        android:id="@+id/detail_malzemeleriGor"
-                        android:background="@null"
-                        android:visibility="gone"
-                        />
-
-                </LinearLayout>
 
             </LinearLayout>
 

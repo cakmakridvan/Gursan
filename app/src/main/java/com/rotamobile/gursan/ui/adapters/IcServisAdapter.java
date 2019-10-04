@@ -25,11 +25,13 @@ public class IcServisAdapter extends RecyclerView.Adapter<IcServisAdapter.ViewHo
     private Activity context;
     private ProgressDialog progressDialog;
     private int row_index = -1;
+    private String operation;
 
-    public IcServisAdapter(List<ModelIcServiTalep> modelIcServisTalepList, Activity context){
+    public IcServisAdapter(List<ModelIcServiTalep> modelIcServisTalepList, Activity context, String operation){
 
         this.modelIcServisTalepList = modelIcServisTalepList;
         this.context = context;
+        this.operation = operation;
     }
 
 
@@ -53,22 +55,23 @@ public class IcServisAdapter extends RecyclerView.Adapter<IcServisAdapter.ViewHo
         viewHolder.konu.setText(modelIcServiTalep.getProductName_ic());
         viewHolder.aciklama.setText(String.valueOf(modelIcServiTalep.getAmount_ic()));
 
-        viewHolder.lyt_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+     if(!operation.equals("visible")) {
+         viewHolder.lyt_view.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
 
-                row_index = i;
-                modelIcServiTalep = modelIcServisTalepList.get(i);
-                notifyDataSetChanged();
-                Intent go_detailIcServis = new Intent(context,IcServisDetail.class);
-                go_detailIcServis.putExtra("ProductName",modelIcServiTalep.getProductName_ic());
-                go_detailIcServis.putExtra("amount",modelIcServiTalep.getAmount_ic());
-                go_detailIcServis.putExtra("id",modelIcServiTalep.getID_ic());
-                context.startActivity(go_detailIcServis);
+                 row_index = i;
+                 modelIcServiTalep = modelIcServisTalepList.get(i);
+                 notifyDataSetChanged();
+                 Intent go_detailIcServis = new Intent(context, IcServisDetail.class);
+                 go_detailIcServis.putExtra("ProductName", modelIcServiTalep.getProductName_ic());
+                 go_detailIcServis.putExtra("amount", modelIcServiTalep.getAmount_ic());
+                 go_detailIcServis.putExtra("id", modelIcServiTalep.getID_ic());
+                 context.startActivity(go_detailIcServis);
 
-            }
-        });
-
+             }
+         });
+     }
     }
 
     @Override

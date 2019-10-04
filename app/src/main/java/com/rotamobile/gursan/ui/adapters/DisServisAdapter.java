@@ -25,11 +25,13 @@ public class DisServisAdapter extends RecyclerView.Adapter<DisServisAdapter.View
     private Activity context;
     private ProgressDialog progressDialog;
     private int row_index = -1;
+    private String operation;
 
-    public DisServisAdapter(List<ModelDisServiTalep> modelDisServisTalepList, Activity context){
+    public DisServisAdapter(List<ModelDisServiTalep> modelDisServisTalepList, Activity context, String operation){
 
         this.modelDisServisTalepList = modelDisServisTalepList;
         this.context = context;
+        this.operation = operation;
     }
 
 
@@ -53,24 +55,25 @@ public class DisServisAdapter extends RecyclerView.Adapter<DisServisAdapter.View
         viewHolder.konu.setText(modelDisServiTalep.getProductAndService());
         viewHolder.aciklama.setText(modelDisServiTalep.getDescription());
 
-        viewHolder.lyt_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if(!operation.equals("visible")) {
+            viewHolder.lyt_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                row_index = i;
-                modelDisServiTalep = modelDisServisTalepList.get(i);
-                notifyDataSetChanged();
-                Intent go_detailDisServis = new Intent(context,DisServisDetail.class);
-                go_detailDisServis.putExtra("konu",modelDisServiTalep.getProductAndService());
-                go_detailDisServis.putExtra("aciklama",modelDisServiTalep.getDescription());
-                go_detailDisServis.putExtra("amount",modelDisServiTalep.getAmount());
-                go_detailDisServis.putExtra("cinsi",modelDisServiTalep.getUnitName());
-                go_detailDisServis.putExtra("detailId",modelDisServiTalep.getID());
-                context.startActivity(go_detailDisServis);
+                    row_index = i;
+                    modelDisServiTalep = modelDisServisTalepList.get(i);
+                    notifyDataSetChanged();
+                    Intent go_detailDisServis = new Intent(context, DisServisDetail.class);
+                    go_detailDisServis.putExtra("konu", modelDisServiTalep.getProductAndService());
+                    go_detailDisServis.putExtra("aciklama", modelDisServiTalep.getDescription());
+                    go_detailDisServis.putExtra("amount", modelDisServiTalep.getAmount());
+                    go_detailDisServis.putExtra("cinsi", modelDisServiTalep.getUnitName());
+                    go_detailDisServis.putExtra("detailId", modelDisServiTalep.getID());
+                    context.startActivity(go_detailDisServis);
 
-            }
-        });
-
+                }
+            });
+        }
     }
 
     @Override

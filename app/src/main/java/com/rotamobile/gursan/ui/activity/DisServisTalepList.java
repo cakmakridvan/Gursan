@@ -44,6 +44,7 @@ public class DisServisTalepList extends AppCompatActivity {
     private Bundle extras;
     private Integer get_workerID = 0;
     private TextView emptyList;
+    private String getOperation = " ";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class DisServisTalepList extends AppCompatActivity {
         extras = getIntent().getExtras();
         if(extras != null) {
             get_workerID = extras.getInt("workerID"); //get WorkID
+            getOperation = extras.getString("operation"); // get Operation
         }
 
         //Progress Diaolog initialize
@@ -154,13 +156,13 @@ public class DisServisTalepList extends AppCompatActivity {
                                 data_list.get(i).getAmount(),data_list.get(i).getUnitName());
                         list_data.add(modelDisServiTalep);
                     }
-                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this);
+                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this,getOperation);
                     recyclerView.setAdapter(disServisAdapter);
                 }else{
                     progressDialog.dismiss();
                     emptyList.setVisibility(View.VISIBLE);
 
-                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this);
+                    disServisAdapter = new DisServisAdapter(list_data,DisServisTalepList.this,getOperation);
                     recyclerView.setAdapter(disServisAdapter);
                 }
             }else{

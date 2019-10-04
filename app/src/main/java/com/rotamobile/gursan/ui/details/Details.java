@@ -652,19 +652,20 @@ public class Details extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent go_icServisTalep = new Intent(Details.this, IcServisTalepList.class);
                     go_icServisTalep.putExtra("workerID",get_id);
+                    go_icServisTalep.putExtra("operation","visible");
                     startActivity(go_icServisTalep);
                 }
             });
-
+          //Dış Servis Eklenen Malzemeleri gör
         }else if(get_workOrderService_id.equals(Enums.dis_Servis)){
             detail_servisTipi.setText("Dış Servis");
-            //Dış Servis Eklenen Malzemeleri gör
             detail_MalzemeGor.setVisibility(View.VISIBLE);
             detail_MalzemeGor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent go_disServisTalep = new Intent(Details.this, DisServisTalepList.class);
                     go_disServisTalep.putExtra("workerID",get_id);
+                    go_disServisTalep.putExtra("operation","visible");
                     startActivity(go_disServisTalep);
                 }
             });

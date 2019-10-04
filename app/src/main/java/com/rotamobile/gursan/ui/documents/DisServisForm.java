@@ -109,6 +109,7 @@ public class DisServisForm extends AppCompatActivity {
 
                 Intent go_disServisTalep = new Intent(DisServisForm.this,DisServisTalepList.class);
                 go_disServisTalep.putExtra("workerID",get_workerID);
+                go_disServisTalep.putExtra("operation","editable");
                 startActivity(go_disServisTalep);
 
             }

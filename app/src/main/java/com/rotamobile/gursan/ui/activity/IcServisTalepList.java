@@ -45,6 +45,7 @@ public class IcServisTalepList extends AppCompatActivity {
     private Bundle extras;
     private Integer get_workerID = 0;
     private TextView emptyList;
+    private String get_Operation = " ";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class IcServisTalepList extends AppCompatActivity {
         extras = getIntent().getExtras();
         if(extras != null) {
             get_workerID = extras.getInt("workerID"); //get WorkID
+            get_Operation = extras.getString("operation"); //get Operation
         }
 
         //Progress Diaolog initialize
@@ -155,13 +157,13 @@ public class IcServisTalepList extends AppCompatActivity {
                                 data_list.get(i).getUnitPrice_ic(),data_list.get(i).getProductName_ic(),data_list.get(i).getUnitName_ic());
                         list_data.add(modelIcServiTalep);
                     }
-                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this);
+                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this,get_Operation);
                     recyclerView.setAdapter(icServisAdapter);
                 }else{
                     progressDialog.dismiss();
                     emptyList.setVisibility(View.VISIBLE);
 
-                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this);
+                    icServisAdapter = new IcServisAdapter(list_data,IcServisTalepList.this,get_Operation);
                     recyclerView.setAdapter(icServisAdapter);
                 }
             }else{
