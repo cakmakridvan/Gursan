@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/dis_servis_konu"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:hint="Konu"
@@ -19,32 +19,31 @@
 
     <EditText
         android:id="@+id/dis_servis_aciklama"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="Açıklama"
-        android:layout_toRightOf="@+id/dis_servis_konu"
+        android:layout_below="@+id/dis_servis_konu"
         />
 
     <Spinner
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:id="@+id/spin_cinsi"
         android:background="@drawable/effect_spinner"
         android:spinnerMode="dialog"
         android:paddingRight="3dp"
-        android:layout_below="@+id/dis_servis_konu"
+        android:layout_below="@+id/dis_servis_aciklama"
         android:layout_marginLeft="3dp"
         />
 
     <EditText
         android:id="@+id/dis_servis_adet"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="Adet"
-        android:layout_toRightOf="@+id/spin_cinsi"
-        android:layout_below="@+id/dis_servis_konu"
+        android:layout_below="@+id/spin_cinsi"
         />
 
 
@@ -55,7 +54,7 @@
         android:src="@drawable/icon_send"
         android:background="@null"
         android:onClick="onGetFieldDisServis"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="60dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="3dp"
         />
@@ -78,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/line"
-        android:layout_below="@+id/spin_cinsi"
+        android:layout_below="@+id/dis_servis_adet"
         />
 
 
